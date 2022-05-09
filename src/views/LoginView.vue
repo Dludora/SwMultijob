@@ -190,7 +190,7 @@ export default {
 .btitle{
   font-size: 1.5em;
   font-weight: bold;
-  color: #66a6ff;
+  color: #404040;
   /*color: rgb(57,167,176);*/
 }
 .bform{
@@ -239,7 +239,7 @@ export default {
   border-radius: 24px;
   border: none;
   outline: none;
-  background-color: #66a6ff;
+  background-color: #404040;
   color: #fff;
   font-size: 0.9em;
   cursor: pointer;
@@ -247,8 +247,7 @@ export default {
 .small-box{
   width: 30%;
   height: 100%;
-  /*background: linear-gradient(135deg,rgb(57,167,176),rgb(56,183,145));*/
-  background-image: linear-gradient(-225deg, #5D9FFF 0%, #B8DCFF 48%, #6BBBFF 100%);
+  background: #404040;
   position: absolute;
   top: 0;
   left: 0;
