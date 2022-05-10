@@ -178,31 +178,30 @@ def changeCondition(request):
 @csrf_exempt
 def changeUsername(request):
     if request.method == 'POST':
+        if not request.session.has_key('email'):
+            return JsonResponse({'errno': 1101, 'msg': "请先登录"})
         username=request.POST.get('username')
         if username is None:
             return JsonResponse({'errno': 2001, 'msg': "未输入新名称"})
-        if username==request.session.get('username'):
+        item=Author.objects.get(email=request.session.get('email'))
+        if username==item.username:
             return JsonResponse({'errno': 1003, 'msg': "名称未修改"})
-        item=Author.objects.get(username=request.session.get('username'))
-        try:
-            titem=Author.objects.get(username=username)
-        except:
-            item.username=username
-            item.save()
-            request.session['username'] = username
-            return JsonResponse({'errno': 0, 'msg': "名称修改成功"})
-        return JsonResponse({'errno': 1002, 'msg': "该名称已存在"})
+        item.username=username
+        item.save()
+        return JsonResponse({'errno': 0, 'msg': "名称修改成功"})
     else:
         return JsonResponse({'errno': 1001, 'msg': "请求方式错误"})
 @csrf_exempt
 def changePassword(request):
     if request.method == 'POST':
+        if not request.session.has_key('email'):
+            return JsonResponse({'errno': 1101, 'msg': "请先登录"})
         oldPassword=request.POST.get('oldPassword')
         newPassword1 = request.POST.get('newPassword1')
         newPassword2 = request.POST.get('newPassword2')
         if oldPassword is None or newPassword1 is None or newPassword2 is None:
             return JsonResponse({'errno': 2001, 'msg': "输入参数不足"})
-        item=Author.objects.get(username=request.session.get('username'))
+        item=Author.objects.get(email=request.session['email'])
         if oldPassword!=item.password:
             return JsonResponse({'errno': 1002, 'msg': "旧密码输入错误"})
         if newPassword1!=newPassword2:
