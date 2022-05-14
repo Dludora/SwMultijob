@@ -1,5 +1,5 @@
 <template>
-  <div class="login-register">
+<!--  <div class="login-register">-->
     <div class="contain">
       <div class="big-box" :class="{active:isLogin}">
         <div class="big-contain" v-if="isLogin">
@@ -50,14 +50,14 @@
         </div>
       </div>
     </div>
-  </div>
+<!--  </div>-->
 </template>
 
 <script>
 export default {
   name: "LoginView",
   data(){
-    var checkUsername = (rule, value, callback) => {
+    let checkUsername = (rule, value, callback) => {
       const reg=/^[\u4e00-\u9fa5_a-zA-Z0-9]+$/;
       if (!value) {
         return callback(new Error('用户名不能为空'));
@@ -67,7 +67,7 @@ export default {
         callback();
       }
     };
-    var checkEmail = (rule, value, callback) => {
+    let checkEmail = (rule, value, callback) => {
       if (!value) {
         return callback(new Error('邮箱不能为空'));
       } else {
@@ -79,7 +79,7 @@ export default {
         }
       }
     };
-    var validatePass = (rule, value, callback) => {
+    let validatePass = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请输入密码'));
       } else {
@@ -94,7 +94,7 @@ export default {
         }
       }
     };
-    var validatePass2 = (rule, value, callback) => {
+    let validatePass2 = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请再次输入密码'));
       } else if (value !== this.form.pass) {
@@ -153,17 +153,11 @@ export default {
 </script>
 
 <style scoped="scoped">
-.login-register{
-  width: 100vw;
-  height: 100vh;
-  box-sizing: border-box;
-}
 .contain{
-  width: 60%;
-  height: 60%;
-  position: relative;
-  top: 50%;
-  left: 50%;
+  width: 832px;
+  height: 418px;
+  margin-top: 300px;
+  margin-left: auto;
   transform: translate(-50%,-50%);
   background-color: #fff;
   border-radius: 20px;
@@ -191,7 +185,7 @@ export default {
   font-size: 1.5em;
   font-weight: bold;
   color: #404040;
-  /*color: rgb(57,167,176);*/
+  margin-bottom: 20px;
 }
 .bform{
   width: 100%;
