@@ -1,6 +1,8 @@
 <template>
   <Dialog header="新建收藏夹" v-model:visible="isDisplay">
+    <el-form>
 
+    </el-form>
   </Dialog>
 </template>
 

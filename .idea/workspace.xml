@@ -5,17 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3426c93c-5207-4247-9a23-64fcd2b24d6a" name="Changes" comment="Changes">
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/SwMultijob.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/SwMultijob.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BlogWebsite/BlogWebsite/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/BlogWebsite/BlogWebsite/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BlogWebsite/backend/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/BlogWebsite/backend/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front-end/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/main.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front-end/src/views/LoginView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/views/LoginView.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/vue.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/vue.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/views/User/collect.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/views/User/collect.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -109,7 +102,7 @@
       <workItem from="1653286610675" duration="8946000" />
       <workItem from="1653304671522" duration="7996000" />
       <workItem from="1654065706207" duration="2468000" />
-      <workItem from="1654069494022" duration="9648000" />
+      <workItem from="1654069494022" duration="11521000" />
     </task>
     <servers />
   </component>

@@ -149,11 +149,11 @@ export default {
       formData.append("password", this.formSignIn.password);
       axios({
         method: 'get',
-        url: 'http://127.0.0.1:8000/login',
+        url: 'login',
         data: formData
       })
       .then(res => {
-
+        console.log(formData);
       })
     },
     register() {
