@@ -144,8 +144,17 @@ export default {
       this.form.username = '';
     },
     login() {
-      const self = this;
+      const formData = new FormData();
+      formData.append("email", this.formSignIn.email);
+      formData.append("password", this.formSignIn.password);
+      axios({
+        method: 'get',
+        url: 'http://127.0.0.1:8000/login',
+        data: formData
+      })
+      .then(res => {
 
+      })
     },
     register() {
       axios({
