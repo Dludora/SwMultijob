@@ -10,20 +10,8 @@
         router
     >
       <div style="height: 20px"></div>
-      <el-menu-item index="/user/profile">
-        <span>个人资料</span>
-      </el-menu-item>
-      <el-menu-item index="/user/collect">
-        <span>我的收藏</span>
-      </el-menu-item>
-      <el-menu-item index="/user/history">
-        <span>浏览历史</span>
-      </el-menu-item>
-      <el-menu-item index="/user/concerned">
-        <span>我的关注</span>
-      </el-menu-item>
-      <el-menu-item index="/user/myBlogs">
-        <span>我的博客</span>
+      <el-menu-item v-for="item in items" :index="item.path">
+        <span>{{item.label}}</span>
       </el-menu-item>
     </el-menu>
   </el-col>
@@ -37,7 +25,32 @@
 
 export default {
   name: "PersonalSpace",
-
+  data() {
+    return {
+      items: [
+        {
+          path:'/user/profile',
+          label: '个人资料'
+        },
+          {
+          path:'/user/collect',
+          label: '我的收藏'
+        },
+          {
+          path:'/user/history',
+          label: '浏览历史'
+        },
+          {
+          path:'/user/concerned',
+          label: '我的关注'
+        },
+        {
+          path:'/user/myBlogs',
+          label: '我的博客'
+        },
+      ]
+    }
+  }
 }
 </script>
 
