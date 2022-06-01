@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="3426c93c-5207-4247-9a23-64fcd2b24d6a" name="Changes" comment="Changes">
+      <change afterPath="$PROJECT_DIR$/front-end/.browserslistrc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front-end/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front-end/Readme.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front-end/babel.config.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front-end/jsconfig.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front-end/package-lock.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front-end/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front-end/public/favicon.ico" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front-end/public/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front-end/public/reset.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front-end/vue.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.browserslistrc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Readme.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/babel.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jsconfig.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/favicon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/reset.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue.config.js" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="CSS File" />
+        <option value="Vue Single File Component" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="28yGUDDMqWPCrdQTaRO3eprW0i4" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../SwMultijob-backend/SwMultijob-backend/BlogWebsite" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\onedrive2\OneDrive\桌面\SwMultijob\src\assets\style" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\onedrive2\OneDrive\桌面\SwMultijob\src\views\Personal" />
+      <recent name="D:\onedrive2\OneDrive\桌面\SwMultijob\src\views" />
+      <recent name="D:\onedrive2\OneDrive\桌面\SwMultijob\src\assets" />
+      <recent name="D:\onedrive2\OneDrive\桌面\SwMultijob\src\components" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="serve" type="js.build_tools.npm" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="serve" />
+      </scripts>
+      <node-interpreter value="project" />
+      <package-manager value="npm" />
+      <envs />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="3426c93c-5207-4247-9a23-64fcd2b24d6a" name="Changes" comment="" />
+      <created>1652181432349</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1652181432349</updated>
+      <workItem from="1652181434867" duration="12837000" />
+      <workItem from="1652357765163" duration="3011000" />
+      <workItem from="1652452017058" duration="364000" />
+      <workItem from="1652517173086" duration="3715000" />
+      <workItem from="1652528093130" duration="3269000" />
+      <workItem from="1652703842419" duration="5341000" />
+      <workItem from="1653047645414" duration="7377000" />
+      <workItem from="1653060397566" duration="4958000" />
+      <workItem from="1653133395642" duration="1220000" />
+      <workItem from="1653206477649" duration="4244000" />
+      <workItem from="1653226384939" duration="4946000" />
+      <workItem from="1653232335207" duration="2282000" />
+      <workItem from="1653274344071" duration="3471000" />
+      <workItem from="1653286610675" duration="8946000" />
+      <workItem from="1653304671522" duration="7996000" />
+      <workItem from="1654065706207" duration="2468000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+</project>
