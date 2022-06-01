@@ -5,16 +5,19 @@
   <div class="Header">
     <div class="Header_main">
       <div class="brand">
-        <a href="/">
+        <router-link to="/">
           shabi
-        </a>
+        </router-link>
       </div>
       <div class="Header-nav">
         <li>
-          <a href="/">首页</a>
+          <router-link to="/">首页</router-link>
         </li>
         <li>
-          <a href="/about">关于</a>
+          <router-link to="/about">关于</router-link>
+        </li>
+        <li>
+          <router-link to="/user/profile">个人</router-link>
         </li>
         <Button label="分类" @click="visibleFull = true"  class="p-button-secondary"/>
       </div>

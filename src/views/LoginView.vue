@@ -54,6 +54,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "LoginView",
   data(){
@@ -146,7 +148,14 @@ export default {
 
     },
     register() {
-
+      axios({
+        method: 'get',
+        url: '/api',
+        // responseType: 'stream'
+      })
+      .then((response) => {
+        console.log(response.data)
+      })
     }
   }
 }
