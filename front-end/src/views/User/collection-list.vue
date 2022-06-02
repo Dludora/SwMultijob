@@ -7,6 +7,7 @@
      </template>
     <el-form
       :model="addingFavor"
+      ref="addingFavor"
       :rules="rules"
       label-width="50px"
       label-position="top"
@@ -24,33 +25,45 @@
     </el-form>
     <template #footer>
       <Button label="No" icon="pi pi-times" class="p-button-text" @click="addCancel"/>
-      <Button label="Yes" icon="pi pi-check" autofocus @click="addSuccess"/>
+      <Button label="Yes" icon="pi pi-check" autofocus @click="addSubmit('addingFavor')"/>
     </template>
   </Dialog>
+  <el-container>
+    <el-aside width="200px">
+      <el-scrollbar
+        height="700px">
+        <el-menu
+          style="min-height: calc(100vh - 80px);"
+          active-text-color="#ffd04b"
+          background-color="#545c64"
+          class="el-menu-vertical-demo"
+          default-active="2"
+          text-color="#fff"
+          router
+        >
+        <div style="height: 20px"></div>
+        <el-menu-item v-for="item in Favors" :index="item.to">
+          <i class="pi pi-folder"></i>
+          <span> {{item.headline}} + {{item.id}}</span>
+        </el-menu-item>
+      </el-menu>
+    </el-scrollbar>
+    </el-aside>
+    <el-container>
+      <el-header class="header">
+        <Button label="添加" icon="pi pi-plus" class="p-button-secondary" autofocus @click="addFavor"/>
+      </el-header>
+      <el-main>
 
-  <el-col :span="10">
-    <Button label="添加" icon="pi pi-plus" class="p-button-secondary" autofocus @click="addFavor"/>
-    <el-menu
-        style="width: 200px; min-height: calc(100vh - 80px); margin-left: -21px"
-        active-text-color="#ffd04b"
-        background-color="#545c64"
-        class="el-menu-vertical-demo"
-        default-active="2"
-        text-color="#fff"
-        router
-    >
-      <div style="height: 20px"></div>
-      <el-menu-item v-for="item in Favors" :index="item.to">
-        <i class="pi pi-folder"></i>
-        <span> {{item.headline}}</span>
-      </el-menu-item>
-    </el-menu>
-  </el-col>
+      </el-main>
+    </el-container>
+  </el-container>
 </template>
 
 <script>
 import Dialog from 'primevue/dialog';
 import Button from "primevue/button";
+import router from "@/router";
 export default {
   name: "collect",
   components: {
@@ -72,15 +85,17 @@ export default {
     }
     return {
       isDisplay: false,
+      favorsNum: 2,
       Favors: [
         {
           headline: '收藏夹一',
           describe: '一个傻逼的收藏夹',
-
+          id: 0,
         },
         {
           headline: '收藏夹二',
           describe: '一个傻逼的收藏夹',
+          id: 1,
         },
       ],
       addingFavor: {
@@ -89,8 +104,7 @@ export default {
       },
       rules: {
         headline: [
-          {required: true, message: '必填项'},
-          {min: 1, max: 10, message: '长度在1到10个字符'}
+          {validator: checkHeadline, trigger: 'blur'}
         ],
         describe: [
           {required: false, message: '请填写描述内容'},
@@ -102,14 +116,22 @@ export default {
     addFavor() {
       this.isDisplay = true;
     },
-    addSuccess() {
-      this.Favors.push({
-        headline: this.addingFavor.headline,
-        describe: this.addingFavor.describe
-      });
-      this.addingFavor.describe = '';
-      this.addingFavor.headline = '';
-      this.isDisplay = false;
+    addSubmit(formName) {
+      this.$refs[formName].validate(valid => {
+        if(valid) {
+          console.log('success submit!');
+          this.Favors.push({
+            headline: this.addingFavor.headline,
+            describe: this.addingFavor.describe,
+            id: this.favorsNum++
+          });
+          this.addingFavor.describe = '';
+          this.addingFavor.headline = '';
+          this.isDisplay = false;
+        } else {
+          console.log("error submit!!");
+        }
+      })
     },
     addCancel() {
       this.addingFavor.describe = '';
@@ -122,5 +144,7 @@ export default {
 </script>
 
 <style scoped>
-
+.header {
+  background-color: #3370ff;
+}
 </style>

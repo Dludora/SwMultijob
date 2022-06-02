@@ -9,17 +9,24 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 
+
 import 'primevue/resources/themes/saga-blue/theme.css'       //theme
 import 'primevue/resources/primevue.min.css'                 //core css
 import 'primeicons/primeicons.css'                           //icons
 import "primeflex/primeflex.css";
 import './assets/style/reset.css'
 
+
+
 const app = createApp(App)
 app.use(ElementPlus)
 app.use(store)
 app.use(router)
 app.use(PrimeVue)
-app.use(VueAxios,axios);
+app.use(VueAxios,axios)
+
 app.mount('#app')
 axios.defaults.baseURL = "http://127.0.0.1:8000/"
+
+
+

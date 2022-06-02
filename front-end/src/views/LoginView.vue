@@ -122,7 +122,7 @@ export default {
       },
       rules: {
         username: [
-            { validator: checkUsername, trigger: 'blur' }
+          { validator: checkUsername, trigger: 'blur' }
         ],
         email: [
           { validator: checkEmail, trigger: 'blur' }

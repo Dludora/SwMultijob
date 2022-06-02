@@ -1,5 +1,7 @@
 <template>
-
+  <div id="main">
+    <mavon-editor />
+  </div>
 </template>
 
 <script>

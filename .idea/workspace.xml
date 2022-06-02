@@ -5,8 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3426c93c-5207-4247-9a23-64fcd2b24d6a" name="Changes" comment="Changes">
+      <change afterPath="$PROJECT_DIR$/front-end/src/components/users/collections.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front-end/src/views/Blog/BlogCreate.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front-end/src/views/Blog/BlogView.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/views/User/collect.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/views/User/collect.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/components/Header.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/Header.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/router/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/views/LoginView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/views/LoginView.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/views/User/collect.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/views/User/collection-list.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/views/User/history.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/views/User/history.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,8 +27,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="CSS File" />
-        <option value="Vue Single File Component" />
         <option value="JavaScript File" />
+        <option value="Vue Single File Component" />
       </list>
     </option>
   </component>
@@ -102,6 +112,7 @@
       <workItem from="1654065706207" duration="2468000" />
       <workItem from="1654069494022" duration="11521000" />
       <workItem from="1654133668721" duration="10186000" />
+      <workItem from="1654149352886" duration="17579000" />
     </task>
     <servers />
   </component>

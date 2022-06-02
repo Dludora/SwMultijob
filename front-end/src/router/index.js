@@ -4,6 +4,8 @@ import HomeView from '../views/HomeView.vue'
 const About = () => import('../views/AboutView.vue')
 const Login = () => import('../views/LoginView.vue')
 const User = () => import('../views/User.vue')
+const Editor = () => import('../views/Blog/BlogCreate.vue')
+
 const routes = [
   {
     path: '/',
@@ -21,6 +23,11 @@ const routes = [
     component: Login
   },
   {
+    path: '/editor',
+    name: 'editor',
+    component: Editor
+  },
+  {
     path: '/user',
     name: 'user',
     component: User,
@@ -33,7 +40,10 @@ const routes = [
         {
           path: 'collect',
           name: 'collect',
-          component: () => import('../views/User/collect.vue')
+          component: () => import('../views/User/collection-list.vue'),
+          children: [
+
+          ]
         },
         {
           path: 'history',
@@ -51,7 +61,7 @@ const routes = [
           component: () => import('../views/User/myBlogs.vue')
         },
     ],
-  }
+  },
 ]
 
 const router = createRouter({
