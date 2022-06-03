@@ -19,8 +19,11 @@
         <li>
           <router-link to="/user/profile">个人</router-link>
         </li>
+<!--        <li>-->
+<!--          <router-link to="/editor">编辑</router-link>-->
+<!--        </li>-->
         <li>
-          <router-link to="/editor">编辑</router-link>
+          <router-link to="/view">浏览</router-link>
         </li>
         <Button label="分类" @click="visibleFull = true"  class="p-button-secondary"/>
       </div>

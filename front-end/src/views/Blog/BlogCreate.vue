@@ -22,10 +22,9 @@
     </template>
   </Dialog>
   <div id="main">
-    <MdEditor
-        class="markdown-editor"
-        v-model="content">
-    </MdEditor>
+    <v-md-editor
+        v-model="blogForm.content"
+        height="600px"></v-md-editor>
     <Button class="pi pi-arrow-up" label=" 提交" iconPos="right" @click="editFinished"/>
   </div>
 
@@ -33,9 +32,7 @@
 
 <script>
 import Dialog from "primevue/dialog";
-import MdEditor from 'md-editor-v3';
 import Button from "primevue/button";
-import 'md-editor-v3/lib/style.css';
 export default {
   name: "BlogCreate",
   components: {
@@ -55,9 +52,9 @@ export default {
     };
     return {
       isDisplay: false,
-      content: '',
       blogForm: {
         headline: '',
+        content: '',
       },
       blogRule: {
         headline: [
@@ -74,12 +71,15 @@ export default {
       this.$refs[formName].validate(valid => {
         if(valid) {
           console.log('success submit!');
+          console.log(this.blogForm.content);
           this.blogForm.headline = '';
+          this.blogForm.content = '';
           this.isDisplay = false;
         } else {
           console.log("error submit!!");
         }
       })
+
     },
     addBlogCancel() {
       this.blogForm.headline = '';

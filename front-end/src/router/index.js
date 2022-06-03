@@ -5,7 +5,7 @@ const About = () => import('../views/AboutView.vue')
 const Login = () => import('../views/LoginView.vue')
 const User = () => import('../views/User.vue')
 const Editor = () => import('../views/Blog/BlogCreate.vue')
-
+const View = () => import('../views/Blog/BlogView.vue')
 const routes = [
   {
     path: '/',
@@ -26,6 +26,11 @@ const routes = [
     path: '/editor',
     name: 'editor',
     component: Editor
+  },
+  {
+    path: '/view',
+    name: 'view',
+    component: View
   },
   {
     path: '/user',
