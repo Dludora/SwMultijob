@@ -148,12 +148,12 @@ export default {
       formData.append("email", this.formSignIn.email);
       formData.append("password", this.formSignIn.password);
       axios({
-        method: 'get',
+        method: 'post',
         url: 'login',
         data: formData
       })
       .then(res => {
-        console.log(formData);
+        console.log(this.formSignIn);
       })
     },
     register() {
