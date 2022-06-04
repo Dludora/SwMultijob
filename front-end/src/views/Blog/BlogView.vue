@@ -20,11 +20,8 @@
             <el-col :span="8" style="text-align: center">评论数</el-col>
           </el-row>
         </el-card>
-      <el-card id="nav-card">
-          <a href="#" target="_self" id="to-top-btn">
-            返回顶部
-          </a>
-      </el-card>
+      <el-backtop :right="20" :bottom="100" />
+
     </el-aside>
     <el-container>
       <el-header>
@@ -36,7 +33,7 @@
         </div>
       </el-main>
       <el-footer>
-        
+
       </el-footer>
     </el-container>
 
@@ -286,12 +283,11 @@ export default {
   position: relative;
 }
 .author-card {
-  margin-bottom: 30px
-}
-#nav-card {
-  width: 300px;
-  display: block;
+  margin-left: 20px;
+  width: 250px;
+  margin-bottom: 30px;
   position: fixed;
 }
+
 </style>
 
