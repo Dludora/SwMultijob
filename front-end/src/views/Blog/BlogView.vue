@@ -1,10 +1,11 @@
 <template>
   <el-container style="margin-top: 30px">
     <el-aside class="blog-aside">
-      <el-card class="author-card">
+      <div class="author">
+        <el-card class="author-card">
           <template #header>
             <div class="card-header">
-<!--              <span>Card name</span>-->
+  <!--             <span>Card name</span>-->
               <el-avatar :size="60" :src="blogForm.author.imgSrc" />
               <span>{{blogForm.author.nickName}}</span>
             </div>
@@ -20,9 +21,27 @@
             <el-col :span="8" style="text-align: center">评论数</el-col>
           </el-row>
         </el-card>
-      <el-backtop :right="20" :bottom="100" />
+      </div>
+      <div class="icons">
+        <el-row>
+          <Avatar size="large" class="avatar-icon" icon="pi pi-thumbs-up" shape="circle"/>
+          <!--  <i class="pi pi-heart-fill"></i>-->
+        </el-row>
+        <el-row>
+          <Avatar size="large" class="avatar-icon" icon="pi pi-bookmark" shape="circle"/>
+          <!--  <i class="pi pi-heart-fill"></i>-->
+        </el-row>
+        <el-row>
+          <Avatar size="large" class="avatar-icon" icon="pi pi-heart" shape="circle"/>
+          <!--  <i class="pi pi-heart-fill"></i>-->
+        </el-row>
+      </div>
 
+
+
+      <el-backtop :right="20" :bottom="100" />
     </el-aside>
+
     <el-container>
       <el-header>
         {{blogForm.headline}}
@@ -33,21 +52,21 @@
         </div>
       </el-main>
       <el-footer>
-
       </el-footer>
     </el-container>
-
   </el-container>
 
 </template>
 
 <script>
 import VueMarkdown from 'vue-markdown'
+import Avatar from "primevue/avatar";
 import markdownData from '../../../public/hello.md'
 export default {
   name: "BlogView",
   components: {
-    VueMarkdown
+    VueMarkdown,
+    Avatar,
   },
   data() {
     return {
@@ -282,12 +301,30 @@ export default {
   border: 1px #1f2329;
   position: relative;
 }
+.author {
+  width: 300px;
+  height: 250px;
+
+}
 .author-card {
   margin-left: 20px;
   width: 250px;
-  margin-bottom: 30px;
+  margin-bottom: 50px;
   position: fixed;
 }
 
+.icons {
+  width: 300px;
+  position: fixed;
+}
+.el-row {
+  margin-bottom: 20px;
+}
+.avatar-icon {
+  cursor: pointer;
+  background-color: #ffffff;
+  box-shadow: 0 0 10px 2px rgb(0 0 0 / 6%);
+  margin-left: 100px;
+}
 </style>
 

@@ -4,7 +4,31 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3426c93c-5207-4247-9a23-64fcd2b24d6a" name="Changes" comment="Changes" />
+    <list default="true" id="3426c93c-5207-4247-9a23-64fcd2b24d6a" name="Changes" comment="Changes">
+      <change beforePath="$PROJECT_DIR$/BlogWebsite/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlogWebsite/.idea/BlogWebsite.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlogWebsite/.idea/dataSources.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlogWebsite/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlogWebsite/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlogWebsite/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlogWebsite/BlogWebsite/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/BlogWebsite/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlogWebsite/BlogWebsite/asgi.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlogWebsite/BlogWebsite/settings.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlogWebsite/BlogWebsite/urls.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlogWebsite/BlogWebsite/wsgi.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlogWebsite/backend/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlogWebsite/backend/admin.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlogWebsite/backend/apps.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlogWebsite/backend/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlogWebsite/backend/migrations/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlogWebsite/backend/models.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlogWebsite/backend/tests.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlogWebsite/backend/urls.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlogWebsite/backend/views.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlogWebsite/db.sqlite3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlogWebsite/manage.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/views/Blog/BlogView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/views/Blog/BlogView.vue" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -16,6 +40,7 @@
         <option value="CSS File" />
         <option value="JavaScript File" />
         <option value="Vue Single File Component" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
@@ -62,11 +87,11 @@
       <recent name="D:\onedrive2\OneDrive\桌面\SwMultijob\src\assets\style" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\My Blog\SwMultijob" />
       <recent name="D:\My Blog\SwMultijob\front-end\public" />
       <recent name="D:\onedrive2\OneDrive\桌面\SwMultijob\src\views\Personal" />
       <recent name="D:\onedrive2\OneDrive\桌面\SwMultijob\src\views" />
       <recent name="D:\onedrive2\OneDrive\桌面\SwMultijob\src\assets" />
-      <recent name="D:\onedrive2\OneDrive\桌面\SwMultijob\src\components" />
     </key>
   </component>
   <component name="RunManager">
@@ -110,6 +135,7 @@
       <workItem from="1654133668721" duration="10186000" />
       <workItem from="1654149352886" duration="18188000" />
       <workItem from="1654238045541" duration="18026000" />
+      <workItem from="1654309552818" duration="3524000" />
     </task>
     <servers />
   </component>
