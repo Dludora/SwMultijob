@@ -1,6 +1,6 @@
 <template>
   <el-container style="margin-top: 30px">
-    <el-aside class="blog-aside">
+    <el-aside class="blog-aside" width="270px">
       <div class="author">
         <el-card class="author-card">
           <template #header>
@@ -37,11 +37,8 @@
         </el-row>
       </div>
 
-
-
       <el-backtop :right="20" :bottom="100" />
     </el-aside>
-
     <el-container>
       <el-header>
         {{blogForm.headline}}
@@ -59,13 +56,11 @@
 </template>
 
 <script>
-import VueMarkdown from 'vue-markdown'
 import Avatar from "primevue/avatar";
-import markdownData from '../../../public/hello.md'
+
 export default {
   name: "BlogView",
   components: {
-    VueMarkdown,
     Avatar,
   },
   data() {

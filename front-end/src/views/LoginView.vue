@@ -1,6 +1,5 @@
 <template>
-<!--  <div class="login-register">-->
-    <div class="contain">
+  <div class="contain">
       <div class="big-box" :class="{active:isLogin}">
         <div class="big-contain" v-if="isLogin">
           <div class="btitle">账户登录</div>
@@ -50,14 +49,19 @@
         </div>
       </div>
     </div>
-<!--  </div>-->
 </template>
 
 <script>
 import axios from "axios";
+import Dialog from "primevue/dialog";
+import {ElMessage} from 'element-plus';
+
 
 export default {
   name: "LoginView",
+  components: {
+    Dialog,
+  },
   data(){
     let checkUsername = (rule, value, callback) => {
       const reg=/^[\u4e00-\u9fa5_a-zA-Z0-9]+$/;
@@ -89,8 +93,8 @@ export default {
         if (!reg_pwd.test(value)) {
           callback(new Error('密码至少同时包含字母和数字，且长度为8-18'));
         } else {
-          if (this.form.checkPass !== '') {
-            this.$refs.ruleForm.validateField('checkPass');
+          if (this.formRegister.checkPass !== '') {
+            this.$refs.formSignIn.validateField('checkPass');
           }
           callback();
         }
@@ -99,13 +103,14 @@ export default {
     let validatePass2 = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请再次输入密码'));
-      } else if (value !== this.form.pass) {
+      } else if (value !== this.formRegister.pass) {
         callback(new Error('两次输入密码不一致!'));
       } else {
         callback();
       }
     };
     return {
+      registerSuccess: false,
       isLogin:false,
       emailError:false,
       passwordError:false,
@@ -138,10 +143,16 @@ export default {
   },
   methods:{
     changePage() {
+      if(this.isLogin === false) {
+        this.formRegister.username = '';
+        this.formRegister.email = '';
+        this.formRegister.pass = '';
+        this.formRegister.checkPass = '';
+      } else {
+        this.formSignIn.password = '';
+        this.formSignIn.email = '';
+      }
       this.isLogin = !this.isLogin;
-      this.form.userpwd = '';
-      this.form.useremail = '';
-      this.form.username = '';
     },
     login() {
       const formData = new FormData();
@@ -153,20 +164,44 @@ export default {
         data: formData
       })
       .then(res => {
-        console.log(this.formSignIn);
+        if(res.data.errno === 0) {
+          // const token =
+          // this.$store.commit('setToken', )
+        }
+        ElMessage(res.data.msg);
+      })
+      .catch(err => {
+        ElMessage("登录失败");
       })
     },
     register() {
+      const formData = new FormData();
+      formData.append("email", this.formRegister.email);
+      formData.append("password_1", this.formRegister.pass);
+      formData.append("password_2", this.formRegister.checkPass);
+      formData.append("username", this.formRegister.username);
       axios({
-        method: 'get',
-        url: '/api',
-        // responseType: 'stream'
+        method: 'post',
+        url: 'register',
+        data: formData
       })
-      .then((response) => {
-        console.log(response.data)
+      .then(res => {
+        if(res.data.errno === 0) {
+          this.registerSuccess = true;
+          this.formSignIn.email = this.formRegister.email;
+          this.formSignIn.password = this.formRegister.pass;
+          this.isLogin = !this.isLogin;
+          ElMessage(res.data.msg);
+        } else {
+            ElMessage(res.data.msg)
+        }
+      })
+      .catch(err => {
+        console.log(err.data)
       })
     }
-  }
+  },
+
 }
 </script>
 
@@ -174,8 +209,9 @@ export default {
 .contain{
   width: 832px;
   height: 418px;
-  margin-top: 300px;
-  margin-left: auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
   transform: translate(-50%,-50%);
   background-color: #fff;
   border-radius: 20px;

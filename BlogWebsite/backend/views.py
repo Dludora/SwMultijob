@@ -61,7 +61,7 @@ def login(request):
         if author.password == password:  # 判断请求的密码是否与数据库存储的密码相同
             # 密码正确则将用户名存储于session（django用于存储登录信息的数据库位置）
             request.session['email'] = email
-            return JsonResponse({'errno': 0, 'msg': "登录成功"})
+            return JsonResponse({'errno': 0, 'msg': "登录成功", '用户id': author.id})
         else:
             return JsonResponse({'errno': 1002, 'msg': "用户名或密码错误"})
     else:

@@ -28,11 +28,10 @@
       <Button label="Yes" icon="pi pi-check" autofocus @click="addSubmit('addingFavor')"/>
     </template>
   </Dialog>
-  <el-container>
-    <el-aside width="200px">
-      <el-scrollbar
+  <el-aside width="200px">
+    <el-scrollbar
         height="700px">
-        <el-menu
+      <el-menu
           style="min-height: calc(100vh - 80px);"
           active-text-color="#ffd04b"
           background-color="#545c64"
@@ -48,16 +47,33 @@
         </el-menu-item>
       </el-menu>
     </el-scrollbar>
-    </el-aside>
-    <el-container>
-      <el-header class="header">
-        <Button label="添加" icon="pi pi-plus" class="p-button-secondary" autofocus @click="addFavor"/>
-      </el-header>
-      <el-main>
-
-      </el-main>
-    </el-container>
+  </el-aside>
+  <el-container>
+    <el-header class="header" height="100px">
+      <el-row>
+        {{Favors[0].headline}}
+      </el-row>
+      <el-row>
+        <el-col v-if="unEditing">
+          <span >{{Favors[0].describe}}</span>
+          <Button label="edit" class="p-button-link p-button-sm" @click="unEditing=false"/>
+        </el-col>
+        <el-col v-else>
+          <el-input style="max-width: 200px" v-model="Favors[0].describe"></el-input>
+          <Button label="提交" class="p-button-sm p-button-rounded"
+                  style="margin-left:20px"/>
+          <Button label="取消" class="p-button-sm p-button-secondary p-button-rounded"
+                  style="margin-left:20px"
+                  @click="unEditing=true"/>
+        </el-col>
+      </el-row>
+<!--      <Button label="添加" icon="pi pi-plus" class="p-button-secondary" autofocus @click="addFavor"/>-->
+    </el-header>
+    <el-main>
+      <el-card></el-card>
+    </el-main>
   </el-container>
+
 </template>
 
 <script>
@@ -85,6 +101,7 @@ export default {
     }
     return {
       isDisplay: false,
+      unEditing: true,
       favorsNum: 2,
       Favors: [
         {
@@ -110,6 +127,17 @@ export default {
           {required: false, message: '请填写描述内容'},
         ],
       },
+      collected: [
+        {
+
+        },
+        {
+
+        },
+        {
+
+        },
+      ]
     }
   },
   methods: {
@@ -144,7 +172,14 @@ export default {
 </script>
 
 <style scoped>
+.el-row {
+  margin-top: 16px;
+}
+.el-col {
+  line-height: 32px;
+}
 .header {
-  background-color: #3370ff;
+  /*background-color: #3370ff;*/
+  border-bottom: #1f2329 1px;
 }
 </style>

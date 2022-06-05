@@ -1,23 +1,26 @@
 <template>
-  <el-col :span="12">
-    <el-menu
-        style="width: 200px; min-height: calc(100vh - 80px);"
-        active-text-color="#ffd04b"
-        background-color="#545c64"
-        class="el-menu-vertical-demo"
-        default-active="2"
-        text-color="#fff"
-        router
-    >
-      <div style="height: 20px"></div>
-      <el-menu-item v-for="item in items" :index="item.path">
-        <span>{{item.label}}</span>
-      </el-menu-item>
-    </el-menu>
-  </el-col>
-  <div class="main-content">
-    <router-view />
-  </div>
+  <el-container>
+    <el-aside
+      width="200px">
+      <el-menu
+          style="width: 200px; min-height: calc(100vh - 80px);"
+          active-text-color="#ffd04b"
+          background-color="#545c64"
+          class="el-menu-vertical-demo"
+          default-active="2"
+          text-color="#fff"
+          router
+      >
+        <div style="height: 20px"></div>
+        <el-menu-item v-for="item in items" :index="item.path">
+          <span>{{item.label}}</span>
+        </el-menu-item>
+      </el-menu>
+    </el-aside>
+    <el-container>
+      <router-view />
+    </el-container>
+  </el-container>
 </template>
 
 
@@ -55,11 +58,6 @@ export default {
 </script>
 
 <style scoped>
-.main-content {
-  margin-left: 220px;
-  width: 1200px;
-  background-color: #f0f0f0;
-}
 .el-menu-item span{
   font-size: 20px;
   font-weight: bold;

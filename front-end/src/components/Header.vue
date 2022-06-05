@@ -13,15 +13,15 @@
         <li>
           <router-link to="/">首页</router-link>
         </li>
-        <li>
-          <router-link to="/about">关于</router-link>
-        </li>
+<!--        <li>-->
+<!--          <router-link to="/about">关于</router-link>-->
+<!--        </li>-->
         <li>
           <router-link to="/user/profile">个人</router-link>
         </li>
-<!--        <li>-->
-<!--          <router-link to="/editor">编辑</router-link>-->
-<!--        </li>-->
+        <li>
+          <router-link to="/editor">编辑</router-link>
+        </li>
         <li>
           <router-link to="/view">浏览</router-link>
         </li>
@@ -61,7 +61,7 @@ export default {
 
 <style scoped>
 .Header {
-  width: 100%;
+  width: 1536px;
   height: 60px;
   border-bottom: 1px solid #ccc;
   z-index: 1041;
@@ -124,15 +124,15 @@ img {
 }
 .Header-nav li a {
   border-top: 1px solid rgba(0,0,0,0);
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-align: center;
-  align-items: center;
+  /*display: -ms-flexbox;*/
+  /*display: flex;*/
+  /*-ms-flex-align: center;*/
+  /*align-items: center;*/
   padding: 0 24px;
   line-height: 60px;
   height: 61px;
   text-decoration: none;
-  text-transform: uppercase;
+  /*text-transform: uppercase;*/
   margin-top: -1px;
   color: #161616;
   cursor: pointer;

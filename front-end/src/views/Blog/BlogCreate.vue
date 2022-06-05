@@ -36,7 +36,6 @@ import Button from "primevue/button";
 export default {
   name: "BlogCreate",
   components: {
-    MdEditor,
     Dialog,
     Button
   },

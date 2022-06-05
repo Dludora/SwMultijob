@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import store from "@/store";
 
 const About = () => import('../views/AboutView.vue')
 const Login = () => import('../views/LoginView.vue')
@@ -10,60 +11,90 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: HomeView
+    component: HomeView,
+    meta: {
+      isLogin: false,
+    }
   },
   {
     path: '/about',
     name: 'about',
-    component: About
+    component: About,
+    meta: {
+      isLogin: false,
+    }
   },
   {
     path: '/login',
     name: 'login',
-    component: Login
+    component: Login,
+    meta: {
+      isLogin: false,
+    }
   },
   {
     path: '/editor',
     name: 'editor',
-    component: Editor
+    component: Editor,
+    meta: {
+      isLogin: true,
+    }
   },
   {
     path: '/view',
     name: 'view',
-    component: View
+    component: View,
+    meta: {
+      isLogin: false,
+    }
   },
   {
     path: '/user',
     name: 'user',
     component: User,
+    meta: {
+      isLogin: true,
+    },
     children: [
         {
           path: 'profile',
           name: 'profile',
-          component: () => import('../views/User/profile.vue')
+          component: () => import('../views/User/profile.vue'),
+          meta: {
+            isLogin: true,
+          }
         },
         {
           path: 'collect',
           name: 'collect',
           component: () => import('../views/User/collection-list.vue'),
-          children: [
-
-          ]
+          meta: {
+            isLogin: true,
+          },
         },
         {
           path: 'history',
           name: 'history',
-          component: () => import('../views/User/history.vue')
+          component: () => import('../views/User/history.vue'),
+          meta: {
+            isLogin: true,
+          },
         },
         {
           path: 'concerned',
           name: 'concerned',
-          component: () => import('../views/User/concerned.vue')
+          component: () => import('../views/User/concerned.vue'),
+          meta: {
+            isLogin: true,
+          }
         },
         {
           path: 'myBlogs',
           name: 'myBlogs',
-          component: () => import('../views/User/myBlogs.vue')
+          component: () => import('../views/User/myBlogs.vue'),
+          meta: {
+            isLogin: true,
+          }
         },
     ],
   },

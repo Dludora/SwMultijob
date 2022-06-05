@@ -4,16 +4,16 @@ export default {
         token: ''
     },
     mutations: {
-        setToken(state, value) {
-            state.token = value;
-            Cookie.set('token', value);
+        setToken(state, val) {
+            state.token = val
+            Cookie.set('token', val)
         },
         clearToken(state) {
-            state.token = '';
-            Cookie.remove('token');
+            state.token = ''
+            Cookie.remove('token')
         },
         getToken(state) {
-            state.token = state.token || Cookie.get('token');
+            state.token = state.token || Cookie.get('token')
         }
     }
 }

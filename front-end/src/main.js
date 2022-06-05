@@ -84,3 +84,14 @@ VMdPreview.use(createLineNumbertPlugin());
 VMdPreview.use(createCopyCodePlugin());
 app.use(VMdEditor);
 app.use(VMdPreview);
+
+// 登录保持
+// router.beforeEach((to, from, next) => {
+//   store.commit('getToken')
+//   const token = store.state.user.token
+//   if(!token && to.name !== 'login') {
+//     next({ name: 'login' })
+//   } else {
+//     next()
+//   }
+// })
