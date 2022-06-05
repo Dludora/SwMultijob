@@ -4,6 +4,8 @@ from django.views.decorators.csrf import csrf_exempt
 from backend.models import Author,Article   # 引入数据库 Author 对象
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
+import jwt
+import hashlib
 @csrf_exempt    # 跨域设置
 def register(request):  # 继承请求类
     if request.method == 'POST':  # 判断请求方式是否为 POST（此处要求为POST方式）
@@ -40,15 +42,14 @@ def register(request):  # 继承请求类
         if numFlag==0 or engFlag==0 or len<8 or len>18:
             return JsonResponse({'errno': 1005, 'msg': "密码不合法"})
         # 新建 Author 对象，赋值用户名和密码并保存
-        new_author = Author(username=username, password=password_1,email=email)
+        md5_str=hashlib.md5(password_1.encode()).hexdigest()
+        new_author = Author(username=username, password=md5_str,email=email)
         new_author.save()   # 一定要save才能保存到数据库中
         return JsonResponse({'errno': 0, 'msg': "注册成功"})
     else:
         return JsonResponse({'errno': 1001, 'msg': "请求方式错误"})
 @csrf_exempt
 def login(request):
-    if request.session.has_key('email'):
-        return JsonResponse({'errno': 1101, 'msg': "已有登录账号"})
     if request.method == 'POST':
         email = request.POST.get('email')  # 获取请求数据
         password = request.POST.get('password')
@@ -58,10 +59,11 @@ def login(request):
             author = Author.objects.get(email=email)
         except:
             return JsonResponse({'errno': 1002, 'msg': "用户名或密码错误"})
-        if author.password == password:  # 判断请求的密码是否与数据库存储的密码相同
+        md5_str = hashlib.md5(password.encode()).hexdigest()
+        if author.password == md5_str:  # 判断请求的密码是否与数据库存储的密码相同
             # 密码正确则将用户名存储于session（django用于存储登录信息的数据库位置）
-            request.session['email'] = email
-            return JsonResponse({'errno': 0, 'msg': "登录成功", '用户id': author.id})
+            encoded=jwt.encode({'userid':(str)(author.id)},"secret",algorithm="HS256");
+            return JsonResponse({'errno': 0, 'msg': "登录成功",'token':(str)(encoded)})
         else:
             return JsonResponse({'errno': 1002, 'msg': "用户名或密码错误"})
     else:

@@ -69,11 +69,20 @@
       </el-row>
 <!--      <Button label="添加" icon="pi pi-plus" class="p-button-secondary" autofocus @click="addFavor"/>-->
     </el-header>
-    <el-main>
-      <el-card></el-card>
+    <el-main >
+      <el-table :data="collections" style="width: 100%" height="500">
+        <el-table-column fixed prop="blogName" label="博客名" width="650" />
+        <el-table-column prop="blogAuthor" label="作者" width="150" />
+        <el-table-column fixed="right" label="操作" width="270">
+          <template #default="scope">
+            <el-button type="text">查看</el-button>
+            <el-button type="text">取消收藏</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+
     </el-main>
   </el-container>
-
 </template>
 
 <script>
@@ -127,15 +136,56 @@ export default {
           {required: false, message: '请填写描述内容'},
         ],
       },
-      collected: [
+      collections: [
         {
-
+          blogName: '愚蠢',
+          blogAuthor: '张三',
+          blogUrl: '',
         },
         {
-
+          blogName: '呆瓜',
+          blogAuthor: '李四',
+          blogUrl: '',
         },
         {
-
+          blogName: '傻子',
+          blogAuthor: '王五',
+          blogUrl: '',
+        },
+          {
+          blogName: '傻子',
+          blogAuthor: '王五',
+          blogUrl: '',
+        },
+        {
+          blogName: '傻子',
+          blogAuthor: '王五',
+          blogUrl: '',
+        },
+        {
+          blogName: '傻子',
+          blogAuthor: '王五',
+          blogUrl: '',
+        },
+        {
+          blogName: '傻子',
+          blogAuthor: '王五',
+          blogUrl: '',
+        },
+        {
+          blogName: '傻子',
+          blogAuthor: '王五',
+          blogUrl: '',
+        },
+        {
+          blogName: '傻子',
+          blogAuthor: '王五',
+          blogUrl: '',
+        },
+        {
+          blogName: '傻子',
+          blogAuthor: '王五',
+          blogUrl: '',
         },
       ]
     }

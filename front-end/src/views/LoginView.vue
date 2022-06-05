@@ -165,10 +165,10 @@ export default {
       })
       .then(res => {
         if(res.data.errno === 0) {
-          // const token =
-          // this.$store.commit('setToken', )
+          ElMessage(res.data.msg);
         }
         ElMessage(res.data.msg);
+        console.log(res.data)
       })
       .catch(err => {
         ElMessage("登录失败");

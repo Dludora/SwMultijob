@@ -5,22 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3426c93c-5207-4247-9a23-64fcd2b24d6a" name="Changes" comment="Changes">
+      <change afterPath="$PROJECT_DIR$/BlogWebsite/backend/migrations/0002_alter_author_password.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BlogWebsite/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlogWebsite/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/BlogWebsite/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlogWebsite/backend/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/BlogWebsite/backend/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BlogWebsite/backend/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/BlogWebsite/backend/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BlogWebsite/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/BlogWebsite/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/public/hello.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/components/Header.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/Header.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/router/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/store/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/store/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/store/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/store/user.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/views/Blog/BlogCreate.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/views/Blog/BlogCreate.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/views/Blog/BlogView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/views/Blog/BlogView.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front-end/src/views/LoginView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/views/LoginView.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/views/User.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/views/User.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front-end/src/views/User/collection-list.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/views/User/collection-list.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/vue.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/vue.config.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -132,6 +124,10 @@
       <workItem from="1654321107281" duration="18965000" />
       <workItem from="1654350508397" duration="2243000" />
       <workItem from="1654418759919" duration="6341000" />
+      <workItem from="1654431406478" duration="2387000" />
+      <workItem from="1654439733399" duration="2263000" />
+      <workItem from="1654442331206" duration="145000" />
+      <workItem from="1654442511878" duration="185000" />
     </task>
     <servers />
   </component>
