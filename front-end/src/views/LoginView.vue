@@ -164,11 +164,12 @@ export default {
         data: formData
       })
       .then(res => {
-        if(res.data.errno === 0) {
-          ElMessage(res.data.msg);
-        }
         ElMessage(res.data.msg);
-        console.log(res.data)
+        if(res.data.errno === 0) {
+          const token = res.data.token;
+          this.$store.commit('setToken', token);
+          this.$router.push({name: 'home'});
+        }
       })
       .catch(err => {
         ElMessage("登录失败");
