@@ -5,9 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3426c93c-5207-4247-9a23-64fcd2b24d6a" name="Changes" comment="Changes">
+      <change afterPath="$PROJECT_DIR$/front-end/src/components/users/userMenu.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front-end/src/store/tab.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/views/LoginView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/views/LoginView.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/components/Header.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/Header.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,9 +19,9 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="CSS File" />
+        <option value="Python Script" />
         <option value="JavaScript File" />
         <option value="Vue Single File Component" />
-        <option value="Python Script" />
       </list>
     </option>
   </component>
@@ -123,6 +124,7 @@
       <workItem from="1654439733399" duration="2263000" />
       <workItem from="1654442331206" duration="145000" />
       <workItem from="1654442511878" duration="1040000" />
+      <workItem from="1654478366261" duration="3728000" />
     </task>
     <servers />
   </component>

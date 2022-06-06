@@ -32,8 +32,11 @@
             <InputText type="text" placeholder="Search" class="search"/>
       </div>
       <div class="top-menu">
-        <li>
+        <li v-if="!isLogin">
           <a href="/login">登录/注册</a>
+        </li>
+        <li v-else>
+          <userMenu/>
         </li>
       </div>
     </div>
@@ -45,15 +48,22 @@
 import Sidebar from 'primevue/sidebar'
 import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
+import userMenu from "@/components/users/userMenu";
 export default {
   components: {
     Sidebar,
     Button,
     InputText,
+    userMenu,
   },
   data() {
     return {
       visibleFull: false,
+    }
+  },
+  computed: {
+    isLogin() {
+      return this.$store.state.user.token;
     }
   }
 }
