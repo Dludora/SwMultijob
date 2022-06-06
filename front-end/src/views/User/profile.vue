@@ -25,7 +25,7 @@
         </div>
       </div>
       <div class="general-info-name">
-        <span>{{formPersonal.nickName.label}}</span>
+        <span>{{formPersonal.nickName}}</span>
       </div>
     </div>
     <div class="base-info">
@@ -33,56 +33,54 @@
       <div class="base-info-content">
         <div class="base-info-content-show">
           <el-form
-              :model="formPersonal"
+              :model="formEdit"
               label-width="120px">
             <el-form-item label="昵称: ">
-              <el-input v-model="formPersonal.nickName.label"
-                        style="max-width: 300px"
-                        :disabled=formPersonal.nickName.authority />
-              <div v-if="unEditing[0]">
+              <el-col v-if="unEditing[0]">
+                <span>{{formPersonal.nickName}}</span>
                 <Button label="edit" class="p-button-link p-button-sm"
-                        @click="()=>{this.unEditing[0]=false;
-                                      formPersonal.nickName.authority=false}"/>
-              </div>
-              <div v-else>
+                        @click="()=>{unEditing[0]=false}"/>
+              </el-col>
+              <el-col v-else>
+                <el-input v-model="formEdit.nickName"
+                        style="max-width: 300px"/>
                 <Button label="提交" class="p-button-sm p-button-rounded"
                         style="margin-left:20px"
                         @click="submitSex"/>
                 <Button label="取消" class="p-button-sm p-button-secondary p-button-rounded"
                         style="margin-left:20px"
-                        @click="()=>{this.unEditing[0]=true
-                                    formPersonal.nickName.authority=true}"/>
-              </div>
+                        @click="()=>{unEditing[0]=true;
+                                    formEdit.nickName=formPersonal.nickName}"/>
+              </el-col>
             </el-form-item>
             <el-form-item label="邮箱: ">
-              <el-input v-model="formPersonal.email.label"
-                        style="max-width: 300px"
-                        :disabled=formPersonal.email.authority />
-              <div v-if="unEditing[1]">
+              <el-col v-if="unEditing[1]">
+                <span>{{formEdit.email}}</span>
                 <Button label="edit" class="p-button-link p-button-sm"
-                        @click="()=>{this.unEditing[1]=false;
-                                      formPersonal.email.authority=false}"/>
-              </div>
-              <div v-else>
+                        @click="()=>{this.unEditing[1]=false}"/>
+              </el-col>
+              <el-col v-else>
+                <el-input v-model="formPersonal.email"
+                        style="max-width: 300px"/>
                 <Button label="提交" class="p-button-sm p-button-rounded"
                         style="margin-left:20px"
                         @click="submitSex"/>
                 <Button label="取消" class="p-button-sm p-button-secondary p-button-rounded"
                         style="margin-left:20px"
-                        @click="()=>{this.unEditing[1]=true
-                                    formPersonal.email.authority=true}"/>
-              </div>
+                        @click="()=>{this.unEditing[1]=true;
+                                     this.formEdit.email = this.formPersonal.email;}"/>
+              </el-col>
             </el-form-item>
             <el-form-item label="性别: ">
-              <div v-if="unEditing[2]">
-                <span >{{formPersonal.sex.label}}</span>
+              <el-col v-if="unEditing[2]">
+                <span >{{formPersonal.sex}}</span>
                 <Button
                   label="edit" class="p-button-link p-button-sm"
                   @click="()=>this.unEditing[2]=false"/>
-              </div>
-              <div v-else>
+              </el-col>
+              <el-col v-else>
                 <el-radio-group
-                    v-model="formPersonal.sex.label">
+                    v-model="formEdit.sex">
                   <el-radio label="男">男</el-radio>
                   <el-radio label="女">女</el-radio>
                   <el-radio label="未知">未知</el-radio>
@@ -92,42 +90,41 @@
                         @click="submitSex"/>
                 <Button label="取消" class="p-button-sm p-button-secondary p-button-rounded"
                         style="margin-left:20px"
-                        @click="()=>this.unEditing[2]=true"/>
-              </div>
+                        @click="()=>{this.unEditing[2]=true;
+                                      this.formEdit.sex = this.formPersonal.sex;}"/>
+              </el-col>
             </el-form-item>
             <el-form-item label="出生日期: ">
-              <el-date-picker v-model="formPersonal.birthday.label"
-                              type="date"
-                              placeholder="选择出生日期"
-                              :disabled="formPersonal.birthday.authority"/>
-              <div v-if="unEditing[4]">
+              <el-col v-if="unEditing[4]">
+                {{formPersonal.birthday}}
                   <Button label="edit" class="p-button-link p-button-sm"
-                          @click="()=>{this.unEditing[4]=false;
-                                      formPersonal.birthday.authority=false}"/>
-                </div>
-              <div v-else>
+                          @click="()=>{this.unEditing[4]=false}"/>
+                </el-col>
+              <el-col v-else>
+                <el-date-picker v-model="formEdit.birthday"
+                              type="date"
+                              placeholder="选择出生日期"/>
                   <Button label="提交" class="p-button-sm p-button-rounded"
                           style="margin-left:20px"
                           @click="submitSex"/>
                   <Button label="取消" class="p-button-sm p-button-secondary p-button-rounded"
                           style="margin-left:20px"
-                          @click="()=>{this.unEditing[4]=true
-                                    formPersonal.birthday.authority=true}"/>
-                </div>
+                          @click="()=>{this.unEditing[4]=true;
+                                      formEdit.birthday=formPersonal.birthday;}"/>
+                </el-col>
             </el-form-item>
             <el-form-item label="个人简介: ">
               <el-input
-                  v-model="formPersonal.resume.label"
+                  v-model="formEdit.resume"
                   :autosize="{ minRows: 2, maxRows: 4 }"
                   style="max-width: 400px"
                   type="textarea"
                   placeholder="Please input"
-                  :disabled=formPersonal.resume.authority
+                  :disabled=unEditing[5]
               />
               <div v-if="unEditing[5]">
                 <Button label="edit" class="p-button-link p-button-sm"
-                        @click="()=>{this.unEditing[5]=false;
-                                      formPersonal.resume.authority=false}"/>
+                        @click="()=>{this.unEditing[5]=false}"/>
               </div>
               <div v-else>
                 <Button label="提交" class="p-button-sm p-button-rounded"
@@ -135,8 +132,8 @@
                         @click="submitSex"/>
                 <Button label="取消" class="p-button-sm p-button-secondary p-button-rounded"
                         style="margin-left:20px"
-                        @click="()=>{this.unEditing[5]=true
-                                    formPersonal.resume.authority=true}"/>
+                        @click="()=>{this.unEditing[5]=true;
+                                    formEdit.resume=formPersonal.resume}"/>
               </div>
             </el-form-item>
           </el-form>
@@ -145,7 +142,6 @@
     </div>
   </div>
 </template>
-
 
 <script>
 import {Hide} from "@element-plus/icons-vue";
@@ -164,34 +160,45 @@ export default {
     return {
       display: false,
       formPersonal: {
-        imgSrc: require('../../assets/head.png'),
-        nickName: {
-          label: '和影子玩拳击的男人',
-          authority: true
-        },
-        sex: {
-          label: '男',
-        },
-        birthday: {
-          label: '2022-05-01',
-          authority: true
-        },
-        resume: {
-          label: '一个煞笔',
-          authority: true
-        },
-        email: {
-          label: 'koushurui@outlook.com',
-          authority: true
-        },
+        imgSrc: '',
+        nickName: '',
+        sex: '',
+        birthday: '',
+        resume: '',
+        email: ''
+      },
+      formEdit: {
+        imgSrc: '',
+        nickName: '',
+        sex: '',
+        birthday: '',
+        resume: '',
+        email: ''
       },
       unEditing: [true, true, true, true, true, true],
     }
   },
   methods: {
-    changeDisplay() {
-      this.display = true;
-    }
+
+  },
+  created() {
+    console.log('登录信息');
+    this.formPersonal = {
+      imgSrc: require('../../assets/head.png'),
+      nickName: '和影子玩拳击的男人',
+      sex: '男',
+      birthday: '2022-05-01',
+      resume: '一个煞笔',
+      email: 'koushurui@outlook.com'
+    };
+    this.formEdit = {
+      imgSrc: require('../../assets/head.png'),
+      nickName: '和影子玩拳击的男人',
+      sex: '男',
+      birthday: '2022-05-01',
+      resume: '一个煞笔',
+      email: 'koushurui@outlook.com'
+    };
   }
 }
 </script>

@@ -19,7 +19,7 @@ export default {
   name: "userMenu",
   data() {
     return {
-      src: require('../../assets/head.png'),
+      src: require('D:\\My Blog\\SwMultijob\\front-end\\src\\assets\\head.png'),
       userMenus: [
         {
           label: '个人资料',
