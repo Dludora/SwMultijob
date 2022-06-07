@@ -4,6 +4,10 @@ class Author(models.Model):
     username = models.CharField(max_length=50,primary_key=False)
     password = models.CharField(max_length=40)
     email = models.EmailField()
+    sex=models.CharField(max_length=5,null=True)
+    birthday=models.CharField(max_length=20,null=True)
+    discription=models.CharField(max_length=100,null=True)
+    lastLogin=models.CharField(max_length=50,null=True)
 class Article(models.Model):
     title=models.CharField(max_length=100)
     description=models.CharField(max_length=100,null=True)

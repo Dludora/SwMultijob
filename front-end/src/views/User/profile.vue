@@ -4,6 +4,7 @@
         class="upload-demo"
         drag
         action="https://jsonplaceholder.typicode.com/posts/"
+        :http-request="Upload"
     >
       <el-icon class="el-icon--upload"><upload-filled /></el-icon>
       <div class="el-upload__text">
@@ -46,7 +47,7 @@
                         style="max-width: 300px"/>
                 <Button label="提交" class="p-button-sm p-button-rounded"
                         style="margin-left:20px"
-                        @click="submitSex"/>
+                        @click="setSelfUsername"/>
                 <Button label="取消" class="p-button-sm p-button-secondary p-button-rounded"
                         style="margin-left:20px"
                         @click="()=>{unEditing[0]=true;
@@ -55,16 +56,16 @@
             </el-form-item>
             <el-form-item label="邮箱: ">
               <el-col v-if="unEditing[1]">
-                <span>{{formEdit.email}}</span>
+                <span>{{formPersonal.email}}</span>
                 <Button label="edit" class="p-button-link p-button-sm"
                         @click="()=>{this.unEditing[1]=false}"/>
               </el-col>
               <el-col v-else>
-                <el-input v-model="formPersonal.email"
+                <el-input v-model="formEdit.email"
                         style="max-width: 300px"/>
                 <Button label="提交" class="p-button-sm p-button-rounded"
                         style="margin-left:20px"
-                        @click="submitSex"/>
+                        @click="setSelfEmail"/>
                 <Button label="取消" class="p-button-sm p-button-secondary p-button-rounded"
                         style="margin-left:20px"
                         @click="()=>{this.unEditing[1]=true;
@@ -87,7 +88,7 @@
                 </el-radio-group>
                 <Button label="提交" class="p-button-sm p-button-rounded"
                         style="margin-left:20px"
-                        @click="submitSex"/>
+                        @click="setSelfSex"/>
                 <Button label="取消" class="p-button-sm p-button-secondary p-button-rounded"
                         style="margin-left:20px"
                         @click="()=>{this.unEditing[2]=true;
@@ -95,22 +96,24 @@
               </el-col>
             </el-form-item>
             <el-form-item label="出生日期: ">
-              <el-col v-if="unEditing[4]">
-                {{formPersonal.birthday}}
-                  <Button label="edit" class="p-button-link p-button-sm"
-                          @click="()=>{this.unEditing[4]=false}"/>
-                </el-col>
-              <el-col v-else>
+              <el-col :span="30">
                 <el-date-picker v-model="formEdit.birthday"
                               type="date"
-                              placeholder="选择出生日期"/>
+                              placeholder="选择出生日期"
+                              :disabled=unEditing[3] />
+                <span v-if="unEditing[3]">
+                  <Button label="edit" class="p-button-link p-button-sm"
+                          @click="()=>{this.unEditing[3]=false}"/>
+                </span>
+                <span v-else>
                   <Button label="提交" class="p-button-sm p-button-rounded"
                           style="margin-left:20px"
-                          @click="submitSex"/>
+                          @click="setSelfBirthday"/>
                   <Button label="取消" class="p-button-sm p-button-secondary p-button-rounded"
                           style="margin-left:20px"
-                          @click="()=>{this.unEditing[4]=true;
+                          @click="()=>{this.unEditing[3]=true;
                                       formEdit.birthday=formPersonal.birthday;}"/>
+                </span>
                 </el-col>
             </el-form-item>
             <el-form-item label="个人简介: ">
@@ -119,20 +122,20 @@
                   :autosize="{ minRows: 2, maxRows: 4 }"
                   style="max-width: 400px"
                   type="textarea"
-                  placeholder="Please input"
-                  :disabled=unEditing[5]
+                  placeholder="个人简介(选填)"
+                  :disabled=unEditing[4]
               />
-              <div v-if="unEditing[5]">
+              <div v-if="unEditing[4]">
                 <Button label="edit" class="p-button-link p-button-sm"
-                        @click="()=>{this.unEditing[5]=false}"/>
+                        @click="()=>{this.unEditing[4]=false}"/>
               </div>
               <div v-else>
                 <Button label="提交" class="p-button-sm p-button-rounded"
                         style="margin-left:20px"
-                        @click="submitSex"/>
+                        @click="setSelfDiscription"/>
                 <Button label="取消" class="p-button-sm p-button-secondary p-button-rounded"
                         style="margin-left:20px"
-                        @click="()=>{this.unEditing[5]=true;
+                        @click="()=>{this.unEditing[4]=true;
                                     formEdit.resume=formPersonal.resume}"/>
               </div>
             </el-form-item>
@@ -148,6 +151,9 @@ import {Hide} from "@element-plus/icons-vue";
 import { UploadFilled } from '@element-plus/icons-vue'
 import Button from 'primevue/button';
 import Dialog from 'primevue/dialog'
+import {ElMessage} from "element-plus";
+import axios from "axios";
+
 export default {
   name: "profile",
   components: {
@@ -179,26 +185,124 @@ export default {
     }
   },
   methods: {
-
+    load() {
+    const formData = new FormData();
+    formData.append('token', this.$store.state.user.token)
+    // console.log(formData)
+    axios({
+      method: 'post',
+      url: 'getSelfInformation',
+      data: formData
+    }).then(res => {
+      if(res.data.errno === 0) {
+        this.formPersonal = {
+          imgSrc: require('../../assets/head.png'),
+          nickName: res.data.username,
+          sex: res.data.sex,
+          birthday: res.data.birthday,
+          resume: res.data.description,
+          email: res.data.email
+        };
+        this.formEdit = {
+          imgSrc: require('../../assets/head.png'),
+          nickName: res.data.username,
+          sex: res.data.sex,
+          birthday: res.data.birthday,
+          resume: res.data.description,
+          email: res.data.email
+        }
+      } else {
+        console.log(this.$store.state.user.token)
+        ElMessage(res.data.msg);
+      }
+    }
+    ).catch(err => {
+      ElMessage('获取个人信息失败');
+    })
+    },
+    setSelfUsername() {
+      const formData = new FormData();
+      formData.append('token', this.$store.state.user.token)
+      formData.append('username', this.formEdit.nickName)
+      axios({
+        method: 'post',
+        url: 'setSelfUsername',
+        data: formData
+      }).then(res => {
+        if(res.data.errno === 0) {
+          this.unEditing[0] = true;
+          this.load()
+        }
+        ElMessage(res.data.msg);
+      })
+    },
+    setSelfEmail() {
+      const formData = new FormData();
+      formData.append('token', this.$store.state.user.token)
+      formData.append('email', this.formEdit.email)
+      axios({
+        method: 'post',
+        url: 'setSelfEmail',
+        data: formData
+      }).then(res => {
+        if(res.data.errno === 0) {
+          this.unEditing[1] = true;
+          this.load()
+        }
+        ElMessage(res.data.msg);
+      })
+    },
+    setSelfSex() {
+      const formData = new FormData();
+      formData.append('token', this.$store.state.user.token)
+      formData.append('sex', this.formEdit.sex)
+      axios({
+        method: 'post',
+        url: 'setSelfSex',
+        data: formData
+      }).then(res => {
+        if(res.data.errno === 0) {
+          this.unEditing[2] = true;
+          this.load()
+        }
+        ElMessage(res.data.msg);
+      })
+    },
+    setSelfBirthday() {
+      const formData = new FormData();
+      formData.append('token', this.$store.state.user.token)
+      formData.append('birthday', this.formEdit.birthday)
+      axios({
+        method: 'post',
+        url: 'setSelfBirthday',
+        data: formData
+      }).then(res => {
+        if(res.data.errno === 0) {
+          this.unEditing[3] = true;
+          this.load()
+        }
+        ElMessage(res.data.msg);
+      })
+    },
+    setSelfDiscription() {
+      const formData = new FormData();
+      formData.append('token', this.$store.state.user.token)
+      formData.append('discription', this.formEdit.resume)
+      axios({
+        method: 'post',
+        url: 'setSelfDiscription',
+        data: formData
+      }).then(res => {
+        if(res.data.errno === 0) {
+          this.unEditing[4] = true;
+          this.load()
+        }
+        ElMessage(res.data.msg);
+      })
+    },
   },
   created() {
-    console.log('登录信息');
-    this.formPersonal = {
-      imgSrc: require('../../assets/head.png'),
-      nickName: '和影子玩拳击的男人',
-      sex: '男',
-      birthday: '2022-05-01',
-      resume: '一个煞笔',
-      email: 'koushurui@outlook.com'
-    };
-    this.formEdit = {
-      imgSrc: require('../../assets/head.png'),
-      nickName: '和影子玩拳击的男人',
-      sex: '男',
-      birthday: '2022-05-01',
-      resume: '一个煞笔',
-      email: 'koushurui@outlook.com'
-    };
+    this.load()
   }
 }
 </script>

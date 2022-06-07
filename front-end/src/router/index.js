@@ -68,6 +68,9 @@ const routes = [
           path: 'collect',
           name: 'collect',
           component: () => import('../views/User/collection-list.vue'),
+          children: [
+
+          ],
           meta: {
             isLogin: true,
           },

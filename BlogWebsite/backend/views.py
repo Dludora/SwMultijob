@@ -1,4 +1,6 @@
 # publish/views.py
+import datetime
+
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from backend.models import Author,Article   # 引入数据库 Author 对象
@@ -6,6 +8,61 @@ from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 import jwt
 import hashlib
+from django.utils import timezone
+import pytz
+secretKey="a kEy@混入中文?"
+def getTimeNum(strIn):
+    Y=(int)(strIn[0:4])
+    M=(int)(strIn[5:7])
+    D=(int)(strIn[8:10])
+    h=(int)(strIn[11:13])
+    m=(int)(strIn[14:16])
+    s=(int)(strIn[17:19])
+    ans=(Y-1)*365+((int)((Y-1)/4))-((int)((Y-1)/100))+((int)((Y-1)/400))-730000
+    ans=ans+(M-1)*30
+    if M>2 and Y%4==0 and (Y%100!=0 or Y%400==0):
+        ans=ans+1
+    elif M==2 or M==6 or M==7:
+        ans=ans+1
+    elif M==3:
+        ans=ans-1
+    elif M==8:
+        ans=ans+2
+    elif M==9 or M==10:
+        ans=ans+3
+    elif M==11 or M==12:
+        ans=ans+4
+    ans=ans+D
+    ans=ans*86400
+    ans=ans+h*3600+m*60+s
+    return ans
+def checkToken(token, isLogout):
+    bytes_data = bytes(token, encoding='utf-8')
+    decoded = jwt.decode(bytes_data, secretKey, algorithms="HS256")
+    id=None
+    time=None
+    for temp in decoded:
+        if temp=='userid':
+            id=decoded[temp]
+        elif temp=='time':
+            time=decoded[temp]
+    if id is None or time is None:
+        return -1
+    try:
+        user = Author.objects.get(id=id)
+    except:
+        return -3
+    if user.lastLogin is None or user.lastLogin!=time:
+        return -4
+    tz = pytz.timezone('Asia/Shanghai')
+    now_time = (str)(timezone.now().astimezone(tz=tz))
+    timediff=getTimeNum(now_time)-getTimeNum(time)
+    if timediff>24*60*60:
+        return -2
+    if isLogout==1:
+        user.lastLogin=None
+        user.save()
+    return id
 @csrf_exempt    # 跨域设置
 def register(request):  # 继承请求类
     if request.method == 'POST':  # 判断请求方式是否为 POST（此处要求为POST方式）
@@ -30,6 +87,12 @@ def register(request):  # 继承请求类
             None
         else:
             return JsonResponse({'errno': 1005, 'msg': "该邮箱已被注册过"})
+        try:
+            user = Author.objects.get(username=username)
+        except:
+            None
+        else:
+            return JsonResponse({'errno': 1006, 'msg': "该用户名已被使用"})
         numFlag=0
         engFlag=0
         len=0
@@ -60,169 +123,227 @@ def login(request):
         except:
             return JsonResponse({'errno': 1002, 'msg': "用户名或密码错误"})
         md5_str = hashlib.md5(password.encode()).hexdigest()
-        if author.password == md5_str:  # 判断请求的密码是否与数据库存储的密码相同
-            # 密码正确则将用户名存储于session（django用于存储登录信息的数据库位置）
-            encoded=jwt.encode({'userid':(str)(author.id)},"secret",algorithm="HS256");
-            return JsonResponse({'errno': 0, 'msg': "登录成功",'token':(str)(encoded)})
+        if author.password == md5_str:
+            tz = pytz.timezone('Asia/Shanghai')
+            now_time = timezone.now().astimezone(tz=tz)
+            author.lastLogin=now_time
+            author.save()
+            encoded=jwt.encode({'userid':(str)(author.id),'time':(str)(now_time)},secretKey,algorithm="HS256");
+            if type(encoded) == type("str"):
+                return JsonResponse({'errno': 0, 'msg': "登录成功", 'token': encoded})
+            return JsonResponse({'errno': 0, 'msg': "登录成功", 'token': str(encoded, encoding='utf-8')})
         else:
             return JsonResponse({'errno': 1002, 'msg': "用户名或密码错误"})
     else:
         return JsonResponse({'errno': 1001, 'msg': "请求方式错误"})
 @csrf_exempt
 def logout(request):
-    if not request.session.has_key('email'):
-        return JsonResponse({'errno': 1101, 'msg': "请先登录"})
-    request.session.flush()
+    if request.method != 'POST':
+        return JsonResponse({'errno': 1001, 'msg': "请求方式错误"})
+    token=request.POST.get('token')
+    if token is None:
+        return JsonResponse({'errno': 500, 'msg': "未找到令牌"})
+    try:
+        id=checkToken(token,1)
+    except:
+        return JsonResponse({'errno': 501, 'msg': "无效的令牌"})
+    if id==-1:
+        return JsonResponse({'errno': 501, 'msg': "无效的令牌"})
+    if id==-2:
+        return JsonResponse({'errno': 502, 'msg': "登录已过期"})
+    if id==-3:
+        return JsonResponse({'errno': 503, 'msg': "用户不存在"})
+    if id==-4:
+        return JsonResponse({'errno': 504, 'msg': "用户已注销或已在别处登录"})
     return JsonResponse({'errno': 0, 'msg': "注销成功"})
 @csrf_exempt
-def delete(request):
-    if request.method == 'POST':
-        table=request.POST.get('table')
-        key = request.POST.get('key')
-        if table is None or key is None:
-            return JsonResponse({'errno': 2001, 'msg': "传入参数不足或错误"})
-        if table=='Author':
-            try:
-                item=Author.objects.get(email=key)
-            except:
-                return JsonResponse({'errno': 1003, 'msg': table + '中不存在包含 '+key+' 的条目'})
-            else:
-                item.delete()
-                return JsonResponse({'errno': 0, 'msg': "删除成功"})
-        elif table=='Article':
-            try:
-                item=Article.objects.get(id=key)
-            except:
-                return JsonResponse({'errno': 1003, 'msg': table + '中不存在包含 '+key+' 的条目'})
-            else:
-                item.delete()
-                return JsonResponse({'errno': 0, 'msg': "删除成功"})
-        else:
-            return JsonResponse({'errno': 1002, 'msg': table+"不存在的表格"})
-    else:
+def getSelfInformation(request):
+    if request.method != 'POST':
         return JsonResponse({'errno': 1001, 'msg': "请求方式错误"})
+    token = request.POST.get('token')
+    if token is None:
+        return JsonResponse({'errno': 500, 'msg': "未找到令牌"})
+    try:
+        id = checkToken(token, 0)
+    except:
+        return JsonResponse({'errno': 501, 'msg': "无效的令牌"})
+    if id == -1:
+        return JsonResponse({'errno': 501, 'msg': "无效的令牌"})
+    if id == -2:
+        return JsonResponse({'errno': 502, 'msg': "登录已过期"})
+    if id == -3:
+        return JsonResponse({'errno': 503, 'msg': "用户不存在"})
+    if id == -4:
+        return JsonResponse({'errno': 504, 'msg': "用户已注销或已在别处登录"})
+    user=Author.objects.get(id=id)
+    username=user.username
+    sex=user.sex
+    if sex is None:
+        sex='未知'
+        user.sex='未知'
+        user.save()
+    birthday=user.birthday
+    if birthday is None:
+        birthday=''
+    email=user.email
+    discription=user.discription
+    if discription is None:
+        discription=''
+    return JsonResponse({'errno': 0, 'msg': "获取信息成功",'username':username,'email':email,'sex':sex,'birthday':birthday,'description':discription})
 @csrf_exempt
-def article_edit(request):
-    if request.method == 'POST':
-        op=request.POST.get('op') #1代表新发布，2代表修改，3代表查询状态
-        condition=request.POST.get('condition')
-        operator=request.session.get('username')
-        title = request.POST.get('title')
-        description = request.POST.get('description')
-        body = request.POST.get('body')
-        id=request.POST.get('id')
-        aitem=Author.objects.get(username=operator)
-        if op is None:
-            return JsonResponse({'errno': 2002, 'msg': "参数错误：缺少操作类型"})
-        if op=="1":
-            if title is None or body is None:
-                return JsonResponse({'errno': 2001, 'msg': "对于新建文章操作，至少需要传入文章title、body信息"})
-            new_article=Article(publisher_id=aitem.id,title=title,body=body,condition=0)
-            if description is not None:
-                new_article.description=description
-            new_article.save()
-            return JsonResponse({'errno': 0, 'msg': "文章生成成功",'data':new_article.id})
-        elif op=="2":
-            if title is None or body is None or id is None:
-                return JsonResponse({'errno': 2001, 'msg': "对于修改文章操作，至少需要传入文章title、body信息和文章id"})
-            try:
-                item=Article.objects.get(id=id)
-            except:
-                return JsonResponse({'errno': 1001, 'msg': "文章未找到"})
-            if aitem.id!=item.publisher_id:
-                return JsonResponse({'errno': 1002, 'msg': "非作者本人不可修改"})
-            item.title=title
-            item.body=body
-            item.description=description
-            item.description=None
-            item.condition=0
-            item.save()
-            return JsonResponse({'errno': 0, 'msg': "文章修改成功"})
-        elif op=="3":
-            if condition is None:
-                return JsonResponse({'errno': 2001, 'msg': "对于查询文章状态操作，需要传入文章condition"})
-            try:
-                items=Article.objects.filter(publisher_id=aitem.id,condition=condition)
-            except:
-                return JsonResponse({'errno': 1003, 'msg': "未知异常"})
-            list=[]
-            for i in items:
-                if i.description is None:
-                    list.append({"title":i.title,"create_time":i.firstCreate})
-                else:
-                    list.append({"title":i.title,"description":i.description,"create_time":i.firstCreate})
-            if len(list)==0:
-                return JsonResponse({'errno': 0, 'msg': "未查找到对应的文章"})
-            return JsonResponse({'errno': 0, 'msg': "查询成功",'data':str(list)})
-        return JsonResponse({'errno': 1004, 'msg': "操作类型错误"})
-    else:
+def setSelfUsername(request):
+    if request.method != 'POST':
         return JsonResponse({'errno': 1001, 'msg': "请求方式错误"})
+    token = request.POST.get('token')
+    if token is None:
+        return JsonResponse({'errno': 500, 'msg': "未找到令牌"})
+    try:
+        id = checkToken(token, 0)
+    except:
+        return JsonResponse({'errno': 501, 'msg': "无效的令牌"})
+    if id == -1:
+        return JsonResponse({'errno': 501, 'msg': "无效的令牌"})
+    if id == -2:
+        return JsonResponse({'errno': 502, 'msg': "登录已过期"})
+    if id == -3:
+        return JsonResponse({'errno': 503, 'msg': "用户不存在"})
+    if id == -4:
+        return JsonResponse({'errno': 504, 'msg': "用户已注销或已在别处登录"})
+    user=Author.objects.get(id=id)
+    username=request.POST.get('username')
+    if username is None or username=='':
+        return JsonResponse({'errno': 1002, 'msg': "用户名不能为空"})
+    for i in username:
+        if not (i >= 'a' and i <= 'z') and not (i >= 'A' and i <= 'Z') and not (i >= '0' and i <= '9'):
+            return JsonResponse({'errno': 1003, 'msg': "用户名不合法"})
+    try:
+        temp = Author.objects.get(username=username)
+    except:
+        None
+    else:
+        return JsonResponse({'errno': 1004, 'msg': "该用户名已被使用"})
+    user.username=username
+    user.save()
+    return JsonResponse({'errno': 0, 'msg': "昵称修改成功"})
 @csrf_exempt
-def changeCondition(request):
-    if request.method == 'POST':
-        id=request.POST.get('id')
-        condition=request.POST.get('condition')
-        if request.session.get('username')!="Administrator":
-            return JsonResponse({'errno': 1002, 'msg': "非管理员不可操作"})
-        if id is None or condition is None:
-            return JsonResponse({'errno': 2001, 'msg': "需要文章id和需要修改成的condition"})
-        if condition!="-1" and condition !="1" and condition!="0":
-            return JsonResponse({'errno': 1003, 'msg': "输入的condition不正确"})
-        try:
-            item=Article.objects.get(id=id)
-        except:
-            return JsonResponse({'errno': 1003, 'msg': "文章未找到"})
-        item.condition=condition
-        item.save()
-        return JsonResponse({'errno': 0, 'msg': "修改文章状态成功"})
-    else:
+def setSelfEmail(request):
+    if request.method != 'POST':
         return JsonResponse({'errno': 1001, 'msg': "请求方式错误"})
+    token = request.POST.get('token')
+    if token is None:
+        return JsonResponse({'errno': 500, 'msg': "未找到令牌"})
+    try:
+        id = checkToken(token, 0)
+    except:
+        return JsonResponse({'errno': 501, 'msg': "无效的令牌"})
+    if id == -1:
+        return JsonResponse({'errno': 501, 'msg': "无效的令牌"})
+    if id == -2:
+        return JsonResponse({'errno': 502, 'msg': "登录已过期"})
+    if id == -3:
+        return JsonResponse({'errno': 503, 'msg': "用户不存在"})
+    if id == -4:
+        return JsonResponse({'errno': 504, 'msg': "用户已注销或已在别处登录"})
+    user=Author.objects.get(id=id)
+    email=request.POST.get('email')
+    if email is None or email=='':
+        return JsonResponse({'errno': 1002, 'msg': "邮箱不能为空"})
+    try:
+        validate_email(email)
+    except ValidationError:
+        return JsonResponse({'errno': 1003, 'msg': "邮箱不合法"})
+    try:
+        temp = Author.objects.get(email=email)
+    except:
+        None
+    else:
+        return JsonResponse({'errno': 1004, 'msg': "该邮箱已被注册"})
+    user.email=email
+    user.save()
+    return JsonResponse({'errno': 0, 'msg': "邮箱修改成功"})
 @csrf_exempt
-def changeUsername(request):
-    if request.method == 'POST':
-        if not request.session.has_key('email'):
-            return JsonResponse({'errno': 1101, 'msg': "请先登录"})
-        username=request.POST.get('username')
-        if username is None:
-            return JsonResponse({'errno': 2001, 'msg': "未输入新名称"})
-        item=Author.objects.get(email=request.session.get('email'))
-        if username==item.username:
-            return JsonResponse({'errno': 1003, 'msg': "名称未修改"})
-        item.username=username
-        item.save()
-        return JsonResponse({'errno': 0, 'msg': "名称修改成功"})
-    else:
+def setSelfSex(request):
+    if request.method != 'POST':
         return JsonResponse({'errno': 1001, 'msg': "请求方式错误"})
+    token = request.POST.get('token')
+    if token is None:
+        return JsonResponse({'errno': 500, 'msg': "未找到令牌"})
+    try:
+        id = checkToken(token, 0)
+    except:
+        return JsonResponse({'errno': 501, 'msg': "无效的令牌"})
+    if id == -1:
+        return JsonResponse({'errno': 501, 'msg': "无效的令牌"})
+    if id == -2:
+        return JsonResponse({'errno': 502, 'msg': "登录已过期"})
+    if id == -3:
+        return JsonResponse({'errno': 503, 'msg': "用户不存在"})
+    if id == -4:
+        return JsonResponse({'errno': 504, 'msg': "用户已注销或已在别处登录"})
+    user=Author.objects.get(id=id)
+    sex=request.POST.get('sex')
+    if sex is None or sex=='':
+        return JsonResponse({'errno': 1002, 'msg': "性别不能为空"})
+    if sex!='男' and sex!='女' and sex!='未知':
+        return JsonResponse({'errno': 1003, 'msg': "传入的性别异常"})
+    user.sex=sex
+    user.save()
+    return JsonResponse({'errno': 0, 'msg': "性别修改成功"})
 @csrf_exempt
-def changePassword(request):
-    if request.method == 'POST':
-        if not request.session.has_key('email'):
-            return JsonResponse({'errno': 1101, 'msg': "请先登录"})
-        oldPassword=request.POST.get('oldPassword')
-        newPassword1 = request.POST.get('newPassword1')
-        newPassword2 = request.POST.get('newPassword2')
-        if oldPassword is None or newPassword1 is None or newPassword2 is None:
-            return JsonResponse({'errno': 2001, 'msg': "输入参数不足"})
-        item=Author.objects.get(email=request.session['email'])
-        if oldPassword!=item.password:
-            return JsonResponse({'errno': 1002, 'msg': "旧密码输入错误"})
-        if newPassword1!=newPassword2:
-            return JsonResponse({'errno': 1003, 'msg': "两次新密码输入不相等"})
-        if oldPassword==newPassword1:
-            return JsonResponse({'errno': 1004, 'msg': "新密码不能与旧密码相同"})
-        numFlag = 0
-        engFlag = 0
-        len = 0
-        for i in newPassword1:
-            len = len + 1
-            if i >= '0' and i <= '9':
-                numFlag = 1
-            elif (i >= 'a' and i <= 'z') or (i >= 'A' and i <= 'Z'):
-                engFlag = 1
-        if numFlag == 0 or engFlag == 0 or len < 8 or len > 18:
-            return JsonResponse({'errno': 1005, 'msg': "新密码不合法"})
-        item.password=newPassword1
-        item.save()
-        return JsonResponse({'errno': 0, 'msg': "密码修改成功"})
-    else:
+def setSelfBirthday(request):
+    if request.method != 'POST':
         return JsonResponse({'errno': 1001, 'msg': "请求方式错误"})
+    token = request.POST.get('token')
+    if token is None:
+        return JsonResponse({'errno': 500, 'msg': "未找到令牌"})
+    try:
+        id = checkToken(token, 0)
+    except:
+        return JsonResponse({'errno': 501, 'msg': "无效的令牌"})
+    if id == -1:
+        return JsonResponse({'errno': 501, 'msg': "无效的令牌"})
+    if id == -2:
+        return JsonResponse({'errno': 502, 'msg': "登录已过期"})
+    if id == -3:
+        return JsonResponse({'errno': 503, 'msg': "用户不存在"})
+    if id == -4:
+        return JsonResponse({'errno': 504, 'msg': "用户已注销或已在别处登录"})
+    user=Author.objects.get(id=id)
+    birthday=request.POST.get('birthday')
+    if birthday is None:
+        return JsonResponse({'errno': 1002, 'msg': "未传入出生日期"})
+    if birthday=='':
+        user.birthday=None
+    else:
+        user.birthday=birthday
+    user.save()
+    return JsonResponse({'errno': 0, 'msg': "生日修改成功"})
+@csrf_exempt
+def setSelfDiscription(request):
+    if request.method != 'POST':
+        return JsonResponse({'errno': 1001, 'msg': "请求方式错误"})
+    token = request.POST.get('token')
+    if token is None:
+        return JsonResponse({'errno': 500, 'msg': "未找到令牌"})
+    try:
+        id = checkToken(token, 0)
+    except:
+        return JsonResponse({'errno': 501, 'msg': "无效的令牌"})
+    if id == -1:
+        return JsonResponse({'errno': 501, 'msg': "无效的令牌"})
+    if id == -2:
+        return JsonResponse({'errno': 502, 'msg': "登录已过期"})
+    if id == -3:
+        return JsonResponse({'errno': 503, 'msg': "用户不存在"})
+    if id == -4:
+        return JsonResponse({'errno': 504, 'msg': "用户已注销或已在别处登录"})
+    user=Author.objects.get(id=id)
+    discription=request.POST.get('discription')
+    if discription is None:
+        return JsonResponse({'errno': 1002, 'msg': "未传入个人简介"})
+    if discription=='':
+        user.discription=None
+    else:
+        user.discription=discription
+    user.save()
+    return JsonResponse({'errno': 0, 'msg': "简介修改成功"})
