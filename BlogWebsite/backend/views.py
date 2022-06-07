@@ -347,3 +347,10 @@ def setSelfDiscription(request):
         user.discription=discription
     user.save()
     return JsonResponse({'errno': 0, 'msg': "简介修改成功"})
+@csrf_exempt
+def getBlog(request):
+    if request.method != 'POST':
+        return JsonResponse({'errno': 1001, 'msg': "请求方式错误"})
+    article = Article.objects.get(id=1)
+    blog = article.body
+    return JsonResponse({'errno': 0, 'msg': "请求成功", 'blog':blog})

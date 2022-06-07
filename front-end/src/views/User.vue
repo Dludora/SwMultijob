@@ -1,13 +1,13 @@
 <template>
-  <el-container>
+  <el-container class="user-container">
     <el-aside
-      width="200px">
+      width="200px"
+      class="user-aside">
       <el-menu
-          style="width: 200px; min-height: calc(100vh - 80px);"
+          style="width: 200px; height: 100%"
           active-text-color="#ffd04b"
           background-color="#545c64"
           class="el-menu-vertical-demo"
-          default-active="2"
           text-color="#fff"
           router
       >
@@ -17,7 +17,7 @@
         </el-menu-item>
       </el-menu>
     </el-aside>
-    <el-container>
+    <el-container class="user-main">
       <router-view />
     </el-container>
   </el-container>
@@ -28,6 +28,9 @@
 
 export default {
   name: "PersonalSpace",
+  created() {
+    this.$router.push('/user/profile')
+  },
   data() {
     return {
       items: [
@@ -58,6 +61,19 @@ export default {
 </script>
 
 <style scoped>
+.user-container {
+  height: calc(100% - 80px);
+  min-height: 600px;
+}
+.user-aside {
+  height: 100%;
+}
+.user-main {
+  height: 100%;
+}
+.is-active span {
+  color: #ffd04b;
+}
 .el-menu-item span{
   font-size: 20px;
   font-weight: bold;

@@ -2,10 +2,10 @@
     <el-main >
       <el-table :data="collections.slice((currentPage-1)*pagesize, currentPage*pagesize)"
                 stripe
-                style="width: 100%"
+                style="width: 1200px;"
                 height="530">
         <el-table-column fixed prop="blogName" label="博客名" width="700" />
-        <el-table-column prop="blogAuthor" label="作者" width="200" />
+        <el-table-column prop="blogAuthor" label="修改日期" width="200" />
         <el-table-column fixed="right" label="操作" width="270">
           <template #default="scope">
             <el-button type="text">修改文章</el-button>
@@ -22,6 +22,7 @@
         v-model:total=total
         layout="total, prev, pager, next, jumper"
         @current-change="handleCurrentChange"
+        style="margin-top: 45px"
       />
     </el-main>
 </template>

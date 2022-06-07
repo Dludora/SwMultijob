@@ -1,8 +1,8 @@
 <template>
-    <el-main >
-      <el-table :data="collections.slice((currentPage-1)*pagesize, currentPage*pagesize)"
+  <el-main>
+    <el-table :data="collections.slice((currentPage-1)*pagesize, currentPage*pagesize)"
                 stripe
-                style="width: 100%"
+                style="width: 1200px;"
                 height="530">
         <el-table-column fixed prop="blogName" label="博客名" width="700" />
         <el-table-column prop="blogAuthor" label="作者" width="200" />
@@ -21,9 +21,12 @@
         v-model:page-size=pagesize
         v-model:total=total
         layout="total, prev, pager, next, jumper"
+        style="margin-top: 45px"
         @current-change="handleCurrentChange"
       />
-    </el-main>
+  </el-main>
+
+
 </template>
 
 <script>
@@ -109,8 +112,7 @@ export default {
     },
     // 控制页面的切换
     handleCurrentChange(newSize) {
-        this.currentPage = newSize;
-        // this.load()
+      this.currentPage = newSize;
     },
     handleDelete(index) {
       this.collections.splice(index, 1)

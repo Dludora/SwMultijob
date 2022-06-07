@@ -10,17 +10,10 @@
         </router-link>
       </div>
       <div class="Header-nav">
-        <li>
-          <router-link to="/"><span>首页</span></router-link>
-        </li>
-        <li>
-          <router-link to="/user/profile">个人</router-link>
-        </li>
-        <li>
-          <router-link to="/editor">编辑</router-link>
-        </li>
-        <li>
-          <router-link to="/view">浏览</router-link>
+        <li v-for="link in links">
+          <router-link :to=link.path active-class="blue">
+          <span>{{link.name}}</span>
+          </router-link>
         </li>
         <Button label="分类" @click="visibleFull = true"  class="p-button-secondary"/>
       </div>
@@ -56,6 +49,24 @@ export default {
   data() {
     return {
       visibleFull: false,
+      links: [
+        {
+          path: "/",
+          name: '首页'
+        },
+        {
+          path: "/user",
+          name: '个人'
+        },
+        {
+          path: "/editor",
+          name: '编辑'
+        },
+        {
+          path: "/view",
+          name: '浏览'
+        },
+      ]
     }
   },
   computed: {
@@ -67,6 +78,9 @@ export default {
 </script>
 
 <style scoped>
+.blue span {
+  color: #4d90fe;
+}
 .Header {
   width: auto;
   height: 60px;
@@ -106,7 +120,6 @@ export default {
   flex: 1;
   display: flex;
   height: 100%;
-
   margin: 0;
 }
 .Header-nav li {
@@ -116,9 +129,11 @@ export default {
   display: inline-block;
   position: relative;
 }
+
 .Header-nav li:hover a{
   color: #4d90fe;
 }
+
 .Header-nav li a {
   line-height: 60px;
   text-decoration: none;
@@ -143,9 +158,11 @@ export default {
   display: inline-block;
   position: relative;
 }
+
 .top-menu li:hover a{
   color: #4d90fe;
 }
+
 
 .top-menu li a {
   border-top: 1px solid rgba(0,0,0,0);

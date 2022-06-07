@@ -5,10 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3426c93c-5207-4247-9a23-64fcd2b24d6a" name="Changes" comment="Changes">
-      <change beforePath="$PROJECT_DIR$/BlogWebsite/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/BlogWebsite/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/components/users/userMenu.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/users/userMenu.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/App.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/assets/style/reset.css" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/assets/style/reset.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/components/Header.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/Header.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/views/Blog/BlogView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/views/Blog/BlogView.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/views/User.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/views/User.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/views/User/collection-list.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/views/User/collection-list.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front-end/src/views/User/concerned.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/views/User/concerned.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front-end/src/views/User/myBlogs.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/views/User/myBlogs.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/views/User/profile.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/views/User/profile.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -131,7 +137,7 @@
       <workItem from="1654517262171" duration="1664000" />
       <workItem from="1654525371547" duration="6509000" />
       <workItem from="1654565368140" duration="11729000" />
-      <workItem from="1654593268689" duration="2358000" />
+      <workItem from="1654593268689" duration="16578000" />
     </task>
     <servers />
   </component>

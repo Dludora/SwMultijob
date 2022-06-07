@@ -15,9 +15,12 @@ export default {
 
 </script>
 <style>
-
-.headerBar {
-  width: 100%;
-  height: 50px;
+body {
+  background: #f5f6f7;
+  height: 100%;
 }
+html, body #app{
+  height: 100%;
+}
+
 </style>

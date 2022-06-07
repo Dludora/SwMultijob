@@ -17,7 +17,7 @@
       </template>
     </el-upload>
   </Dialog>
-  <div class="container-profile">
+  <el-main>
     <div class="general-info">
       <div class="general-info-avatar" @click="()=>{this.display=true}">
         <img :src=formPersonal.imgSrc>
@@ -143,7 +143,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </el-main>
 </template>
 
 <script>
@@ -315,13 +315,11 @@ export default {
   display: flex;
   width: 1200px;
   height: 160px;
-  margin: 10px 0;
+  margin-bottom: 10px;
   padding: 24px 24px 40px;
   background-color: #ffffff;
 }
-.hide {
-  /*display: none;*/
-}
+
 .general-info-avatar {
   flex-shrink: 0;
   position: relative;
@@ -364,10 +362,10 @@ export default {
   display: flex;
 }
 
-
 .general-info-name {
   padding: 24px;
 }
+
 .general-info-name span {
   font-weight: 900;
   font-size: 30px;
@@ -389,6 +387,8 @@ export default {
   border-bottom: 1px solid #f0f0f2;
 }
 .base-info-content {
+  background-color: #ffffff;
+  height: 400px;
   width: 100%;
   padding: 16px;
 }
@@ -396,12 +396,14 @@ export default {
   width: 1168px;
   padding: 16px 58px 16px 0;
 }
-
 .el-form-item {
   width: 700px;
   height: 35px;
+  margin-bottom: 23px;
 }
 .el-form-item label {
+  font-size: 20px;
+  font-weight: bold;
   line-height: 35px;
 }
 .el-form-item span {
