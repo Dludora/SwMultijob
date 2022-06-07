@@ -11,7 +11,7 @@
             <el-button type="text">修改文章</el-button>
             <el-button
                 @click="handleDelete(scope.$index)"
-                type="text">取消收藏</el-button>
+                type="text">删除文章</el-button>
           </template>
         </el-table-column>
       </el-table>

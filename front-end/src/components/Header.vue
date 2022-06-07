@@ -11,11 +11,8 @@
       </div>
       <div class="Header-nav">
         <li>
-          <router-link to="/">首页</router-link>
+          <router-link to="/"><span>首页</span></router-link>
         </li>
-<!--        <li>-->
-<!--          <router-link to="/about">关于</router-link>-->
-<!--        </li>-->
         <li>
           <router-link to="/user/profile">个人</router-link>
         </li>
@@ -71,7 +68,7 @@ export default {
 
 <style scoped>
 .Header {
-  width: 1536px;
+  width: auto;
   height: 60px;
   border-bottom: 1px solid #ccc;
   z-index: 1041;
@@ -83,13 +80,11 @@ export default {
   background-color: #f7fcfe;
 }
 
-
 .Header_main {
   display: flex;
   height: 100%;
   width: 100%;
 }
-
 
 .brand {
   width: 140px;
@@ -98,9 +93,6 @@ export default {
   margin-right: 16px;
 }
 .brand a {
-  display: inline-block;
-  width: 100%;
-  height: 100%;
   text-decoration: none;
   line-height: 60px;
   font-weight: 600;
@@ -109,12 +101,6 @@ export default {
 .brand:hover a{
   color: #4d90fe;
 }
-img {
-  height: 50%;
-  margin-top: 15px;
-  margin-left: 10px;
-}
-
 
 .Header-nav {
   flex: 1;
@@ -124,6 +110,7 @@ img {
   margin: 0;
 }
 .Header-nav li {
+  width: 80px;
   height: 100%;
   font-weight: 600;
   display: inline-block;
@@ -133,20 +120,10 @@ img {
   color: #4d90fe;
 }
 .Header-nav li a {
-  border-top: 1px solid rgba(0,0,0,0);
-  /*display: -ms-flexbox;*/
-  /*display: flex;*/
-  /*-ms-flex-align: center;*/
-  /*align-items: center;*/
-  padding: 0 24px;
   line-height: 60px;
-  height: 61px;
   text-decoration: none;
-  /*text-transform: uppercase;*/
-  margin-top: -1px;
   color: #161616;
   cursor: pointer;
-  text-align: center;
 }
 
 .search {

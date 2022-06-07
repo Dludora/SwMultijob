@@ -4,13 +4,9 @@
         :body-style="{padding: '5px'}"
         style="margin-top: 5px;"
         v-for="blogger in bloggers.slice((currentPage-1)*pagesize, currentPage*pagesize)">
-<!--      <el-col>-->
         <el-avatar :src="blogger.avatar" size="large"></el-avatar>
-<!--      </el-col>-->
-<!--      <el-col>-->
         {{blogger.nickname}}
       <el-button round>已关注</el-button>
-<!--      </el-col>-->
     </el-card>
     <el-pagination
         v-model:currentPage=currentPage
