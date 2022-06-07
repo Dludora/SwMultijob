@@ -2,7 +2,30 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2b945e8d-b309-4bda-b3b7-d7286dd9b8a6" name="变更" comment="cors 0.1">
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BlogWebsite/stars/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BlogWebsite/stars/admin.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BlogWebsite/stars/apps.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BlogWebsite/stars/migrations/0001_initial.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BlogWebsite/stars/migrations/0002_alter_stars_articleid_alter_stars_userid.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BlogWebsite/stars/migrations/0003_alter_stars_unique_together.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BlogWebsite/stars/migrations/0004_alter_stars_table.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BlogWebsite/stars/migrations/0005_alter_stars_articleid_alter_stars_userid.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BlogWebsite/stars/migrations/0006_alter_stars_table.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BlogWebsite/stars/migrations/0007_follow.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BlogWebsite/stars/migrations/0008_history.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BlogWebsite/stars/migrations/0009_delete_history.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BlogWebsite/stars/migrations/0010_history.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BlogWebsite/stars/migrations/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BlogWebsite/stars/models.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BlogWebsite/stars/tests.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BlogWebsite/stars/urls.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BlogWebsite/stars/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlogWebsite/BlogWebsite/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/BlogWebsite/BlogWebsite/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlogWebsite/BlogWebsite/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/BlogWebsite/BlogWebsite/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlogWebsite/backend/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/BlogWebsite/backend/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlogWebsite/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/BlogWebsite/db.sqlite3" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,16 +59,17 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.IDE.editor.colors.配色方案字体&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "settings.editor.selected.configurable": "preferences.pluginManager"
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected="Python.manage">
     <configuration name="manage" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="SwMultijob" />
@@ -113,6 +137,8 @@
       <workItem from="1654261488568" duration="1268000" />
       <workItem from="1654262903826" duration="1693000" />
       <workItem from="1654514505362" duration="77000" />
+      <workItem from="1654514909413" duration="12803000" />
+      <workItem from="1654569843117" duration="34653000" />
     </task>
     <task id="LOCAL-00001" summary="cors 0.1">
       <created>1654266791035</created>
@@ -145,6 +171,6 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/SwMultijob$views.coverage" NAME="views 覆盖结果" MODIFIED="1653557530741" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/BlogWebsite/backend" />
-    <SUITE FILE_PATH="coverage/SwMultijob$manage.coverage" NAME="manage 覆盖结果" MODIFIED="1654092374234" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/BlogWebsite" />
+    <SUITE FILE_PATH="coverage/SwMultijob$manage.coverage" NAME="manage 覆盖结果" MODIFIED="1654573757389" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/BlogWebsite" />
   </component>
 </project>
