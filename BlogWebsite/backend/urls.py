@@ -11,5 +11,10 @@ urlpatterns = [
     path('setSelfSex',setSelfSex),#修改性别，传入sex，只能是‘男’‘女’或‘未知’
     path('setSelfBirthday',setSelfBirthday),#修改生日，传入birthday
     path('setSelfDiscription',setSelfDiscription), #修改个人简介，传入discription
-    path('setSelfAvatar', setSelfAvatar)  # 修改头像，传入avatar
+    path('setSelfAvatar', setSelfAvatar),  # 修改头像，传入avatar
+    path('addImg', addImg), #上传文章所需图片，传入img，可选传入articleId
+    path('publish', publish), #发布文章，传入title(标题)、body(正文)、label(标签)、discription(简介，可选)，
+                              #若非初次发布，则需传入articleId
+    path('getEdit', getEdit), #编辑文章前获取文章信息，传入articleId，传回title(标题)、body(正文)、label(标签)、discription(简介)
+    path('deleteArticle', deleteArticle) #传入articleId，删除自己所写的文章
 ]
