@@ -69,7 +69,7 @@ export default {
   },
   data() {
     return {
-      goTop: false,
+      blogId: null,
       blogForm: {
         author: {
           nickName: 'Dludora',
@@ -267,6 +267,10 @@ export default {
     }
   },
   created() {
+    this.blogId = this.$route.params.blogId
+    const formData = new FormData()
+    formData.append('blogId',this.blogId)
+    formData.append('token', this.$store.state.user.token)
     // axios({
     //   method: 'post',
     //   url: 'getBlog'

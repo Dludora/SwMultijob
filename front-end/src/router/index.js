@@ -41,20 +41,14 @@ const routes = [
     }
   },
   {
-    path: '/view',
+    path: '/view:blogId',
     name: 'view',
     component: View,
-    meta: {
-      isLogin: false,
-    }
   },
   {
     path: '/user',
     name: 'user',
     component: User,
-    meta: {
-      isLogin: true,
-    },
     children: [
         {
           path: 'profile',

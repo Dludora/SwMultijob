@@ -2,22 +2,24 @@
   <el-main style="height: 650px">
     <div class="cards">
       <el-card
+          v-if="follow_user_list.length !== 0"
           :body-style="{padding: '3px'}"
           style="margin-bottom: 10px;"
-          v-for="blogger in bloggers.slice((currentPage-1)*pagesize, currentPage*pagesize)">
+          v-for="blogger in follow_user_list.slice((currentPage-1)*pagesize, currentPage*pagesize)">
         <div class="card-container">
           <div>
-            <el-avatar :src="blogger.avatar"
+            <el-avatar :src="blogger.followAvatar"
                      size="large"
                      class="blogger-avatar"
                     @click="showBlogger(blogger)"/>
           </div>
           <div class="blogger-message">
-            <span class="nickname">{{blogger.nickname}}</span>
+            <span class="nickname">{{blogger.followName}}</span>
           </div>
-          <el-button round>已关注</el-button>
+          <el-button round @click="cancelFollow(blogger)">已关注</el-button>
         </div>
       </el-card>
+      <span v-else>暂无关注</span>
     </div>
     <el-pagination
         v-model:currentPage=currentPage
@@ -31,77 +33,62 @@
 </template>
 
 <script>
+import axios from "axios";
+import {ElMessage} from "element-plus";
+
 export default {
   name: "concerned",
   data() {
     return {
-      bloggers: [
-        {
-          id: 1,
-          avatar: require('../../assets/head.png'),
-          nickname: 'xxx'
-        },
-        {
-          id: 1,
-          avatar: require('../../assets/head.png'),
-          nickname: 'xxx'
-        },
-        {
-          id: 1,
-          avatar: require('../../assets/head.png'),
-          nickname: 'xxx'
-        },
-        {
-          id: 1,
-          avatar: require('../../assets/head.png'),
-          nickname: 'xxx'
-        },
-        {
-          id: 1,
-          avatar: require('../../assets/head.png'),
-          nickname: 'xxx'
-        },
-        {
-          id: 1,
-          avatar: require('../../assets/head.png'),
-          nickname: 'xxx'
-        },
-        {
-          id: 1,
-          avatar: require('../../assets/head.png'),
-          nickname: 'xxx'
-        },
-        {
-          id: 1,
-          avatar: require('../../assets/head.png'),
-          nickname: 'xxx'
-        },
-        {
-          id: 1,
-          avatar: require('../../assets/head.png'),
-          nickname: 'xxx'
-        },
-        {
-          id: 1,
-          avatar: require('../../assets/head.png'),
-          nickname: 'xxx'
-        },
-
-
-
-
-      ],
+      follow_user_list: [],
       currentPage: 1,
       total: 20,
       pagesize: 7,
     }
   },
+  created() {
+    this.load()
+  },
   methods: {
+    load() {
+      const formData = new FormData();
+      formData.append('token', this.$store.state.user.token)
+      axios({
+        method: 'post',
+        url: 'stars/get_follow_list',
+        data: formData
+      }).then(res => {
+        console.log(res.data)
+        if(res.data.errno === 1002) {
+          this.follow_user_list = []
+          this.total = 0
+        } else if(res.data.errno === 0) {
+          this.follow_user_list = res.data.follow_user_list
+          this.total = res.data.size
+        }
+      }).catch(err =>{
+        console.log(err)
+        ElMessage.error('加载关注列表失败')
+      })
+    },
     handleCurrentChange(newSize) {
         this.currentPage = newSize;
     },
-    showBlogger(blogger) {
-      console.log(blogger)
+    cancelFollow(blogger) {
+      const followId = blogger.followId
+      const formData = new FormData();
+      formData.append('token', this.$store.state.user.token)
+      formData.append('followId', followId)
+      axios({
+        method: 'post',
+        url: 'stars/delFollow',
+        data: formData
+      }).then(res => {
+        ElMessage.success(res.data.msg)
+        this.load()
+      }).catch(err => {
+        ElMessage.error('取消关注失败')
+      })
     }
   }
 }

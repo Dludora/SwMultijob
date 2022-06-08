@@ -62,12 +62,11 @@ export default {
           path: "/editor",
           name: '编辑'
         },
-        {
-          path: "/view",
-          name: '浏览'
-        },
       ]
     }
+  },
+  created() {
+
   },
   computed: {
     isLogin() {

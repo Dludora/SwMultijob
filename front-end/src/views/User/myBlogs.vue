@@ -1,14 +1,14 @@
 <template>
     <el-main >
-      <el-table :data="collections.slice((currentPage-1)*pagesize, currentPage*pagesize)"
+      <el-table :data="blogs.slice((currentPage-1)*pagesize, currentPage*pagesize)"
                 stripe
                 style="width: 1200px;"
                 height="530">
         <el-table-column fixed prop="blogName" label="博客名" width="700" />
-        <el-table-column prop="blogAuthor" label="修改日期" width="200" />
+        <el-table-column prop="modifyTime" label="修改日期" width="200" />
         <el-table-column fixed="right" label="操作" width="270">
           <template #default="scope">
-            <el-button type="text">修改文章</el-button>
+            <el-button type="text" @click="modify(scope.$index)">修改文章</el-button>
             <el-button
                 @click="handleDelete(scope.$index)"
                 type="text">删除文章</el-button>
@@ -40,62 +40,12 @@ export default {
   },
   data() {
     return {
-      collections: [
+      blogs: [
         {
-          blogName: '愚蠢',
-          blogAuthor: '张三',
-          blogUrl: '',
-        },
-        {
-          blogName: '呆瓜',
-          blogAuthor: '李四',
-          blogUrl: '',
-        },
-        {
-          blogName: '傻子',
-          blogAuthor: '王五',
-          blogUrl: '',
-        },
-          {
-          blogName: '傻子',
-          blogAuthor: '王五',
-          blogUrl: '',
-        },
-        {
-          blogName: '傻子',
-          blogAuthor: '王五',
-          blogUrl: '',
-        },
-        {
-          blogName: '傻子',
-          blogAuthor: '王五',
-          blogUrl: '',
-        },
-        {
-          blogName: '傻子',
-          blogAuthor: '王五',
-          blogUrl: '',
-        },
-        {
-          blogName: '傻子',
-          blogAuthor: '王五',
-          blogUrl: '',
-        },
-        {
-          blogName: '傻子',
-          blogAuthor: '王五',
-          blogUrl: '',
-        },
-        {
-          blogName: '傻子',
-          blogAuthor: '王五',
-          blogUrl: '',
-        },
-        {
-          blogName: '傻子',
-          blogAuthor: '王五',
-          blogUrl: '',
-        },
+          blogName: 'ss',
+          modifyTime: '2022-05-01',
+          blogId: 1,
+        }
       ],
       // 是否加载数据
       total: 100,         // 总数居条数
@@ -115,6 +65,9 @@ export default {
     },
     handleDelete(index) {
       this.collections.splice(index, 1)
+    },
+    modify(index) {
+      this.$router.push({name: 'view', params: {blogId: 1}})
     }
   },
 

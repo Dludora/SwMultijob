@@ -1,10 +1,14 @@
 <template>
   <Dialog header="上传头像" v-model:visible="display">
     <el-upload
+        :limit="1"
+        :on-remove="handleRemove"
+        :on-change="handleChange"
+        :before-upload="beforeUpload"
+        action="#"
         class="upload-demo"
         drag
-        action="https://jsonplaceholder.typicode.com/posts/"
-        :http-request="Upload"
+        :http-request="setSelfAvatar"
     >
       <el-icon class="el-icon--upload"><upload-filled /></el-icon>
       <div class="el-upload__text">
@@ -186,40 +190,38 @@ export default {
   },
   methods: {
     load() {
-    const formData = new FormData();
-    formData.append('token', this.$store.state.user.token)
-    // console.log(formData)
-    axios({
-      method: 'post',
-      url: 'backend/getSelfInformation',
-      data: formData
-    }).then(res => {
-      if(res.data.errno === 0) {
-        this.formPersonal = {
-          imgSrc: require('../../assets/head.png'),
-          nickName: res.data.username,
-          sex: res.data.sex,
-          birthday: res.data.birthday,
-          resume: res.data.description,
-          email: res.data.email
-        };
-        this.formEdit = {
-          imgSrc: require('../../assets/head.png'),
-          nickName: res.data.username,
-          sex: res.data.sex,
-          birthday: res.data.birthday,
-          resume: res.data.description,
-          email: res.data.email
+      const formData = new FormData();
+      formData.append('token', this.$store.state.user.token)
+      axios({
+        method: 'post',
+        url: 'backend/getSelfInformation',
+        data: formData
+      }).then(res => {
+        if(res.data.errno === 0) {
+          this.formPersonal = {
+            imgSrc: res.data.avatar,
+            nickName: res.data.username,
+            sex: res.data.sex,
+            birthday: res.data.birthday,
+            resume: res.data.discription,
+            email: res.data.email
+          };
+          this.formEdit = {
+            imgSrc: require('../../assets/head.png'),
+            nickName: res.data.username,
+            sex: res.data.sex,
+            birthday: res.data.birthday,
+            resume: res.data.discription,
+            email: res.data.email
+          }
+        } else {
+          ElMessage(res.data.msg);
         }
-      } else {
-        console.log(this.$store.state.user.token)
-        ElMessage(res.data.msg);
       }
-    }
-    ).catch(err => {
-      ElMessage('获取个人信息失败');
-      console.log(err)
-    })
+      ).catch(err => {
+        ElMessage('获取个人信息失败');
+        console.log(err)
+      })
     },
     setSelfUsername() {
       const formData = new FormData();
@@ -300,6 +302,46 @@ export default {
         }
         ElMessage(res.data.msg);
       })
+    },
+    setSelfAvatar(file) {
+      console.log(file.file)
+      const formData = new FormData();
+      formData.append('token', this.$store.state.user.token)
+      formData.append('avatar', file.file)
+      axios({
+        method: 'post',
+        url: 'backend/setSelfAvatar',
+        data: formData
+      }).then(res => {
+        console.log(res)
+        if(res.data.errno === 0) {
+          ElMessage.success('修改头像成功')
+          this.display = false
+          this.load()
+        } else {
+          ElMessage.error(res.data.msg)
+        }
+      }).catch(err => {
+        ElMessage.error('修改头像失败')
+      })
+    },
+    beforeUpload(file) {
+      // console.log(file)
+      // 先检查文件类型
+      const imgType = ['image/webp', 'image/png', 'image/jpeg', 'image/jpg']
+      if (!imgType.some(item => item === file.type)) {
+      // if (!imgType.includes(file.type)) {
+        // 如果不存在
+        ElMessage.error('请检查上传的图片格式是否为webp/png/jpeg/jpg格式')
+        return false// 上传停止
+      }
+      // 其次检查文件大小,不能超过5M
+      const maxSize = 5 * 1024 * 1024
+      if (file.size > maxSize) {
+        ElMessage.error('上传的文件大小不能大于5M!')
+        return false
+      }
+      return true
     },
   },
   created() {

@@ -130,7 +130,7 @@ def register(request):  # 继承请求类
             return JsonResponse({'errno': 1005, 'msg': "密码不合法"})
         # 新建 Author 对象，赋值用户名和密码并保存
         md5_str = hashlib.md5(password_1.encode()).hexdigest()
-        new_author = Author(username=username, password=md5_str, email=email)
+        new_author = Author(username=username, password=md5_str, email=email,avatar="img/default_img.png")
         new_author.save()  # 一定要save才能保存到数据库中
         return JsonResponse({'errno': 0, 'msg': "注册成功"})
     else:
@@ -196,7 +196,6 @@ def getSelfInformation(request):
         return JsonResponse({'errno': 500, 'msg': "未找到令牌"})
     try:
         id = TK.checkToken(token, 0)
-
     except:
         print('-----try_failed-----')
         return JsonResponse({'errno': 501, 'msg': "无效的令牌"})
@@ -224,7 +223,7 @@ def getSelfInformation(request):
         discription = ''
     avatar = user.avatar
     if avatar is None:
-        avatarAddr = ''
+        avatarAddr = "http://127.0.0.1:8000/user_img/img/default_img.png"
     else:
         avatarAddr = avatar.path
         avatarAddr = avatarAddr.split('\\')
@@ -432,7 +431,7 @@ def setSelfAvatar(request):
         user.save()
     except:
         return JsonResponse({'errno': 1002, 'msg': "头像上传失败"})
-    if oldAvatar is not None:
+    if oldAvatar is not None and oldAvatar!="img/default_img.png":
         try:
             os.remove(oldAvatar.path)
         except:

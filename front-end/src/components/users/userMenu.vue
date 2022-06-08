@@ -4,7 +4,7 @@
       <template #dropdown>
         <el-dropdown-menu>
           <el-dropdown-item v-for="mi in userMenus">
-            <router-link :to=mi.to>{{mi.label}}</router-link>
+            <router-link :to=mi.to active-class="act">{{mi.label}}</router-link>
           </el-dropdown-item>
           <el-dropdown-item>
             <a href="#" @click="logout">退出登录</a>
@@ -15,6 +15,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "userMenu",
   data() {
@@ -44,6 +46,18 @@ export default {
       ]
     }
   },
+  mounted() {
+    this.$getRequest
+    const formData = new FormData();
+    formData.append('token', this.$store.state.user.token)
+    axios({
+        method: 'post',
+        url: 'backend/getSelfInformation',
+        data: formData
+    }).then(res => {
+      this.src = res.data.avatar
+    })
+  },
   methods: {
     logout() {
       this.$store.commit('clearToken');
@@ -53,8 +67,22 @@ export default {
 </script>
 
 <style scoped>
+
 .avater {
   margin: auto;
   cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+  color: #1f2329;
+}
+
+a:hover {
+  color: #4d90fe;
+}
+
+.act span {
+  color: #4d90fe;
 }
 </style>
