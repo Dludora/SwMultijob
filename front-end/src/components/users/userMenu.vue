@@ -47,7 +47,7 @@ export default {
   computed: {
     avatar_src: function() {
       if(!this.$store.state.user.avatar)
-        return 'http://127.0.0.1:8000/user_img/img/default_img.png'
+        return 'http://127.0.0.1:8000/img/user_img/default_img.png'
       return this.$store.state.user.avatar
     }
   },

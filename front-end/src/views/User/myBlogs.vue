@@ -1,9 +1,12 @@
 <template>
-    <el-main >
+    <el-main>
+      <el-button style="margin-bottom: 20px" @click="this.$router.push({name: 'editor', params: {blogId: -1}})">
+        新增博客
+      </el-button>
       <el-table :data="blogs.slice((currentPage-1)*pagesize, currentPage*pagesize)"
                 stripe
                 style="width: 1200px;"
-                height="530">
+                height="480">
         <el-table-column fixed prop="blogName" label="博客名" width="700" />
         <el-table-column prop="modifyTime" label="修改日期" width="200" />
         <el-table-column fixed="right" label="操作" width="270">
@@ -51,7 +54,7 @@ export default {
       total: 100,         // 总数居条数
       query: '',     // 查询参数
       currentPage: 1,    // 当前页码
-      pagesize: 10,       // 每页显示条数
+      pagesize: 8,       // 每页显示条数
     }
   },
   methods: {
@@ -67,7 +70,7 @@ export default {
       this.collections.splice(index, 1)
     },
     modify(index) {
-      this.$router.push({name: 'view', params: {blogId: 1}})
+      this.$router.push({name: 'view', params: {blogId: -1}})
     }
   },
 

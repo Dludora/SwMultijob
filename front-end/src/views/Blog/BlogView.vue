@@ -267,21 +267,25 @@ export default {
     }
   },
   created() {
-    this.blogId = this.$route.params.blogId
-    const formData = new FormData()
-    formData.append('blogId',this.blogId)
-    formData.append('token', this.$store.state.user.token)
-    // axios({
-    //   method: 'post',
-    //   url: 'getBlog'
-    // }).then(res => {
-    //   this.blogForm.text = res.data.blog;
-    //   // console.log(res)
-    // }).catch(err => {
-    //   console.log(err)
-    // })
+    this.load()
   },
   methods: {
+    load() {
+      this.blogId = this.$route.params.blogId
+      console.log(this.blogId)
+      const formData = new FormData()
+      formData.append('blogId',this.blogId)
+      formData.append('token', this.$store.state.user.token)
+      // axios({
+      //   method: 'post',
+      //   url: 'getBlog'
+      // }).then(res => {
+      //   this.blogForm.text = res.data.blog;
+      //   // console.log(res)
+      // }).catch(err => {
+      //   console.log(err)
+      // })
+    }
   }
 }
 </script>

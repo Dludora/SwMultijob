@@ -33,7 +33,7 @@ const routes = [
     }
   },
   {
-    path: '/editor',
+    path: '/editor:blogId',
     name: 'editor',
     component: Editor,
     meta: {

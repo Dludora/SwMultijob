@@ -1,9 +1,10 @@
 # publish/views.py
 import os
+import re
 
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from backend.models import Author, Article  # 引入数据库 Author 对象
+from backend.models import Author, Article,ImgInArticle
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from jwt import PyJWT
@@ -130,7 +131,7 @@ def register(request):  # 继承请求类
             return JsonResponse({'errno': 1005, 'msg': "密码不合法"})
         # 新建 Author 对象，赋值用户名和密码并保存
         md5_str = hashlib.md5(password_1.encode()).hexdigest()
-        new_author = Author(username=username, password=md5_str, email=email,avatar="img/default_img.png")
+        new_author = Author(username=username, password=md5_str, email=email,avatar="user_img/default_img.png")
         new_author.save()  # 一定要save才能保存到数据库中
         return JsonResponse({'errno': 0, 'msg': "注册成功"})
     else:
@@ -156,6 +157,14 @@ def login(request):
             author.save()
             encoded = PyJWT().encode({'userid': (str)(author.id), 'time': (str)(now_time)}, TK.secretKey,
                                      algorithm="HS256")
+            imgs = ImgInArticle.objects.filter(userId=author.id)
+            for img in imgs:
+                try:
+                    os.remove(img.img.path)
+                    print(img.img.path+" is removed")
+                except:
+                    None
+                img.delete()
             if type(encoded) == type("str"):
                 return JsonResponse({'errno': 0, 'msg': "登录成功", 'token': encoded})
             return JsonResponse({'errno': 0, 'msg': "登录成功", 'token': (str)(encoded, encoding='utf-8')})
@@ -184,6 +193,14 @@ def logout(request):
         return JsonResponse({'errno': 503, 'msg': "用户不存在"})
     if id == -4:
         return JsonResponse({'errno': 504, 'msg': "用户已注销或已在别处登录"})
+    imgs = ImgInArticle.objects.filter(userId=id)
+    for img in imgs:
+        try:
+            os.remove(img.img.path)
+            print(img.img.path + " is removed")
+        except:
+            None
+        img.delete()
     return JsonResponse({'errno': 0, 'msg': "注销成功"})
 
 
@@ -196,6 +213,7 @@ def getSelfInformation(request):
         return JsonResponse({'errno': 500, 'msg': "未找到令牌"})
     try:
         id = TK.checkToken(token, 0)
+
     except:
         print('-----try_failed-----')
         return JsonResponse({'errno': 501, 'msg': "无效的令牌"})
@@ -223,12 +241,12 @@ def getSelfInformation(request):
         discription = ''
     avatar = user.avatar
     if avatar is None:
-        avatarAddr = "http://127.0.0.1:8000/user_img/img/default_img.png"
+        avatarAddr = ''
     else:
         avatarAddr = avatar.path
         avatarAddr = avatarAddr.split('\\')
         avatarAddr = avatarAddr[len(avatarAddr) - 1]
-        avatarAddr = "http://127.0.0.1:8000/user_img/img/" + avatarAddr
+        avatarAddr = "http://127.0.0.1:8000/img/user_img/" + avatarAddr
     return JsonResponse(
         {'errno': 0, 'msg': "获取信息成功", 'username': username, 'email': email, 'sex': sex, 'birthday': birthday,
          'discription': discription, 'avatar': avatarAddr})
@@ -431,9 +449,140 @@ def setSelfAvatar(request):
         user.save()
     except:
         return JsonResponse({'errno': 1002, 'msg': "头像上传失败"})
-    if oldAvatar is not None and oldAvatar!="img/default_img.png":
+    if oldAvatar is not None and oldAvatar!="user_img/default_img.png":
         try:
             os.remove(oldAvatar.path)
         except:
             None
     return JsonResponse({'errno': 0, 'msg': "头像修改成功"})
+@csrf_exempt
+def addImg(request):
+    if request.method != 'POST':
+        return JsonResponse({'errno': 1001, 'msg': "请求方式错误"})
+    token = request.POST.get('token')
+    userId = TK.check_token_return(token, 0)
+    if not isinstance(userId, str):
+        return userId
+    img=request.FILES.get('img')
+    if img is None:
+        return JsonResponse({'errno': 1002, 'msg': "未传入图片"})
+    new_img=ImgInArticle(img=img,userId=userId)
+    articleId=request.POST.get('articleId')
+    if articleId is not None:
+        new_img.articleId=articleId
+    else:
+        new_img.articleId=None
+    new_img.save()
+    Addr = new_img.img.path
+    Addr = Addr.split('\\')
+    Addr = Addr[len(Addr) - 1]
+    Addr = "http://127.0.0.1:8000/img/article_img/"+Addr
+    new_img.url=Addr
+    new_img.save()
+    return JsonResponse({'errno': 0, 'msg': "上传成功","url":Addr})
+@csrf_exempt
+def publish(request):
+    if request.method != 'POST':
+        return JsonResponse({'errno': 1001, 'msg': "请求方式错误"})
+    token = request.POST.get('token')
+    userId = TK.check_token_return(token, 0)
+    if not isinstance(userId, str):
+        return userId
+    user = Author.objects.get(id=userId)
+    title=request.POST.get('title')
+    body=request.POST.get('body')
+    label=request.POST.get('label')
+    if title is None or body is None or label is None:
+        return JsonResponse({'errno': 1002, 'msg': "传入参数不足"})
+    if title=="" or body=="":
+        return JsonResponse({'errno': 1003, 'msg': "标题和正文内容不能为空"})
+    if len(title)>100:
+        return JsonResponse({'errno': 1004, 'msg': "文章标题过长"})
+    discription=request.POST.get('discription')
+    if discription is not None and len(discription)>100:
+        return JsonResponse({'errno': 1005, 'msg': "文章简介过长"})
+    elif discription is None:
+        discription=""
+    articleId=request.POST.get('articleId')
+    if articleId is not None and articleId!="":
+        try:
+            article=Article.objects.get(id=articleId)
+        except:
+            return JsonResponse({'errno': 1006, 'msg': "文章不存在"})
+        if article.publisher_id!=user.id:
+            return JsonResponse({'errno': 1007, 'msg': "修改者不是发布者"})
+        article.title=title
+        article.body=body
+        article.label=label
+        article.discription=discription
+        article.save()
+        imgs = ImgInArticle.objects.filter(articleId=articleId)
+        for img in imgs:
+            if re.search(img.url,body) is not None:
+                img.userId=None
+                img.save()
+            else:
+                try:
+                    os.remove(img.img.path)
+                    print(img.img.path+" is removed")
+                except:
+                    None
+                img.delete()
+        return JsonResponse({'errno': 0, 'msg': "文章修改成功"})
+    else:
+        article=Article(title=title,body=body,label=label,discription=discription,publisher=user)
+        article.save()
+        imgs = ImgInArticle.objects.filter(userId=userId)
+        for img in imgs:
+            if re.search(img.url,body) is not None:
+                img.userId=None
+                img.articleId=article.id
+                img.save()
+        return JsonResponse({'errno': 0, 'msg': "文章发布成功"})
+@csrf_exempt
+def getEdit(request):
+    if request.method != 'POST':
+        return JsonResponse({'errno': 1001, 'msg': "请求方式错误"})
+    token = request.POST.get('token')
+    userId = TK.check_token_return(token, 0)
+    if not isinstance(userId, str):
+        return userId
+    user = Author.objects.get(id=userId)
+    articleId = request.POST.get('articleId')
+    if articleId is None or articleId=="":
+        return JsonResponse({'errno': 1002, 'msg': "articleId不能为空"})
+    try:
+        article = Article.objects.get(id=articleId)
+    except:
+        return JsonResponse({'errno': 1003, 'msg': "文章不存在"})
+    if article.publisher_id!=user.id:
+        return JsonResponse({'errno': 1004, 'msg': "不能修改非本人所写文章"})
+    return JsonResponse({'errno': 0, 'msg': "信息获取成功",'title':article.title,'body':article.body,'label':article.label,'discription':article.discription})
+@csrf_exempt
+def deleteArticle(request):
+    if request.method != 'POST':
+        return JsonResponse({'errno': 1001, 'msg': "请求方式错误"})
+    token = request.POST.get('token')
+    userId = TK.check_token_return(token, 0)
+    if not isinstance(userId, str):
+        return userId
+    user = Author.objects.get(id=userId)
+    articleId = request.POST.get('articleId')
+    if articleId is None or articleId=="":
+        return JsonResponse({'errno': 1002, 'msg': "articleId不能为空"})
+    try:
+        article = Article.objects.get(id=articleId)
+    except:
+        return JsonResponse({'errno': 1003, 'msg': "文章不存在"})
+    if article.publisher_id!=user.id:
+        return JsonResponse({'errno': 1004, 'msg': "不能删除非本人所写文章"})
+    article.delete()
+    imgs = ImgInArticle.objects.filter(articleId=articleId)
+    for img in imgs:
+        try:
+            os.remove(img.img.path)
+            print(img.img.path + " is removed")
+        except:
+            None
+        img.delete()
+    return JsonResponse({'errno': 0, 'msg': "删除成功"})

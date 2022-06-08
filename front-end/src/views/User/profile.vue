@@ -199,7 +199,7 @@ export default {
       }).then(res => {
         if(res.data.errno === 0) {
           this.$store.commit('setAvatar', res.data.avatar);
-          console.log(this.$store.state.user.avatar)
+          // console.log(this.$store.state.user.avatar)
           this.formPersonal = {
             imgSrc: res.data.avatar,
             nickName: res.data.username,
