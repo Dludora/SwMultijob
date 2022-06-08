@@ -1,6 +1,6 @@
 <template>
     <el-dropdown>
-      <el-avatar size="large" :src="src" class="avater"/>
+      <el-avatar size="large" :src="avatar_src" class="avater"/>
       <template #dropdown>
         <el-dropdown-menu>
           <el-dropdown-item v-for="mi in userMenus">
@@ -15,13 +15,11 @@
 </template>
 
 <script>
-import axios from "axios";
 
 export default {
   name: "userMenu",
   data() {
     return {
-      src: require('../../assets/head.png'),
       userMenus: [
         {
           label: '个人资料',
@@ -46,17 +44,12 @@ export default {
       ]
     }
   },
-  mounted() {
-    this.$getRequest
-    const formData = new FormData();
-    formData.append('token', this.$store.state.user.token)
-    axios({
-        method: 'post',
-        url: 'backend/getSelfInformation',
-        data: formData
-    }).then(res => {
-      this.src = res.data.avatar
-    })
+  computed: {
+    avatar_src: function() {
+      if(!this.$store.state.user.avatar)
+        return 'http://127.0.0.1:8000/user_img/img/default_img.png'
+      return this.$store.state.user.avatar
+    }
   },
   methods: {
     logout() {

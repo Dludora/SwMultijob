@@ -5,14 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3426c93c-5207-4247-9a23-64fcd2b24d6a" name="Changes" comment="Changes">
-      <change afterPath="$PROJECT_DIR$/front-end/src/assets/default.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BlogWebsite/BlogWebsite/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/BlogWebsite/BlogWebsite/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BlogWebsite/backend/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/BlogWebsite/backend/views.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BlogWebsite/user_img/img/黑龙.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BlogWebsite/user_img/img/黑龙_o6CFWkE.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BlogWebsite/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/BlogWebsite/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BlogWebsite/stars/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/BlogWebsite/stars/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/views/Blog/BlogCreate.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/views/Blog/BlogCreate.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/views/Blog/BlogView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/views/Blog/BlogView.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlogWebsite/user_img/img/阿尼亚.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/components/users/avatar.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/components/users/collections.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/store/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/store/user.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front-end/src/views/User/collection-list.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/views/User/collection-list.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front-end/src/views/User/profile.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/views/User/profile.vue" afterDir="false" />
     </list>
@@ -143,6 +142,7 @@
       <workItem from="1654656458087" duration="2508000" />
       <workItem from="1654659134858" duration="2104000" />
       <workItem from="1654669914594" duration="13777000" />
+      <workItem from="1654688987148" duration="1513000" />
     </task>
     <servers />
   </component>

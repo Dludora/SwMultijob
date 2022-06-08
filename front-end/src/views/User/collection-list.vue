@@ -25,8 +25,6 @@
         @current-change="handleCurrentChange"
       />
   </el-main>
-
-
 </template>
 
 <script>

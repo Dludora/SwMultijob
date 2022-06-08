@@ -1,7 +1,8 @@
 import Cookie from 'js-cookie'
 export default {
     state: {
-        token: ''
+        token: '',
+        avatar: '',
     },
     mutations: {
         setToken(state, val) {
@@ -14,6 +15,10 @@ export default {
         },
         getToken(state) {
             state.token = state.token || Cookie.get('token')
+        },
+        setAvatar(state, val) {
+            state.avatar = val
+            // Cookie.set('token', val)
         }
     }
 }
