@@ -191,7 +191,7 @@ export default {
     // console.log(formData)
     axios({
       method: 'post',
-      url: 'getSelfInformation',
+      url: 'backend/getSelfInformation',
       data: formData
     }).then(res => {
       if(res.data.errno === 0) {
@@ -218,6 +218,7 @@ export default {
     }
     ).catch(err => {
       ElMessage('获取个人信息失败');
+      console.log(err)
     })
     },
     setSelfUsername() {
@@ -226,7 +227,7 @@ export default {
       formData.append('username', this.formEdit.nickName)
       axios({
         method: 'post',
-        url: 'setSelfUsername',
+        url: 'backend/setSelfUsername',
         data: formData
       }).then(res => {
         if(res.data.errno === 0) {
@@ -242,7 +243,7 @@ export default {
       formData.append('email', this.formEdit.email)
       axios({
         method: 'post',
-        url: 'setSelfEmail',
+        url: 'backend/setSelfEmail',
         data: formData
       }).then(res => {
         if(res.data.errno === 0) {
@@ -258,7 +259,7 @@ export default {
       formData.append('sex', this.formEdit.sex)
       axios({
         method: 'post',
-        url: 'setSelfSex',
+        url: 'backend/setSelfSex',
         data: formData
       }).then(res => {
         if(res.data.errno === 0) {
@@ -274,7 +275,7 @@ export default {
       formData.append('birthday', this.formEdit.birthday)
       axios({
         method: 'post',
-        url: 'setSelfBirthday',
+        url: 'backend/setSelfBirthday',
         data: formData
       }).then(res => {
         if(res.data.errno === 0) {
@@ -290,7 +291,7 @@ export default {
       formData.append('discription', this.formEdit.resume)
       axios({
         method: 'post',
-        url: 'setSelfDiscription',
+        url: 'backend/setSelfDiscription',
         data: formData
       }).then(res => {
         if(res.data.errno === 0) {

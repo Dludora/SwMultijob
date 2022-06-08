@@ -160,7 +160,7 @@ export default {
       formData.append("password", this.formSignIn.password);
       axios({
         method: 'post',
-        url: 'login',
+        url: 'backend/login',
         data: formData
       })
       .then(res => {
@@ -183,7 +183,7 @@ export default {
       formData.append("username", this.formRegister.username);
       axios({
         method: 'post',
-        url: 'register',
+        url: 'backend/register',
         data: formData
       })
       .then(res => {

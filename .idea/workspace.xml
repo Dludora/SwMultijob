@@ -5,15 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3426c93c-5207-4247-9a23-64fcd2b24d6a" name="Changes" comment="Changes">
+      <change afterPath="$PROJECT_DIR$/BlogWebsite/stars/migrations/0011_alter_history_unique_together.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front-end/src/views/User/otherHome.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/App.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/assets/style/reset.css" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/assets/style/reset.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlogWebsite/backend/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/BlogWebsite/backend/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlogWebsite/backend/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/BlogWebsite/backend/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlogWebsite/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/BlogWebsite/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlogWebsite/stars/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/BlogWebsite/stars/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front-end/src/components/Header.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/Header.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/components/users/userMenu.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/users/userMenu.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/views/Blog/BlogCreate.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/views/Blog/BlogCreate.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front-end/src/views/Blog/BlogView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/views/Blog/BlogView.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/views/User.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/views/User.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/views/LoginView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/views/LoginView.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front-end/src/views/User/collection-list.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/views/User/collection-list.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/views/User/concerned.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/views/User/concerned.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/views/User/myBlogs.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/views/User/myBlogs.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/views/User/history.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/views/User/history.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front-end/src/views/User/profile.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/views/User/profile.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -74,11 +80,11 @@
       <recent name="D:\onedrive2\OneDrive\桌面\SwMultijob\src\assets\style" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\My Blog\SwMultijob\front-end\src\views\User" />
       <recent name="D:\My Blog\SwMultijob" />
       <recent name="D:\My Blog\SwMultijob\front-end\public" />
       <recent name="D:\onedrive2\OneDrive\桌面\SwMultijob\src\views\Personal" />
       <recent name="D:\onedrive2\OneDrive\桌面\SwMultijob\src\views" />
-      <recent name="D:\onedrive2\OneDrive\桌面\SwMultijob\src\assets" />
     </key>
   </component>
   <component name="RunManager">
@@ -138,6 +144,8 @@
       <workItem from="1654525371547" duration="6509000" />
       <workItem from="1654565368140" duration="11729000" />
       <workItem from="1654593268689" duration="16578000" />
+      <workItem from="1654616312358" duration="151000" />
+      <workItem from="1654651744217" duration="4412000" />
     </task>
     <servers />
   </component>

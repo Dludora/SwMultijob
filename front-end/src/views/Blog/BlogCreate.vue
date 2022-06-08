@@ -13,7 +13,7 @@
           style="max-width: 300px"
           :rules="blogRule">
         <el-form-item prop="headline" label="博客标题">
-          <el-input type="text" placeholder="请填写收藏夹的名称" v-model="blogForm.headline" />
+          <el-input type="text" placeholder="请填写博客标题" v-model="blogForm.headline" />
         </el-form-item>
       </el-form>
     <template #footer>

@@ -14,7 +14,16 @@
 
 <script>
 export default {
-  name: "history"
+  name: "history",
+  data() {
+    return {
+      blogToday: [
+        {
+
+        }
+      ]
+    }
+  }
 }
 </script>
 

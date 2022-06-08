@@ -1,6 +1,6 @@
 <template>
     <el-dropdown>
-      <el-avatar :size="40" :src="src" class="avater"/>
+      <el-avatar size="large" :src="src" class="avater"/>
       <template #dropdown>
         <el-dropdown-menu>
           <el-dropdown-item v-for="mi in userMenus">

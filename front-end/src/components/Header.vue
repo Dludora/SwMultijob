@@ -150,7 +150,7 @@ export default {
 .top-menu {
   display: flex;
   height: 100%;
-  margin: 0;
+  margin-right: 20px;
 }
 .top-menu li {
   height: 100%;

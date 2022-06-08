@@ -33,6 +33,7 @@
 import Dialog from 'primevue/dialog';
 import Button from "primevue/button";
 import myTable from "@/components/myTable";
+import axios from "axios";
 export default {
   name: "collect",
   components: {
@@ -56,22 +57,22 @@ export default {
         {
           blogName: '傻子',
           blogAuthor: '王五',
-          blogUrl: '',
+          blogId: 1,
         },
           {
           blogName: '傻子',
           blogAuthor: '王五',
-          blogUrl: '',
+          blogId: 1,
         },
         {
           blogName: '傻子',
           blogAuthor: '王五',
-          blogUrl: '',
+          blogId: '',
         },
         {
           blogName: '傻子',
           blogAuthor: '王五',
-          blogUrl: '',
+          blogId: '',
         },
         {
           blogName: '傻子',
@@ -106,9 +107,23 @@ export default {
       pagesize: 10,       // 每页显示条数
     }
   },
+  created() {
+    this.load();
+  },
   methods: {
     load() {
-
+      const formData = new FormData();
+      formData.append('token', this.$store.state.user.token)
+      console.log(this.$store.state.user.token)
+      axios({
+        method: 'post',
+        url: 'stars/get_all_star_article',
+        data: formData
+      }).then(res => {
+        console.log(res.data)
+      }).catch(err =>{
+        console.log(err)
+      })
     },
     // 控制页面的切换
     handleCurrentChange(newSize) {
