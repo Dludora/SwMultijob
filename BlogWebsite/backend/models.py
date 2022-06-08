@@ -8,6 +8,7 @@ class Author(models.Model):
     birthday=models.CharField(max_length=20,null=True)
     discription=models.CharField(max_length=100,null=True)
     lastLogin=models.CharField(max_length=50,null=True)
+    avatar = models.ImageField(null=True, upload_to="img/")
 class Article(models.Model):
     title=models.CharField(max_length=100)
     description=models.CharField(max_length=100,null=True)

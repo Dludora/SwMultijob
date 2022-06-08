@@ -1,5 +1,5 @@
 # publish/views.py
-import datetime
+import os
 
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -43,7 +43,7 @@ class TK:
 
     def checkToken(token, isLogout):
         bytes_data = bytes(token, encoding='utf-8')
-        decoded = PyJWT().decode(token, TK.secretKey, algorithms="HS256")
+        decoded = PyJWT().decode(bytes_data, TK.secretKey, algorithms="HS256")
         id = None
         time = None
         for temp in decoded:
@@ -61,7 +61,7 @@ class TK:
             return -4
         tz = pytz.timezone('Asia/Shanghai')
         now_time = (str)(timezone.now().astimezone(tz=tz))
-        timediff = getTimeNum(now_time) - getTimeNum(time)
+        timediff = TK.getTimeNum(now_time) - TK.getTimeNum(time)
         if timediff > 24 * 60 * 60:
             return -2
         if isLogout == 1:
@@ -130,7 +130,7 @@ def register(request):  # 继承请求类
             return JsonResponse({'errno': 1005, 'msg': "密码不合法"})
         # 新建 Author 对象，赋值用户名和密码并保存
         md5_str = hashlib.md5(password_1.encode()).hexdigest()
-        new_author = Author(username=username, password=md5_str, email=email)
+        new_author = Author(username=username, password=md5_str, email=email,avatar="img/default_img.png")
         new_author.save()  # 一定要save才能保存到数据库中
         return JsonResponse({'errno': 0, 'msg': "注册成功"})
     else:
@@ -156,7 +156,6 @@ def login(request):
             author.save()
             encoded = PyJWT().encode({'userid': (str)(author.id), 'time': (str)(now_time)}, TK.secretKey,
                                      algorithm="HS256")
-            print(encoded)
             if type(encoded) == type("str"):
                 return JsonResponse({'errno': 0, 'msg': "登录成功", 'token': encoded})
             return JsonResponse({'errno': 0, 'msg': "登录成功", 'token': (str)(encoded, encoding='utf-8')})
@@ -174,7 +173,7 @@ def logout(request):
     if token is None:
         return JsonResponse({'errno': 500, 'msg': "未找到令牌"})
     try:
-        id = checkToken(token, 1)
+        id = TK.checkToken(token, 1)
     except:
         return JsonResponse({'errno': 501, 'msg': "无效的令牌"})
     if id == -1:
@@ -223,9 +222,17 @@ def getSelfInformation(request):
     discription = user.discription
     if discription is None:
         discription = ''
+    avatar = user.avatar
+    if avatar is None:
+        avatarAddr = ''
+    else:
+        avatarAddr = avatar.path
+        avatarAddr = avatarAddr.split('\\')
+        avatarAddr = avatarAddr[len(avatarAddr) - 1]
+        avatarAddr = "http://127.0.0.1:8000/user_img/img/" + avatarAddr
     return JsonResponse(
         {'errno': 0, 'msg': "获取信息成功", 'username': username, 'email': email, 'sex': sex, 'birthday': birthday,
-         'discription': discription})
+         'discription': discription, 'avatar': avatarAddr})
 
 
 @csrf_exempt
@@ -396,3 +403,38 @@ def setSelfDiscription(request):
         user.discription = discription
     user.save()
     return JsonResponse({'errno': 0, 'msg': "个人简介修改成功"})
+@csrf_exempt
+def setSelfAvatar(request):
+    if request.method != 'POST':
+        return JsonResponse({'errno': 1001, 'msg': "请求方式错误"})
+    token = request.POST.get('token')
+    if token is None:
+        return JsonResponse({'errno': 500, 'msg': "未找到令牌"})
+    try:
+        id = TK.checkToken(token, 0)
+    except:
+        return JsonResponse({'errno': 501, 'msg': "无效的令牌"})
+    if id == -1:
+        return JsonResponse({'errno': 501, 'msg': "无效的令牌"})
+    if id == -2:
+        return JsonResponse({'errno': 502, 'msg': "登录已过期"})
+    if id == -3:
+        return JsonResponse({'errno': 503, 'msg': "用户不存在"})
+    if id == -4:
+        return JsonResponse({'errno': 504, 'msg': "用户已注销或已在别处登录"})
+    user=Author.objects.get(id=id)
+    avatar=request.FILES.get('avatar')
+    if avatar is None:
+        return JsonResponse({'errno': 1002, 'msg': "未传入头像"})
+    oldAvatar=user.avatar
+    try:
+        user.avatar=avatar
+        user.save()
+    except:
+        return JsonResponse({'errno': 1002, 'msg': "头像上传失败"})
+    if oldAvatar is not None and oldAvatar!="img/default_img.png":
+        try:
+            os.remove(oldAvatar.path)
+        except:
+            None
+    return JsonResponse({'errno': 0, 'msg': "头像修改成功"})

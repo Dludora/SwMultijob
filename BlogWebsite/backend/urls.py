@@ -10,5 +10,6 @@ urlpatterns = [
     path('setSelfEmail',setSelfEmail),#修改邮箱，传入email
     path('setSelfSex',setSelfSex),#修改性别，传入sex，只能是‘男’‘女’或‘未知’
     path('setSelfBirthday',setSelfBirthday),#修改生日，传入birthday
-    path('setSelfDiscription',setSelfDiscription) #修改个人简介，传入discription
+    path('setSelfDiscription',setSelfDiscription), #修改个人简介，传入discription
+    path('setSelfAvatar', setSelfAvatar)  # 修改头像，传入avatar
 ]

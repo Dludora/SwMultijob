@@ -24,10 +24,9 @@ def addStars(request):
     articleId = request.POST.get('articleId')
     token = request.POST.get('token')
     # userId = request.POST.get('id')  ####
-    if isinstance(TK.check_token_return(token, 0), int):
-        userId = TK.check_token_return(token, 0)
-    else:
-        return TK.check_token_return(token, 0)
+    userId=TK.check_token_return(token, 0)
+    if not isinstance(userId, str):
+        return userId
 
     new_star = Stars(articleId=articleId, userId=userId)
     try:
@@ -45,10 +44,9 @@ def delStars(request):
     token = request.POST.get('token')
 
     # userId = request.POST.get('id')  ####
-    if isinstance(TK.check_token_return(token, 0), int):
-        userId = TK.check_token_return(token, 0)
-    else:
-        return TK.check_token_return(token, 0)
+    userId = TK.check_token_return(token, 0)
+    if not isinstance(userId, str):
+        return userId
 
     star = Stars.objects.get(userId=userId, articleId=articleId)
     star.delete()
@@ -61,10 +59,9 @@ def get_all_star_article(request):
         return JsonResponse({'errno': 1001, 'msg': "请求方式错误"})
     token = request.POST.get('token')
     # userId = request.POST.get('id')  ####
-    if isinstance(TK.check_token_return(token, 0), int):
-        userId = TK.check_token_return(token, 0)
-    else:
-        return TK.check_token_return(token, 0)
+    userId = TK.check_token_return(token, 0)
+    if not isinstance(userId, str):
+        return userId
     stars = Stars.objects.filter(userId=userId)
     stars = stars.values()
     if len(stars) == 0:
@@ -91,10 +88,9 @@ def addHistory(request):
     articleId = request.POST.get('articleId')
     token = request.POST.get('token')
     # userId = request.POST.get('id')  ####
-    if isinstance(TK.check_token_return(token, 0), int):
-        userId = TK.check_token_return(token, 0)
-    else:
-        return TK.check_token_return(token, 0)
+    userId = TK.check_token_return(token, 0)
+    if not isinstance(userId, str):
+        return userId
     try:
         history = History.objects.get(userId=userId, articleId=articleId)
         history.delete()
@@ -113,10 +109,9 @@ def get_history_list(request):
         return JsonResponse({'errno': 1001, 'msg': "请求方式错误"})
     token = request.POST.get('token')
     # userId = request.POST.get('id')  ####
-    if isinstance(TK.check_token_return(token, 0), int):
-        userId = TK.check_token_return(token, 0)
-    else:
-        return TK.check_token_return(token, 0)
+    userId = TK.check_token_return(token, 0)
+    if not isinstance(userId, str):
+        return userId
     history = History.objects.filter(userId=userId)
     history = history.values()
     print(history)
@@ -145,10 +140,9 @@ def addFollow(request):
     followId = request.POST.get('followId')
     token = request.POST.get('token')
     # userId = request.POST.get('id')  ####
-    if isinstance(TK.check_token_return(token, 0), int):
-        userId = TK.check_token_return(token, 0)
-    else:
-        return TK.check_token_return(token, 0)
+    userId = TK.check_token_return(token, 0)
+    if not isinstance(userId, str):
+        return userId
 
     new_follow = Follow(userId=userId, followId=followId)
     try:
@@ -166,10 +160,9 @@ def delFollow(request):
     token = request.POST.get('token')
 
     # userId = request.POST.get('id')  ####
-    if isinstance(TK.check_token_return(token, 0), int):
-        userId = TK.check_token_return(token, 0)
-    else:
-        return TK.check_token_return(token, 0)
+    userId = TK.check_token_return(token, 0)
+    if not isinstance(userId, str):
+        return userId
 
     follow = Follow.objects.get(userId=userId, followId=followId)
     follow.delete()
@@ -182,10 +175,9 @@ def get_follow_list(request):
         return JsonResponse({'errno': 1001, 'msg': "请求方式错误"})
     token = request.POST.get('token')
     # userId = request.POST.get('id')  ####
-    if isinstance(TK.check_token_return(token, 0), int):
-        userId = TK.check_token_return(token, 0)
-    else:
-        return TK.check_token_return(token, 0)
+    userId = TK.check_token_return(token, 0)
+    if not isinstance(userId, str):
+        return userId
     follows = Follow.objects.filter(userId=userId)
     follows = follows.values()
     print(follows)
