@@ -1,6 +1,7 @@
 <template>
   <el-main>
-    <el-table :data="history_list.slice((currentPage-1)*pagesize, currentPage*pagesize)"
+    <div v-if="total">
+      <el-table :data="history_list.slice((currentPage-1)*pagesize, currentPage*pagesize)"
                 stripe
                 style="width: 1200px;"
                 height="530">
@@ -22,6 +23,17 @@
         style="margin-top: 45px"
         @current-change="handleCurrentChange"
       />
+    </div>
+    <div class="none" v-else>
+      <div class="monkey">
+        <img src='../../assets/monkey.png'>
+      </div>
+      <div style="text-align: center; margin-top: 20px">
+        <span class="sorry">
+          <em>您还没有浏览任何内容哦</em>
+        </span>
+      </div>
+    </div>
   </el-main>
 
 
@@ -99,5 +111,21 @@ export default {
 .header {
   /*background-color: #3370ff;*/
   border-bottom: #1f2329 1px;
+}
+.none {
+  margin-top: 10px;
+  padding: 40px;
+}
+.monkey {
+  width: 120px;
+  height: 95px;
+  margin: 0 auto;
+}
+em {
+  color: #fc5531;
+}
+img {
+  width: 100%;
+  height: 100%;
 }
 </style>

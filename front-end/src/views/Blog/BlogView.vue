@@ -57,6 +57,7 @@
         <div class="comment-room">
           <el-table
             :data="blogForm.comment_list"
+            empty-text="没有评论"
             style="margin-bottom: 5px;">
             <el-table-column prop="username" label="用户" width="100"></el-table-column>
             <el-table-column prop="comment" label="评论" ></el-table-column>

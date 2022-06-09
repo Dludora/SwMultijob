@@ -3,29 +3,41 @@
       <el-button style="margin-bottom: 15px" @click="this.$router.push({name: 'editor', params: {blogId: -1}})">
         新增博客
       </el-button>
-      <el-table :data="blogs.slice((currentPage-1)*pagesize, currentPage*pagesize)"
-                stripe
-                style="width: 1200px;"
-                height="480">
-        <el-table-column fixed prop="title" label="博客名" width="700" />
-        <el-table-column fixed="right" label="操作" width="270">
-          <template #default="scope">
-            <el-button type="text" @click="modify(scope.$index)">修改文章</el-button>
-            <el-button
-                @click="handleDelete(scope.$index)"
-                type="text">删除文章</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-      <el-pagination
-        v-model:currentPage=currentPage
-        background
-        v-model:page-size=pagesize
-        v-model:total=total
-        layout="total, prev, pager, next, jumper"
-        @current-change="handleCurrentChange"
-        style="margin-top: 45px"
-      />
+      <div v-if="total">
+          <el-table :data="blogs.slice((currentPage-1)*pagesize, currentPage*pagesize)"
+                  stripe
+                  style="width: 1200px;"
+                  height="480">
+          <el-table-column fixed prop="title" label="博客名" width="700" />
+          <el-table-column fixed="right" label="操作" width="270">
+            <template #default="scope">
+              <el-button type="text" @click="modify(scope.$index)">修改文章</el-button>
+              <el-button
+                  @click="handleDelete(scope.$index)"
+                  type="text">删除文章</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+        <el-pagination
+          v-model:currentPage=currentPage
+          background
+          v-model:page-size=pagesize
+          v-model:total=total
+          layout="total, prev, pager, next, jumper"
+          @current-change="handleCurrentChange"
+          style="margin-top: 45px"
+        />
+      </div>
+      <div class="none" v-else>
+        <div class="monkey">
+          <img src='../../assets/monkey.png'>
+        </div>
+        <div style="text-align: center; margin-top: 20px">
+          <span class="sorry">
+            <em>您还没有发布任何内容哦</em>
+          </span>
+        </div>
+      </div>
     </el-main>
 </template>
 
@@ -112,5 +124,21 @@ export default {
 }
 .header {
   border-bottom: #1f2329 1px;
+}
+.none {
+  margin-top: 10px;
+  padding: 40px;
+}
+.monkey {
+  width: 120px;
+  height: 95px;
+  margin: 0 auto;
+}
+em {
+  color: #fc5531;
+}
+img {
+  width: 100%;
+  height: 100%;
 }
 </style>

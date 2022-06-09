@@ -114,6 +114,7 @@ def get_history_list(request):
         return userId
     history = History.objects.filter(userId=userId)
     history = history.values()
+    print(userId)
     print(history)
     if len(history) == 0:
         return JsonResponse({'errno': 1002, 'msg': '无历史记录'})

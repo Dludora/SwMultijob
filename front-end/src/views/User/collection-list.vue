@@ -1,6 +1,7 @@
 <template>
   <el-main>
-    <el-table :data="this.star_list"
+    <div v-if="total">
+      <el-table :data="this.star_list"
                 stripe
                 style="width: 1200px;"
                 height="530">
@@ -24,6 +25,17 @@
         style="margin-top: 45px"
         @current-change="handleCurrentChange"
       />
+    </div>
+    <div class="none" v-else>
+      <div class="monkey">
+        <img src='../../assets/monkey.png'>
+      </div>
+      <div style="text-align: center; margin-top: 20px">
+        <span class="sorry">
+          <em>您还没有收藏任何内容哦</em>
+        </span>
+      </div>
+    </div>
   </el-main>
 </template>
 
@@ -53,7 +65,7 @@ export default {
     return {
       star_list: [],
       // 是否加载数据
-      total: 100,         // 总数居条数
+      total: null,         // 总数居条数
       currentPage: 1,    // 当前页码
       pagesize: 10,       // 每页显示条数
     }
@@ -120,5 +132,21 @@ export default {
 .header {
   /*background-color: #3370ff;*/
   border-bottom: #1f2329 1px;
+}
+.none {
+  margin-top: 10px;
+  padding: 40px;
+}
+.monkey {
+  width: 120px;
+  height: 95px;
+  margin: 0 auto;
+}
+em {
+  color: #fc5531;
+}
+img {
+  width: 100%;
+  height: 100%;
 }
 </style>
