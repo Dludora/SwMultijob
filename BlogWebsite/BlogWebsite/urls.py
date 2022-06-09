@@ -19,7 +19,7 @@ from django.views.static import serve
 from BlogWebsite.settings import MEDIA_ROOT
 
 urlpatterns = [
-    re_path(r'^user_img/(?P<path>.*)$', serve, {"document_root": MEDIA_ROOT}),
+    re_path(r'^files/(?P<path>.*)$', serve, {"document_root": MEDIA_ROOT}),
     path('admin/', admin.site.urls),
     path('api/backend/', include(('backend.urls', 'backend'))),
     path('api/stars/', include(('stars.urls', 'stars'))),

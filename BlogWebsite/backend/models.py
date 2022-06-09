@@ -19,13 +19,13 @@ class Article(models.Model):
     body = models.TextField(default=" ")  # 正文
     firstCreate = models.DateTimeField(auto_now_add=True, null=True)
     publisher = models.ForeignKey('Author', on_delete=models.CASCADE)
-    label = models.CharField(max_length=10)
+    label = models.CharField(max_length=10000)
     likes = models.IntegerField(default=0)
     commentsCount = models.IntegerField(default=0)
 
 
-class ImgInArticle(models.Model):
-    img = models.ImageField(upload_to="article_img/")
+class FileInArticle(models.Model):
+    file = models.FileField(upload_to="article_file/")
     articleId = models.IntegerField(null=True)
     userId = models.IntegerField(null=True)
     url = models.CharField(max_length=200)
