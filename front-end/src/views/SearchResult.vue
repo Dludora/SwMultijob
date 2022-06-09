@@ -1,12 +1,10 @@
 <template>
   <div class="home">
-    <div class="tags">
-      <el-button disabled type="danger" plain style="display: block; margin-bottom: 10px">标签分类</el-button>
-      <el-button  round plain type="warning" v-for="label in labels" @click="labelSearch(label)">{{label}}</el-button>
+    <div class="tags" v-if="total">
+      <h1>{{this.$route.params.key}}</h1>
     </div>
-    <h2>文章</h2>
-    <div class="content">
-      <el-card v-for="article in article_list.slice((currentPage-1)*maxDisplay, currentPage*maxDisplay)" shadow="never">
+    <div class="content" v-if="total">
+      <el-card v-for="article in result_list.slice((currentPage-1)*maxDisplay, currentPage*maxDisplay)" shadow="never">
         <router-link :to="{name: 'view', params: {blogId: article.articleId}}">
           <h2>{{article.title}}</h2>
           <h4>{{article.description}}</h4>
@@ -14,26 +12,37 @@
         <p>Posted by {{article.author}}</p>
       </el-card>
       <li class="next" @click="currentPage++" v-if="isDisplayNext">
-        MORE BLOGS →
-      </li>
+          MORE BLOGS →
+        </li>
       <li class="before" @click="currentPage--" v-if="isDisplayBefore">
-        NEWER BLOGS →
-      </li>
+          NEWER BLOGS →
+        </li>
     </div>
+    <div class="none" v-else>
+      <div class="monkey">
+        <img src='../assets/monkey.png'>
+      </div>
+      <div style="text-align: center; margin-top: 20px">
+        <span class="sorry">
+          抱歉, 没有找到
+          <em>{{this.$route.params.key}}</em>
+          相关内容
+        </span>
+      </div>
+    </div>
+<!--    <div class="footer">-->
+<!--    </div>-->
   </div>
 </template>
 <script>
-import {ref} from 'vue';
 import axios from "axios";
+import {ElMessage} from "element-plus";
 
 export default {
-  name: 'HomeView',
-  components: {
-    ref,
-  },
+  name: "SearchResult",
   computed: {
     isDisplayNext() {
-      return this.currentPage*this.maxDisplay < this.article_list.length
+      return this.currentPage*this.maxDisplay < this.result_list.length
     },
     isDisplayBefore() {
       return this.currentPage > 1
@@ -41,51 +50,35 @@ export default {
   },
   data() {
     return {
-      labels: [
-          '后端',
-          '前端',
-          '移动开发',
-          '编程语言',
-          'Java',
-          'Python',
-          '人工智能',
-          '大数据',
-          '数据结构与算法',
-          '云原生',
-          '云平台',
-          '运维',
-          '服务器',
-          '操作系统',
-          '数据库管理',
-          'IOS',
-          'Android',
-          '小程序',
-          '硬件开发',
-          '区块链'
-      ],
-      article_list: [],
+      result_list: [],
       maxDisplay: 4,
-      currentPage: 1
+      currentPage: 1,
+      total: null
     }
   },
   created() {
+    // console.log(this.$route.params.key)
     this.load()
   },
   methods: {
-    load () {
+    load() {
       const formData = new FormData()
       formData.append('token', this.$store.state.user.token)
+      formData.append('key', this.$route.params.key)
       axios({
         method: 'post',
-        url: 'comment_like/display',
+        url: 'comment_like/search',
         data: formData
       }).then(res => {
-        this.article_list = res.data.article_list
-        console.log(this.article_list)
+        if(res.data.errno === 0) {
+          this.result_list = res.data.result_list
+          this.total = res.data.result_list_size
+        } else {
+          ElMessage.error(res.data.msg)
+        }
+      }).catch(err => {
+        ElMessage.error('搜索失败')
       })
-    },
-    labelSearch(label) {
-      this.$router.push({name: 'search', params: {key: label}})
     }
   }
 }
@@ -122,7 +115,7 @@ p {
   margin-top: 20px;
   margin-left: 100px;
   margin-right: 100px;
-  margin-bottom: 100px;
+  margin-bottom: 70px;
   min-height: calc(100% - 180px);
 }
 .tags {
@@ -132,14 +125,16 @@ p {
 }
 .content {
   background-color: #ffffff;
+  margin-top: 30px;
 }
-
+.footer {
+  height: 150px;
+}
 .el-button {
   margin-left: 0;
   margin-right: 10px;
   margin-bottom: 3px;
 }
-
 .next {
   box-shadow: #1f2329;
   cursor: pointer;
@@ -170,4 +165,24 @@ p {
   color: #ffffff;
   background-color: #337ab7
 }
+.none {
+  margin-top: 10px;
+  padding: 40px;
+}
+.monkey {
+  width: 120px;
+  height: 95px;
+  margin: 0 auto;
+}
+em {
+  color: #fc5531;
+}
+img {
+  width: 100%;
+  height: 100%;
+}
+/*.sorry {*/
+/*  display: block;*/
+/*  margin: 0 auto;*/
+/*}*/
 </style>

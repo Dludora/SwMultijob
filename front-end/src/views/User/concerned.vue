@@ -63,7 +63,7 @@ export default {
           this.follow_user_list = []
           this.total = 0
         } else if(res.data.errno === 0) {
-          this.follow_user_list = res.data.follow_user_list
+          this.follow_user_list = res.data.follows_list
           this.total = res.data.size
         }
       }).catch(err =>{
@@ -89,6 +89,9 @@ export default {
       }).catch(err => {
         ElMessage.error('取消关注失败')
       })
+    },
+    showBlogger(blogger) {
+      this.$router.push({name:'userHome', params: {userId: blogger.followId}})
     }
   }
 }

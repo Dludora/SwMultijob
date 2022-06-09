@@ -1,202 +1,238 @@
 <template>
-  <div class="container-profile">
-    <div class="user-profile-head">
-      <div class="user-profile-head-banner"></div>
-      <div class="user-profile-head-info">
-        <div class="user-profile-head-info-t">
-          <div class="user-profile-head-info-l">
-            <div class="user-profile-avatar">
-              <img :src=formPersonal.imgSrc>
-            </div>
-          </div>
-          <div class="user-profile-head-info-r">
-            <div class="user-profile-head-info-r-t">
-              <div class="user-profile-head-name">
-                <div>昵称</div>
-              </div>
-            </div>
-            <div class="user-profile-head-info-r-c">
-              <ul>
-                <li>
-                  <div class="user-profile-statistics-num">0</div>
-                  <div class="user-profile-statistics-name">粉丝</div>
-                </li>
-              </ul>
-            </div>
-          </div>
+  <div class="home">
+    <div class="tags">
+        <el-avatar :src="formPersonal.avatarAddr" :size=100></el-avatar>
+        <div style="margin-left: 30px; flex: 2">
+          <h2>{{formPersonal.username}}</h2>
+          <h4>粉丝量：<em>{{this.formPersonal.follows}}</em></h4>
         </div>
+
+        <el-button v-if="formPersonal.isFollowed" @click="delFollow" size="large" round type="info">已关注</el-button>
+        <el-button v-else @click="follow" size="large" type="danger" round>未关注</el-button>
+
+      </div>
+    <h2>文章</h2>
+    <div class="content" v-if="isDisplay">
+      <el-card v-for="article in blogs.slice((currentPage-1)*maxDisplay, currentPage*maxDisplay)" shadow="never">
+          <router-link :to="{name: 'view', params: {blogId: article.id}}">
+            <h2>{{article.title}}</h2>
+            <h4>{{article.discription}}</h4>
+          </router-link>
+        </el-card>
+      <li class="next" @click="currentPage++" v-if="isDisplayNext">
+          MORE BLOGS →
+        </li>
+      <li class="before" @click="currentPage--" v-if="isDisplayBefore">
+          NEWER BLOGS →
+        </li>
+    </div>
+    <div class="else" v-else>
+      <div class="monkey">
+        <img src='../../assets/monkey.png'>
+      </div>
+      <div style="text-align: center; margin-top: 20px">
+        <span class="sorry">
+          <em>该用户还没有上传文章</em>
+        </span>
       </div>
     </div>
   </div>
-
-  <el-main style="min-height: calc(100vh - 80px);">
-    <el-card
-        :body-style="{padding: '20px'}"
-        style="margin-top: 20px; margin-left: 80px; margin-right: 80px"
-
-        v-for="blog in blogs.slice((currentPage-1)*pageSize, currentPage*pageSize)">
-
-      <div class="user-blog-title">{{blog.title}}</div>
-
-    </el-card>
-    <div class="pagination-margin">
-      <el-pagination
-          v-model:currentPage=currentPage
-          background
-          v-model:page-size=pageSize
-          v-model:total=total
-          layout="total, prev, pager, next, jumper"
-          @current-change="handleCurrentChange"
-      />
-    </div>
-
-
-  </el-main>
 </template>
-
 <script>
+import axios from "axios";
+
 export default {
   name: "otherHome",
   data() {
     return {
       formPersonal: {
-        imgSrc: '',
-        nickName: '',
+        avatarAddr: '',
+        username: '',
         sex: '',
         birthday: '',
         resume: '',
-        email: ''
+        email: '',
+        follows: null,
+        isFollowed: null,
+        description: ''
       },
-      blogs: [
-        {
-          id: 1,
-          title: 'xxx'
-        },
-        {
-          id: 2,
-          title: 'xxx'
-        },
-        {
-          id: 3,
-          title: 'xxx'
-        },
-        {
-          id: 4,
-          title: 'xxx'
-        },
-        {
-          id: 5,
-          title: 'xxx'
-        },
-        {
-          id: 6,
-          title: 'xxx'
-        },
-        {
-          id: 7,
-          title: 'xxx'
-        },
-        {
-          id: 8,
-          title: 'xxx'
-        },
-      ],
+      blogs: [],
       currentPage: 1,
       total: 20,
-      pageSize: 5,
+      maxDisplay: 5,
     }
   },
+  computed: {
+    isDisplayNext() {
+      return this.currentPage*this.maxDisplay < this.blogs.length
+    },
+    isDisplayBefore() {
+      return this.currentPage > 1
+    },
+    isDisplay() {
+      return this.blogs.length
+    }
+  },
+  created() {
+    this.load()
+  },
   methods: {
+    load() {
+      const formData = new FormData()
+      formData.append('token', this.$store.state.user.token)
+      formData.append('authorId', this.$route.params.userId)
+      axios({
+        method: 'post',
+        url: 'backend/getOtherInformation',
+        data: formData
+      }).then(res => {
+        this.formPersonal.avatarAddr = res.data.avatarAddr
+        this.formPersonal.username = res.data.username
+        this.formPersonal.sex = res.data.sex
+        this.formPersonal.description = res.data.discription
+        this.formPersonal.follows = res.data.follows
+        this.formPersonal.isFollowed = res.data.isFollowed
+        this.blogs = res.data.blogs
+
+        console.log(res.data)
+      })
+    },
     handleCurrentChange(newSize) {
       this.currentPage = newSize;
+    },
+    follow() {
+      const formData = new FormData()
+      formData.append('token', this.$store.state.user.token)
+      formData.append('followId', this.$route.params.userId)
+      axios({
+        method: 'post',
+        url: 'stars/addFollow',
+        data: formData
+      }).then(res => {
+        // console.log(res)
+        this.load()
+      })
+    },
+    delFollow() {
+      const formData = new FormData()
+      formData.append('token', this.$store.state.user.token)
+      formData.append('followId', this.$route.params.userId)
+      axios({
+        method: 'post',
+        url: 'stars/delFollow',
+        data: formData
+      }).then(res => {
+        this.load()
+      })
     },
   }
 }
 </script>
-
 <style scoped>
-.container-profile {
-  width: 100%;
+em {
+  color: #fc5531;
 }
-.user-profile-head {
-  background-repeat: no-repeat;
-  background-position: top;
-  background-size: 1920px 100px;
+a {
+  text-decoration: none;
+  color: #1f2329;
 }
-.user-profile-head .user-profile-head-banner {
-  padding-top: 16px;
-  margin: auto;
-  height: 70px;
-  background-repeat: no-repeat;
-  background-position: 50%;
-  background-size: cover;
+a:hover {
+  color: #337ab7
 }
-.user-profile-head .user-profile-head-info {
-  padding-left: 70px;
-  padding-right: 24px;
-  background: white;
+h2 {
+  margin-top: 10px;
+  font-size: 26px;
+  line-height: 1.3;
+  margin-left: 10px;
+  margin-bottom: 10px;
+}
+h4 {
+  /*font-size: 15px;*/
+  line-height: 1.3;
+  margin: 0;
+  font-weight: 400;
+  margin-bottom: 10px;
+}
+p {
+  font-weight: normal;
+  font-family: Lora,'Times New Roman',serif;
+  color: #a3a3a3;
+  font-style: italic;
+}
+.home {
+  margin-top: 20px;
+  margin-left: 100px;
+  margin-right: 100px;
+  margin-bottom: 100px;
+  min-height: calc(100% - 180px);
+}
+.tags {
+  display: flex;
+  padding: 10px;
+  border-bottom: #1f2329 5px;
+  background-color: #ffffff;
+}
+.content, .else{
+  background-color: #ffffff;
+  /*margin-top: 30px;*/
+}
+.else {
+  min-height: calc(100% - 180px);
+  padding: 40px;
+}
+
+.monkey {
+  width: 120px;
+  height: 95px;
   margin: 0 auto;
-  border-radius: 2px;
 }
-.user-profile-head .user-profile-head-info .user-profile-head-info-t {
-  display: flex;
-  -webkit-box-pack: justify;
-  justify-content: space-between;
+em {
+  font-weight: bold;
+  color: #fc5531;
 }
-.user-profile-head .user-profile-head-info .user-profile-head-info-l {
-  position: relative;
-  width: 180px;
-  height: 180px;
+img {
+  width: 100%;
+  height: 100%;
 }
-.user-profile-head .user-profile-head-info .user-profile-head-info-l .user-profile-avatar {
-  position: absolute;
-  top: 0px;
-  width: 180px;
-  height: 180px;
-  border: 4px solid #f0f0f2;
-  border-radius: 50%;
-  background: white;
+
+.el-button {
+  margin-left: 0;
+  margin-right: 10px;
+  margin-bottom: 3px;
 }
-.user-profile-head .user-profile-head-info .user-profile-head-info-r {
-  -webkit-box-flex: 1;
-  flex: 1;
-  margin-left: 60px;
-}
-.user-profile-head .user-profile-head-info .user-profile-head-info-r .user-profile-head-info-r-t {
-  margin-top: 16px;
-}
-.user-profile-head .user-profile-head-info .user-profile-head-info-r .user-profile-head-info-r-t .user-profile-head-name {
-  color: #222226;
-  font-size: 30px;
-  font-weight: 500;
-  line-height: 34px;
-  display: flex;
-  word-break: break-all;
-  -webkit-box-align: start;
-  align-items: flex-start;
-}
-.user-profile-head .user-profile-head-info .user-profile-head-info-r .user-profile-head-info-r-c {
-  margin-top: 50px;
-}
-.user-profile-head .user-profile-head-info .user-profile-head-info-r .user-profile-head-info-r-c .user-profile-statistics-num {
-  color: #222226;
-  font-weight: 600;
-  font-size: 25px;
-  line-height: 28px;
-  margin-right: 4px;
-}
-.user-profile-head .user-profile-head-info .user-profile-head-info-r .user-profile-head-info-r-c .user-profile-statistics-name {
-  color: #555666;
+.next {
+  box-shadow: #1f2329;
+  cursor: pointer;
+  float: right;
+  display: inline-block;
+  margin-top: 20px;
   font-size: 20px;
-  line-height: 25px;
-  margin-right: 2px;
+  font-weight: 700;
+  padding: 25px 40px;
+  background-color: #ffffff;
 }
-.user-blog-title {
-  font-size: 35px;
-  font-weight: 300;
-  margin-left: 80px;
+.next:hover {
+  color: #ffffff;
+  background-color: #337ab7
 }
-.pagination-margin {
-  margin-left: 80px;
+.before {
+  box-shadow: #1f2329;
+  cursor: pointer;
+  float: left;
+  display: inline-block;
+  margin-top: 20px;
+  font-size: 20px;
+  font-weight: 700;
+  padding: 25px 40px;
+  background-color: #ffffff;
+}
+.before:hover {
+  color: #ffffff;
+  background-color: #337ab7
+}
+.el-button {
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-left: auto;
 }
 </style>

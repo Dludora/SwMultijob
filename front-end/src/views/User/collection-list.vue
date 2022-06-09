@@ -1,6 +1,6 @@
 <template>
   <el-main>
-    <el-table :data="star_list.slice((currentPage-1)*pagesize, currentPage*pagesize)"
+    <el-table :data="this.star_list"
                 stripe
                 style="width: 1200px;"
                 height="530">
@@ -40,6 +40,15 @@ export default {
     Button,
     myTable
   },
+  computed: {
+    displayed() {
+      if(this.star_list.length !== 0) {
+        return this.star_list.slice((this.currentPage-1)*this.pagesize, this.currentPage*this.pagesize)
+      } else {
+        return this.star_list
+      }
+    }
+  },
   data() {
     return {
       star_list: [],
@@ -61,12 +70,12 @@ export default {
         url: 'stars/get_all_star_article',
         data: formData
       }).then(res => {
-        console.log(res)
+        // console.log(res)
         if(res.data.errno === 1002) {
           this.star_list = []
           this.total = 0
         } else if(res.data.errno === 0) {
-          this.star_list = res.data.star_list
+          this.star_list = res.data.stars_list
           this.total = res.data.size
         }
       }).catch(err =>{

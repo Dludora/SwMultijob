@@ -1,12 +1,12 @@
 <template>
   <Sidebar v-model:visible="visibleFull" :baseZIndex="10000" position="right">
-    <el-button size="small" v-for="label in labels">{{label}}</el-button>
+    <el-button size="small" v-for="label in labels" @click="labelSearch(label)">{{label}}</el-button>
   </Sidebar>
   <div class="Header">
     <div class="Header_main">
-      <div class="brand">
+      <div class="brand" @click="this.$router.push({name: 'home'})">
         <router-link to="/">
-          shabi
+          Our Blog
         </router-link>
       </div>
       <div class="Header-nav">
@@ -19,7 +19,8 @@
       </div>
       <div class="p-input-icon-left search">
             <i class="pi pi-search"/>
-            <InputText type="text" placeholder="Search" class="search"/>
+            <InputText type="text" placeholder="Search" class="search" v-model="key"
+              @keyup.enter.native="handleSearchMember"/>
       </div>
       <div class="top-menu">
         <li v-if="!isLogin">
@@ -48,6 +49,7 @@ export default {
   },
   data() {
     return {
+      key: '',
       labels: [
           '后端',
           '前端',
@@ -71,20 +73,7 @@ export default {
           '区块链'
       ],
       visibleFull: false,
-      links: [
-        {
-          path: "/",
-          name: '首页'
-        },
-        // {
-        //   path: "/user",
-        //   name: '个人'
-        // },
-        // {
-        //   path: "/editor",
-        //   name: '编辑'
-        // },
-      ]
+      links: []
     }
   },
   created() {
@@ -93,6 +82,14 @@ export default {
   computed: {
     isLogin() {
       return this.$store.state.user.token;
+    }
+  },
+  methods: {
+    handleSearchMember() {
+      this.$router.push({name: 'search', params: {key: this.key}})
+    },
+    labelSearch(label) {
+      this.$router.push({name: 'search', params: {key: label}})
     }
   }
 }
@@ -131,12 +128,17 @@ export default {
   height: 100%;
   margin-left: 24px;
   margin-right: 16px;
+  cursor: pointer;
 }
 .brand a {
   text-decoration: none;
   line-height: 60px;
   font-weight: 600;
+  font-size: 20px;
   color: #161616;
+  font-family: Lora,'Times New Roman',serif;
+  /*color: #a3a3a3;*/
+  font-style: italic;
 }
 .brand:hover a{
   color: #4d90fe;

@@ -1,9 +1,9 @@
 <template>
     <el-dropdown>
-      <el-avatar size="large" :src="avatar_src" class="avater"/>
+      <el-avatar size="large" :src="avatar_src" class="avater" @click="this.$router.push({path: '/user/profile'})"/>
       <template #dropdown>
         <el-dropdown-menu>
-          <el-dropdown-item v-for="mi in userMenus">
+          <el-dropdown-item v-for="mi in userMenus" @click="this.$router.push(mi.to)">
             <router-link :to=mi.to active-class="act">{{mi.label}}</router-link>
           </el-dropdown-item>
           <el-dropdown-item>
@@ -15,7 +15,6 @@
 </template>
 
 <script>
-
 export default {
   name: "userMenu",
   data() {
@@ -46,8 +45,7 @@ export default {
   },
   computed: {
     avatar_src: function() {
-      // if(!this.$store.state.user.avatar)
-      //   return 'http://127.0.0.1:8000/img/user_img/default_img.png'
+
       return this.$store.state.user.avatar
     }
   },

@@ -108,6 +108,7 @@ def search(request):
         return JsonResponse({'errno': 1001, 'msg': "请求方式错误"})
     key = request.POST.get('key')
 
+    print(key)
     all_article = list(Article.objects.all())
     all_article.sort(key=lambda x: x.likes, reverse=True)
     result_article = []
@@ -144,8 +145,8 @@ def display(request):
         return JsonResponse({'errno': 1001, 'msg': "请求方式错误"})
 
     all_article = list(Article.objects.all())
-    print('@!!!!!!!!!!!!!')
-    print(all_article)
+    # print('@!!!!!!!!!!!!!')
+    # print(all_article)
     all_article.sort(key=lambda x: x.likes, reverse=True)
     article_list = []
     for a in all_article:
@@ -176,20 +177,19 @@ def get_my_article(request):
         return userId
 
     all_article = list(Article.objects.filter(publisher_id=userId))
-    # print('@!!!!!!!!!!!!!')
-    # print(all_article)
+    if(len(all_article)==0):
+        return JsonResponse({'errno': 1002, 'msg': "未发布任何博客"})
+    print('@!!!!!!!!!!!!!')
+    print(all_article)
     all_article.sort(key=lambda x: x.likes, reverse=True)
     article_list = []
     for a in all_article:
         dic = {}
         dic['title'] = a.title
-        author_id = a.publisher_id
-        author = Author.objects.get(id=author_id)
-        dic['author'] = author.username
         dic['articleId'] = a.id
-        label_str = a.label
-        label_list = label_str.split(',')
-        dic['label'] = label_list
-        dic['description'] = a.discription
+        # label_str = a.label
+        # label_list = label_str.split(',')
+        # dic['label'] = label_list
+        # dic['description'] = a.discription
         article_list.append(dic)
     return JsonResponse({'errno': 0, 'msg': "获取我的博客成功", 'article_list': article_list})

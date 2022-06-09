@@ -1,6 +1,6 @@
 <template>
     <el-main>
-      <el-button style="margin-bottom: 20px" @click="this.$router.push({name: 'editor', params: {blogId: -1}})">
+      <el-button style="margin-bottom: 15px" @click="this.$router.push({name: 'editor', params: {blogId: -1}})">
         新增博客
       </el-button>
       <el-table :data="blogs.slice((currentPage-1)*pagesize, currentPage*pagesize)"
@@ -34,6 +34,7 @@ import Dialog from 'primevue/dialog';
 import Button from "primevue/button";
 import myTable from "@/components/myTable";
 import axios from "axios";
+import {ElMessage} from "element-plus";
 export default {
   name: "collect",
   components: {
@@ -47,11 +48,14 @@ export default {
 
       ],
       // 是否加载数据
-      total: 100,         // 总数居条数
+      total: null,         // 总数居条数
       query: '',     // 查询参数
       currentPage: 1,    // 当前页码
       pagesize: 8,       // 每页显示条数
     }
+  },
+  created() {
+    this.load()
   },
   methods: {
     load() {
@@ -62,10 +66,13 @@ export default {
         url: 'comment_like/get_my_article',
         data: formData
       }).then(res => {
+        console.log(res)
         if(res.data.errno === 0) {
-
+          this.blogs = res.data.article_list
+          this.total = this.blogs.length
         } else if(res.data.errno === 1002) {
           this.blogs = []
+          this.total = 0
         }
       })
     },
@@ -74,10 +81,23 @@ export default {
         this.currentPage = newSize;
     },
     handleDelete(index) {
-      this.blogs.splice(index, 1)
+      const formData = new FormData
+      formData.append('token', this.$store.state.user.token)
+      formData.append('articleId', this.blogs[index].articleId)
+      axios({
+        method: 'post',
+        url: 'backend/deleteArticle',
+        data: formData
+      }).then(res => {
+        if(res.data.errno === 0) {
+          this.load()
+        } else {
+          ElMessage.error(res.data.msg)
+        }
+      })
     },
     modify(index) {
-      this.$router.push({name: 'view', params: {blogId: this.blogs[index].articleId}})
+      this.$router.push({name: 'editor', params: {blogId: this.blogs[index].articleId}})
     }
   },
 }
@@ -91,7 +111,6 @@ export default {
   line-height: 32px;
 }
 .header {
-  /*background-color: #3370ff;*/
   border-bottom: #1f2329 1px;
 }
 </style>

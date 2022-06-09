@@ -2,8 +2,6 @@
   <Dialog header="上传头像" v-model:visible="display">
     <el-upload
         :limit="1"
-        :on-remove="handleRemove"
-        :on-change="handleChange"
         :before-upload="beforeUpload"
         action="#"
         class="upload-demo"

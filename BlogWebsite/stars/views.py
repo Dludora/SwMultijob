@@ -24,7 +24,7 @@ def addStars(request):
     articleId = request.POST.get('articleId')
     token = request.POST.get('token')
     # userId = request.POST.get('id')  ####
-    userId=TK.check_token_return(token, 0)
+    userId = TK.check_token_return(token, 0)
     if not isinstance(userId, str):
         return userId
 
@@ -77,7 +77,7 @@ def get_all_star_article(request):
             dic['author'] = author.username
             # print(dic)
             stars_list.append(dic)
-        return JsonResponse({'errno': 0, 'size': len(stars), 'star_list': stars_list})
+        return JsonResponse({'errno': 0, 'size': len(stars_list), 'stars_list': stars_list})
 
 
 ################################# history #################################
@@ -182,9 +182,22 @@ def get_follow_list(request):
     follows = follows.values()
     print(follows)
     if len(follows) == 0:
-        return JsonResponse({'errno': 1002, 'msg': '不存在收藏文章'})
+        return JsonResponse({'errno': 1002, 'msg': ''})
     else:
         follows_list = []
         for f in follows:
-            follows_list.append(f['followId'])
-        return JsonResponse({'errno': 0, 'size': len(follows), 'follow_user_list': follows_list})
+            dic = {}
+            dic['followId'] = f['followId']
+            author = Author.objects.get(id=f['followId'])
+            dic['followName'] = author.username
+            avatar = author.avatar
+            if avatar is None:
+                avatarAddr = ''
+            else:
+                avatarAddr = avatar.path
+                avatarAddr = avatarAddr.split('\\')
+                avatarAddr = avatarAddr[len(avatarAddr) - 1]
+                avatarAddr = "http://127.0.0.1:8000/files/user_img/" + avatarAddr
+            dic['followAvatar'] = avatarAddr
+            follows_list.append(dic)
+        return JsonResponse({'errno': 0, 'size': len(follows), 'follows_list': follows_list})

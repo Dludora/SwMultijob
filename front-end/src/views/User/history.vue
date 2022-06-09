@@ -67,7 +67,7 @@ export default {
           this.history_list = []
           this.total = 0
         } else if(res.data.errno === 0) {
-          this.history_list = res.data.hitory_list
+          this.history_list = res.data.history_list
           this.total = res.data.size
         } else {
           ElMessage(res.data.msg)

@@ -7,6 +7,8 @@ const Login = () => import('../views/LoginView.vue')
 const User = () => import('../views/User.vue')
 const Editor = () => import('../views/Blog/BlogCreate.vue')
 const View = () => import('../views/Blog/BlogView.vue')
+const otherHome = () => import('../views/User/otherHome.vue')
+const search = () => import('../views/SearchResult.vue')
 const routes = [
   {
     path: '/',
@@ -44,6 +46,11 @@ const routes = [
     path: '/view:blogId',
     name: 'view',
     component: View,
+  },
+  {
+    path: '/userHome:userId',
+    name: 'userHome',
+    component: otherHome
   },
   {
     path: '/user',
@@ -95,6 +102,11 @@ const routes = [
         },
     ],
   },
+  {
+    path: '/search:key',
+    name: 'search',
+    component: search
+  }
 ]
 
 const router = createRouter({

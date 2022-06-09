@@ -22,15 +22,10 @@
     </el-container>
   </el-container>
 </template>
-
-
 <script>
 
 export default {
   name: "PersonalSpace",
-  created() {
-    this.$router.push('/user/profile')
-  },
   data() {
     return {
       items: [

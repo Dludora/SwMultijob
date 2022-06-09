@@ -4,7 +4,7 @@ import re
 
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from backend.models import Author, Article,ImgInArticle
+from backend.models import Author, Article,FileInArticle
 from stars.models import Stars,Follow
 from comment_like.models import Comments,Likes
 from django.core.validators import validate_email
@@ -159,14 +159,14 @@ def login(request):
             author.save()
             encoded = PyJWT().encode({'userid': (str)(author.id), 'time': (str)(now_time)}, TK.secretKey,
                                      algorithm="HS256")
-            imgs = ImgInArticle.objects.filter(userId=author.id)
-            for img in imgs:
+            files = FileInArticle.objects.filter(userId=author.id)
+            for file in files:
                 try:
-                    os.remove(img.img.path)
-                    print(img.img.path+" is removed")
+                    os.remove(file.file.path)
+                    print(file.file.path+" is removed")
                 except:
                     None
-                img.delete()
+                file.delete()
             if type(encoded) == type("str"):
                 return JsonResponse({'errno': 0, 'msg': "登录成功", 'token': encoded})
             return JsonResponse({'errno': 0, 'msg': "登录成功", 'token': (str)(encoded, encoding='utf-8')})
@@ -195,14 +195,14 @@ def logout(request):
         return JsonResponse({'errno': 503, 'msg': "用户不存在"})
     if id == -4:
         return JsonResponse({'errno': 504, 'msg': "用户已注销或已在别处登录"})
-    imgs = ImgInArticle.objects.filter(userId=id)
-    for img in imgs:
+    files = FileInArticle.objects.filter(userId=id)
+    for file in files:
         try:
-            os.remove(img.img.path)
-            print(img.img.path + " is removed")
+            os.remove(file.file.path)
+            print(file.file.path + " is removed")
         except:
             None
-        img.delete()
+        file.delete()
     return JsonResponse({'errno': 0, 'msg': "注销成功"})
 
 
@@ -248,7 +248,7 @@ def getSelfInformation(request):
         avatarAddr = avatar.path
         avatarAddr = avatarAddr.split('\\')
         avatarAddr = avatarAddr[len(avatarAddr) - 1]
-        avatarAddr = "http://127.0.0.1:8000/img/user_img/" + avatarAddr
+        avatarAddr = "http://127.0.0.1:8000/files/user_img/" + avatarAddr
     return JsonResponse(
         {'errno': 0, 'msg': "获取信息成功", 'username': username, 'email': email, 'sex': sex, 'birthday': birthday,
          'discription': discription, 'avatar': avatarAddr})
@@ -458,29 +458,29 @@ def setSelfAvatar(request):
             None
     return JsonResponse({'errno': 0, 'msg': "头像修改成功"})
 @csrf_exempt
-def addImg(request):
+def addFile(request):
     if request.method != 'POST':
         return JsonResponse({'errno': 1001, 'msg': "请求方式错误"})
     token = request.POST.get('token')
     userId = TK.check_token_return(token, 0)
     if not isinstance(userId, str):
         return userId
-    img=request.FILES.get('img')
-    if img is None:
-        return JsonResponse({'errno': 1002, 'msg': "未传入图片"})
-    new_img=ImgInArticle(img=img,userId=userId)
+    file=request.FILES.get('file')
+    if file is None:
+        return JsonResponse({'errno': 1002, 'msg': "未传入文件"})
+    new_file=FileInArticle(file=file,userId=userId)
     articleId=request.POST.get('articleId')
     if articleId is not None:
-        new_img.articleId=articleId
+        new_file.articleId=articleId
     else:
-        new_img.articleId=None
-    new_img.save()
-    Addr = new_img.img.path
+        new_file.articleId=None
+    new_file.save()
+    Addr = new_file.file.path
     Addr = Addr.split('\\')
     Addr = Addr[len(Addr) - 1]
-    Addr = "http://127.0.0.1:8000/img/article_img/"+Addr
-    new_img.url=Addr
-    new_img.save()
+    Addr = "http://127.0.0.1:8000/files/article_file/"+Addr
+    new_file.url=Addr
+    new_file.save()
     return JsonResponse({'errno': 0, 'msg': "上传成功","url":Addr})
 @csrf_exempt
 def publish(request):
@@ -518,28 +518,28 @@ def publish(request):
         article.label=label
         article.discription=discription
         article.save()
-        imgs = ImgInArticle.objects.filter(articleId=articleId)
-        for img in imgs:
-            if re.search(img.url,body) is not None:
-                img.userId=None
-                img.save()
+        files = FileInArticle.objects.filter(articleId=articleId)
+        for file in files:
+            if re.search(file.url,body) is not None:
+                file.userId=None
+                file.save()
             else:
                 try:
-                    os.remove(img.img.path)
-                    print(img.img.path+" is removed")
+                    os.remove(file.file.path)
+                    print(file.file.path+" is removed")
                 except:
                     None
-                img.delete()
+                file.delete()
         return JsonResponse({'errno': 0, 'msg': "文章修改成功",'articleId':article.id})
     else:
         article=Article(title=title,body=body,label=label,discription=discription,publisher=user)
         article.save()
-        imgs = ImgInArticle.objects.filter(userId=userId)
-        for img in imgs:
-            if re.search(img.url,body) is not None:
-                img.userId=None
-                img.articleId=article.id
-                img.save()
+        files = FileInArticle.objects.filter(userId=userId)
+        for file in files:
+            if re.search(file.url,body) is not None:
+                file.userId=None
+                file.articleId=article.id
+                file.save()
         return JsonResponse({'errno': 0, 'msg': "文章发布成功",'articleId':article.id})
 @csrf_exempt
 def getEdit(request):
@@ -582,14 +582,14 @@ def deleteArticle(request):
         return JsonResponse({'errno': 1003, 'msg': "文章不存在"})
     if article.publisher_id!=user.id:
         return JsonResponse({'errno': 1004, 'msg': "不能删除非本人所写文章"})
-    imgs = ImgInArticle.objects.filter(articleId=articleId)
-    for img in imgs:
+    files = FileInArticle.objects.filter(articleId=articleId)
+    for file in files:
         try:
-            os.remove(img.img.path)
-            print(img.img.path + " is removed")
+            os.remove(file.file.path)
+            print(file.file.path + " is removed")
         except:
             None
-        img.delete()
+        file.delete()
     likes=Likes.objects.filter(articleId=articleId)
     for like in likes:
         like.delete()
@@ -627,7 +627,7 @@ def readArticle(request):
     avatarAddr = user.avatar.path
     avatarAddr = avatarAddr.split('\\')
     avatarAddr = avatarAddr[len(avatarAddr) - 1]
-    avatarAddr = "http://127.0.0.1:8000/img/user_img/" + avatarAddr
+    avatarAddr = "http://127.0.0.1:8000/files/user_img/" + avatarAddr
     comments = Comments.objects.filter(articleId=articleId)
     comments = comments.values()
     comment_list = []
@@ -687,12 +687,13 @@ def getOtherInformation(request):
     avatarAddr = author.avatar.path
     avatarAddr = avatarAddr.split('\\')
     avatarAddr = avatarAddr[len(avatarAddr) - 1]
-    avatarAddr = "http://127.0.0.1:8000/img/user_img/" + avatarAddr
+    avatarAddr = "http://127.0.0.1:8000/files/user_img/" + avatarAddr
     blogs = Article.objects.filter(publisher_id=author)
     blogs = blogs.values()
     blog_list = []
     for blog in blogs:
         dic = {}
+        dic['id']=blog['id']
         dic['title'] = blog['title']
         dic['discription'] = blog['discription']
         # print(dic)
@@ -700,3 +701,23 @@ def getOtherInformation(request):
     return JsonResponse({'errno': 0, 'msg': "查询成功",'username':author.username,'avatarAddr':avatarAddr,
                          'sex':author.sex,'birthday':author.birthday,'discription':author.discription,
                          'email':author.email,'follows':follows,'isFollowed':isFollowed,'blogs':blog_list})
+
+@csrf_exempt
+def getSelfAvatar(request):
+    if request.method != 'POST':
+        return JsonResponse({'errno': 1001, 'msg': "请求方式错误"})
+    token = request.POST.get('token')
+    userId = TK.check_token_return(token, 0)
+    if not isinstance(userId, str):
+        return userId
+    user = Author.objects.get(id=userId)
+    avatarAddr = user.avatar
+    if avatarAddr is None:
+        avatarAddr = "http://127.0.0.1:8000/files/user_img/default_img.png"
+    else:
+        avatarAddr = avatarAddr.path
+        avatarAddr = avatarAddr.split('\\')
+        avatarAddr = avatarAddr[len(avatarAddr) - 1]
+        avatarAddr = "http://127.0.0.1:8000/files/user_img/" + avatarAddr
+    return JsonResponse(
+        {'errno': 0, 'msg': "获取信息成功", 'avatar': avatarAddr})

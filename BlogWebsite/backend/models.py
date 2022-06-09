@@ -24,8 +24,8 @@ class Article(models.Model):
     commentsCount = models.IntegerField(default=0)
 
 
-class ImgInArticle(models.Model):
-    img = models.ImageField(upload_to="article_img/")
+class FileInArticle(models.Model):
+    file = models.FileField(upload_to="article_file/")
     articleId = models.IntegerField(null=True)
     userId = models.IntegerField(null=True)
     url = models.CharField(max_length=200)

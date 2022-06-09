@@ -1,6 +1,18 @@
 <template>
+  <Dialog header="上传文件" v-model:visible="isDisplay">
+    <el-upload
+        :limit="1"
+        action="#"
+        drag
+        :http-request="uploadFile"
+      >
+      <el-icon class="el-icon--upload"><upload-filled /></el-icon>
+      <div class="el-upload__text">
+        将文件拖拽至此 或 <em>点击进行上传</em>
+      </div>
+    </el-upload>
+  </Dialog>
   <Sidebar v-model:visible="visibleRight" position="right">
-
     <h3 style="font-size: 25px;">上传博客</h3>
       <el-form
           ref="blogForm"
@@ -12,7 +24,7 @@
         <el-form-item prop="headline" label="博客标题">
           <el-input type="text" placeholder="请填写博客标题" v-model="blogForm.headline" />
         </el-form-item>
-        <el-form-item prop="headline" label="博客标题">
+        <el-form-item prop="description" label="博客标题">
           <el-input
                   v-model="blogForm.description"
                   :autosize="{ minRows: 2, maxRows: 4 }"
@@ -39,8 +51,6 @@
     <el-button size="small" v-for="label in labels" @click="addLabel(label)">{{label}}</el-button>
 
     <Button label="提交" icon="pi pi-check" class="p-button-secondary" autofocus @click="addBlogSubmit('blogForm')" style="margin-top: 30px"/>
-
-
   </Sidebar>
   <div id="main">
     <v-md-editor
@@ -48,8 +58,10 @@
         v-model="blogForm.content"
         height="600px"
         @upload-image="handleUploadImage"
+        @upload-file="handleUploadImage"
     ></v-md-editor>
     <Button class="pi pi-arrow-up" label=" 提交" iconPos="right" @click="()=>visibleRight=true" style="margin: 10px 30px"/>
+    <Button label="上传文件" class="pi pi-check p-button-secondary"  @click="isDisplay=true" style="margin: 10px 30px"/>
   </div>
 </template>
 
@@ -59,9 +71,13 @@ import Dialog from "primevue/dialog";
 import Button from "primevue/button";
 import axios from "axios";
 import {ElMessage} from "element-plus";
+import {Hide} from "@element-plus/icons-vue";
+import { UploadFilled } from '@element-plus/icons-vue'
 export default {
   name: "BlogCreate",
   components: {
+    Hide,
+    UploadFilled,
     Dialog,
     Button,
     Sidebar
@@ -76,7 +92,26 @@ export default {
         callback();
       }
     };
+    let checkBlogDescription = (rule, value, callback) => {
+      if(!value) {
+        return callback(new Error('简介不能空'));
+      } else {
+        callback();
+      }
+    };
+    let checkFileName = (rule, value, callback) => {
+      if(!value) {
+        return callback(new Error('文件名不能空'));
+      } else if(value.length > 10) {
+        return callback(new Error('长度在1-10个字符之间'));
+      } else {
+        callback();
+      }
+    };
     return {
+      fileForm: {
+        filename: '',
+      },
       labels: [
           '后端',
           '前端',
@@ -112,7 +147,15 @@ export default {
         headline: [
           {validator: checkBlogHeadline, trigger: 'blur'}
         ],
+        description: [
+          {validator: checkBlogDescription, trigger: 'blur'}
+        ],
       },
+      rule: {
+        filename: [
+          {validator: checkFileName, trigger: 'blur'}
+        ]
+      }
     }
   },
   created() {
@@ -180,11 +223,12 @@ export default {
     handleUploadImage(event, insertImage, files) {
       // 拿到 files 之后上传到文件服务器，然后向编辑框中插入对应的内容
       const formData = new FormData()
-      formData.append('img', files[0])
+      formData.append('file', files[0])
+      console.log(files[0])
       formData.append('token', this.$store.state.user.token)
       axios({
         method: 'post',
-        url: 'backend/addImg',
+        url: 'backend/addFile',
         data: formData,
       }).then(res => {
         insertImage({
@@ -195,7 +239,25 @@ export default {
         ElMessage.error('插入失败')
       })
     },
-
+    uploadFile(file) {
+      const formData = new FormData()
+      formData.append('token', this.$store.state.user.token)
+      formData.append('file', file.file)
+      axios({
+        method: 'post',
+        url: 'backend/addFile',
+        data: formData,
+      }).then(res => {
+        if(res.data.errno === 0) {
+          this.blogForm.content += '['+this.filename+']'+'('+res.data.url+')'
+          this.isDisplay = false
+        }
+        ElMessage(res.data.msg)
+        // console.log(res)
+      }).catch(err => {
+        ElMessage.error('插入失败')
+      })
+    }
   }
 }
 </script>

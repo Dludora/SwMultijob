@@ -2,7 +2,7 @@ import Cookie from 'js-cookie'
 export default {
     state: {
         token: '',
-        avatar: 'http://127.0.0.1:8000/img/user_img/default_img.png',
+        avatar: 'http://127.0.0.1:8000/files/user_img/default_img.png',
     },
     mutations: {
         setToken(state, val) {

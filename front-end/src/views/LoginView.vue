@@ -1,61 +1,62 @@
 <template>
-  <div class="contain">
+  <div class="main-container">
+    <div class="contain">
       <div class="big-box" :class="{active:isLogin}">
-        <div class="big-contain" v-if="isLogin">
-          <div class="btitle">账户登录</div>
-          <div class="bform">
-            <el-form :model="formSignIn" ref="formSignIn" class="demo-ruleForm form-of-el">
-              <el-form-item prop="email">
-                <el-input type="email" placeholder="邮箱" v-model="formSignIn.email"></el-input>
-              </el-form-item>
-              <el-form-item prop="password">
-                <el-input type="password" placeholder="密码" v-model="formSignIn.password"></el-input>
-              </el-form-item>
-            </el-form>
+          <div class="big-contain" v-if="isLogin">
+            <div class="btitle">账户登录</div>
+            <div class="bform">
+              <el-form :model="formSignIn" ref="formSignIn" class="demo-ruleForm form-of-el">
+                <el-form-item prop="email">
+                  <el-input type="email" placeholder="邮箱" v-model="formSignIn.email"></el-input>
+                </el-form-item>
+                <el-form-item prop="password">
+                  <el-input type="password" placeholder="密码" v-model="formSignIn.password"></el-input>
+                </el-form-item>
+              </el-form>
+            </div>
+            <button class="bbutton" @click="login">登录</button>
           </div>
-          <button class="bbutton" @click="login">登录</button>
-        </div>
-        <div class="big-contain" v-else>
-          <div class="btitle">创建账户</div>
-          <div class="bform">
-            <el-form :model="formRegister" :rules="rules" ref="formRegister" class="demo-ruleForm form-of-el">
-              <el-form-item prop="username">
-                <el-input type="text" placeholder="用户名" v-model="formRegister.username"></el-input>
-              </el-form-item>
-              <el-form-item prop="email">
-                <el-input type="email" placeholder="邮箱" v-model="formRegister.email"></el-input>
-              </el-form-item>
-              <el-form-item prop="pass">
-                <el-input type="password" placeholder="密码" v-model="formRegister.pass"></el-input>
-              </el-form-item>
-              <el-form-item prop="checkPass">
-                <el-input type="password" placeholder="确认密码" v-model="formRegister.checkPass"></el-input>
-              </el-form-item>
-            </el-form>
+          <div class="big-contain" v-else>
+            <div class="btitle">创建账户</div>
+            <div class="bform">
+              <el-form :model="formRegister" :rules="rules" ref="formRegister" class="demo-ruleForm form-of-el">
+                <el-form-item prop="username">
+                  <el-input type="text" placeholder="用户名" v-model="formRegister.username"></el-input>
+                </el-form-item>
+                <el-form-item prop="email">
+                  <el-input type="email" placeholder="邮箱" v-model="formRegister.email"></el-input>
+                </el-form-item>
+                <el-form-item prop="pass">
+                  <el-input type="password" placeholder="密码" v-model="formRegister.pass"></el-input>
+                </el-form-item>
+                <el-form-item prop="checkPass">
+                  <el-input type="password" placeholder="确认密码" v-model="formRegister.checkPass"></el-input>
+                </el-form-item>
+              </el-form>
+            </div>
+            <button class="bbutton" @click="register">注册</button>
           </div>
-          <button class="bbutton" @click="register">注册</button>
         </div>
-      </div>
       <div class="small-box" :class="{active:isLogin}">
-        <div class="small-contain" v-if="isLogin">
-          <div class="stitle">你好，朋友！</div>
-          <p class="scontent">快来开始一段新的旅程吧</p>
-          <button class="sbutton" @click="changePage">注册</button>
+          <div class="small-contain" v-if="isLogin">
+            <div class="stitle">你好，朋友！</div>
+            <p class="scontent">快来开始一段新的旅程吧</p>
+            <button class="sbutton" @click="changePage">注册</button>
+          </div>
+          <div class="small-contain" v-else>
+            <div class="stitle">欢迎回来！</div>
+            <p class="scontent">继续您的旅程吧</p>
+            <button class="sbutton" @click="changePage">登录</button>
+          </div>
         </div>
-        <div class="small-contain" v-else>
-          <div class="stitle">欢迎回来！</div>
-          <p class="scontent">继续您的旅程吧</p>
-          <button class="sbutton" @click="changePage">登录</button>
-        </div>
-      </div>
     </div>
-</template>
+  </div>
 
+</template>
 <script>
 import axios from "axios";
 import Dialog from "primevue/dialog";
 import {ElMessage} from 'element-plus';
-
 
 export default {
   name: "LoginView",
@@ -168,7 +169,17 @@ export default {
         if(res.data.errno === 0) {
           const token = res.data.token;
           this.$store.commit('setToken', token);
-          this.$router.push({name: 'home'});
+          const newformData = new FormData
+          newformData.append('token', this.$store.state.user.token)
+          axios({
+            method: 'post',
+            url: 'backend/getSelfAvatar',
+            data: newformData
+          }).then(response => {
+            console.log(response.data)
+            this.$store.commit('setAvatar', response.data.avatar)
+            this.$router.push({name: 'home'});
+          })
         }
       })
       .catch(err => {
@@ -205,8 +216,10 @@ export default {
 
 }
 </script>
-
 <style scoped="scoped">
+.main-container {
+  min-height: calc(100% - 90px);
+}
 .contain{
   width: 832px;
   height: 418px;
