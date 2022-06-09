@@ -1,6 +1,7 @@
 from django.shortcuts import render
 
 # Create your views here.
+import re
 import time
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -56,7 +57,6 @@ def delComment(request):
     article.save()
     comment.delete()
 
-
     return JsonResponse({'errno': 0, 'msg': "评论删除成功"})
 
 
@@ -99,3 +99,97 @@ def delLike(request):
     article.likes -= 1
     article.save()
     return JsonResponse({'errno': 0, 'msg': "取消点赞成功"})
+
+
+################################# search #################################
+@csrf_exempt
+def search(request):
+    if request.method != 'POST':
+        return JsonResponse({'errno': 1001, 'msg': "请求方式错误"})
+    key = request.POST.get('key')
+
+    all_article = list(Article.objects.all())
+    all_article.sort(key=lambda x: x.likes, reverse=True)
+    result_article = []
+    for a in all_article:
+        match = 0
+        for k in key:
+            if re.search(k, a.title) != None:
+                match += 1
+        if match >= 3 or (len(key) < 3 and match > 0):
+            result_article.append(a)
+    if len(result_article) == 0:
+        return JsonResponse({'errno': 1002, 'msg': "没有匹配的博客"})
+    result_list = []
+    for a in result_article:
+        dic = {}
+        dic['title'] = a.title
+        author_id = a.publisher_id
+        author = Author.objects.get(id=author_id)
+        dic['author'] = author.username
+        dic['articleId'] = a.id
+        dic['description'] = a.discription
+        label_str = a.label
+        label_list = label_str.split(',')
+        dic['label'] = label_list
+        result_list.append(dic)
+
+    return JsonResponse({'errno': 0, 'msg': "搜索成功", 'result_list_size': len(result_list), 'result_list': result_list})
+
+
+################################# display #################################
+@csrf_exempt
+def display(request):
+    if request.method != 'POST':
+        return JsonResponse({'errno': 1001, 'msg': "请求方式错误"})
+
+    all_article = list(Article.objects.all())
+    print('@!!!!!!!!!!!!!')
+    print(all_article)
+    all_article.sort(key=lambda x: x.likes, reverse=True)
+    article_list = []
+    for a in all_article:
+        dic = {}
+        dic['title'] = a.title
+        author_id = a.publisher_id
+        author = Author.objects.get(id=author_id)
+        dic['author'] = author.username
+        dic['articleId'] = a.id
+        label_str = a.label
+        label_list = label_str.split(',')
+        dic['label'] = label_list
+        dic['description'] = a.discription
+        article_list.append(dic)
+    return JsonResponse({'errno': 0, 'msg': "首页推荐获取成功", 'article_list': article_list})
+
+
+################################# get_my_article #################################
+@csrf_exempt
+def get_my_article(request):
+    if request.method != 'POST':
+        return JsonResponse({'errno': 1001, 'msg': "请求方式错误"})
+    token = request.POST.get('token')
+
+    # userId = request.POST.get('id')  ####
+    userId = TK.check_token_return(token, 0)
+    if not isinstance(userId, str):
+        return userId
+
+    all_article = list(Article.objects.filter(publisher_id=userId))
+    # print('@!!!!!!!!!!!!!')
+    # print(all_article)
+    all_article.sort(key=lambda x: x.likes, reverse=True)
+    article_list = []
+    for a in all_article:
+        dic = {}
+        dic['title'] = a.title
+        author_id = a.publisher_id
+        author = Author.objects.get(id=author_id)
+        dic['author'] = author.username
+        dic['articleId'] = a.id
+        label_str = a.label
+        label_list = label_str.split(',')
+        dic['label'] = label_list
+        dic['description'] = a.discription
+        article_list.append(dic)
+    return JsonResponse({'errno': 0, 'msg': "获取我的博客成功", 'article_list': article_list})

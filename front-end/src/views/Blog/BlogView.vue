@@ -5,18 +5,18 @@
         <el-card class="author-card">
           <template #header>
             <div class="card-header">
-              <div class="card-avatar">
+              <div class="card-avatar blogger-avatar">
                 <el-avatar :size="60" :src="blogForm.author.imgSrc" />
               </div>
-              <div class="card-message">
+              <div class="card-message blogger-message">
                 <span>{{blogForm.author.nickName}}</span>
               </div>
             </div>
           </template>
           <el-row :gutter="20" style="margin-bottom: 15px">
-            <el-col :span="8" style="text-align: center">1</el-col>
-            <el-col :span="8" style="text-align: center">2</el-col>
-            <el-col :span="8" style="text-align: center">3</el-col>
+            <el-col :span="8" style="text-align: center">{{this.blogForm.likes}}</el-col>
+            <el-col :span="8" style="text-align: center">{{this.blogForm.stars}}</el-col>
+            <el-col :span="8" style="text-align: center">{{this.blogForm.commentNum}}</el-col>
           </el-row>
           <el-row :gutter="20">
             <el-col :span="8" style="text-align: center">获赞数</el-col>
@@ -27,16 +27,16 @@
       </div>
       <div class="icons">
         <el-row>
-          <Avatar size="large" class="avatar-icon" icon="pi pi-thumbs-up" shape="circle"/>
-          <!--  <i class="pi pi-heart-fill"></i>-->
+          <Avatar v-if="isLiked" size="large" class="avatar-icon" icon="pi pi-thumbs-up" shape="circle" style="color: red" @click="delLike"/>
+          <Avatar v-else size="large" class="avatar-icon" icon="pi pi-thumbs-up" shape="circle" @click="like"/>
         </el-row>
         <el-row>
-          <Avatar size="large" class="avatar-icon" icon="pi pi-bookmark" shape="circle"/>
-          <!--  <i class="pi pi-heart-fill"></i>-->
+          <Avatar v-if="isCollected" size="large" class="avatar-icon" icon="pi pi-bookmark" shape="circle" style="color: red" @click="delCollect"/>
+          <Avatar v-else size="large" class="avatar-icon" icon="pi pi-bookmark" shape="circle" @click="collect"/>
         </el-row>
         <el-row>
-          <Avatar size="large" class="avatar-icon" icon="pi pi-heart" shape="circle"/>
-          <!--  <i class="pi pi-heart-fill"></i>-->
+          <Avatar v-if="isFollowed" size="large" class="avatar-icon" icon="pi pi-heart-full" shape="circle" style="color: red" @click="delFollow"/>
+          <Avatar v-else size="large" class="avatar-icon" icon="pi pi-heart" shape="circle" @click="follow"/>
         </el-row>
       </div>
       <el-backtop :right="20" :bottom="100" />
@@ -69,201 +69,24 @@ export default {
   },
   data() {
     return {
+      isLiked: false,
+      isCollected: false,
+      isFollowed: false,
       blogId: null,
       blogForm: {
         author: {
+          authorId: null,
           nickName: 'Dludora',
           imgSrc: require('../../assets/head.png')
         },
+        likes: null,
+        commentNum: null,
+        stars: null,
+        description: '',
+        label: [],
         headline: '题目',
-        text: '## 1、前后端项目合并\n' +
-            '\n' +
-            '### 后端项目\n' +
-            '\n' +
-            '#### 项目创建/运行\n' +
-            '\n' +
-            '​\t在前端项目同级命令行中打开终端，输入`django-admin startproject 项目名称`\n' +
-            '\n' +
-            '​\tcd进该目录，输入 `python manage.py runserver`，运行该项目，终端上出现链接\n' +
-            '\n' +
-            '#### 配置数据库\n' +
-            '\n' +
-            '​\t找到第一次创建出的文件夹下，找到`settings.py`文件，找到如下代码\n' +
-            '\n' +
-            '```python\n' +
-            'DATABASES = {\n' +
-            '    \'default\': {\n' +
-            '        \'ENGINE\': \'django.db.backends.sqlite3\',\n' +
-            '        \'NAME\': BASE_DIR / \'db.sqlite3\',\n' +
-            '    }\n' +
-            '}\n' +
-            '```\n' +
-            '\n' +
-            '​\t如果想要更换为自己的`mysql`数据库，可以参考以下设置进行更改\n' +
-            '\n' +
-            '```python\n' +
-            'DATABASES = {\n' +
-            '    \'default\': {\n' +
-            '        \'ENGINE\': \'django.db.backends.mysql\',\n' +
-            '        \'NAME\': \'xxx\',\t\t\t\t# 数据库名称\n' +
-            '        \'USER\': \'root\'\t\t\t\t# 连接数据库的用户名称\n' +
-            '        \'PASSWORD\': \'xxxx\'\t\t\t# 用户密码\n' +
-            '        \'HOST\': \'127.0.0.1\'\t\t\t # 访问的数据库的主机ip地址\n' +
-            '        \'PORT\': \'3306\'\t\t\t\t# 默认mysql访问端口\n' +
-            '    }\n' +
-            '}\n' +
-            '```\n' +
-            '\n' +
-            '运行 `python manage.py migrate`\n' +
-            '\n' +
-            '#### 新建应用\n' +
-            '\n' +
-            '​\t再次在终端上输入`python manage.py startapp xxx`，创建出`xxx`应用\n' +
-            '\n' +
-            '​\t找到第一次创建出的文件夹下，找到`settings.py`文件，找到如下代码\n' +
-            '\n' +
-            '```python\n' +
-            'INSTALLED_APPS = [\n' +
-            '    \'django.contrib.admin\',\n' +
-            '    \'django.contrib.auth\',\n' +
-            '    \'django.contrib.contenttypes\',\n' +
-            '    \'django.contrib.sessions\',\n' +
-            '    \'django.contrib.messages\',\n' +
-            '    \'django.contrib.staticfiles\',\n' +
-            '    \'backend.apps.BackendConfig\',\n' +
-            ']\n' +
-            '```\n' +
-            '\n' +
-            '​\t把新建的应用添加进去,修改如下\n' +
-            '\n' +
-            '```\n' +
-            'INSTALLED_APPS = [\n' +
-            '    \'django.contrib.admin\',\n' +
-            '    \'django.contrib.auth\',\n' +
-            '    \'django.contrib.contenttypes\',\n' +
-            '    \'django.contrib.sessions\',\n' +
-            '    \'django.contrib.messages\',\n' +
-            '    \'django.contrib.staticfiles\',\n' +
-            '    \'backend.apps.BackendConfig\',\n' +
-            '    \'xxx.apps.XxxConfig\',\n' +
-            ']\n' +
-            '```\n' +
-            '\n' +
-            '在`models.py`文件中添加好自己想要的内容后，运行`python manage.py makemigrations`, `python manage.py migrate`\n' +
-            '\n' +
-            '#### 超级管理员\n' +
-            '\n' +
-            '在终端中，输入`python manage.py createsuperuser`后，按照提示创建超级管理员账号\n' +
-            '\n' +
-            '在服务端口后加`/admin`，即可进入超级管理员界面，如果想要在该界面管理新建出的xxx应用，则修改改应用目录下的admin.py文件\n' +
-            '\n' +
-            '`admin.py`文件\n' +
-            '\n' +
-            '```python\n' +
-            'from django.contrib import admin\n' +
-            'from .models import Author\n' +
-            '# Register your models here.\n' +
-            '\n' +
-            '\n' +
-            'class AuthorAdmin(admin.ModelAdmin):\n' +
-            '    list_display = [\'username\', \'password\', \'email\']\n' +
-            '\n' +
-            '\n' +
-            'admin.site.register(Author, AuthorAdmin)\n' +
-            '\n' +
-            '```\n' +
-            '\n' +
-            '`models.py`文件\n' +
-            '\n' +
-            '```python\n' +
-            'from django.db import models\n' +
-            'class Author(models.Model):\n' +
-            '    # Author表项，含用户名和密码，均为字符串属性，并设置最大长度\n' +
-            '    username = models.CharField(max_length=50,primary_key=False)\n' +
-            '    password = models.CharField(max_length=20)\n' +
-            '    email = models.EmailField()\n' +
-            '```\n' +
-            '\n' +
-            '#### 安装def-rest-framework\n' +
-            '\n' +
-            '##### 终端依次输入指令\n' +
-            '\n' +
-            '`pip install djangorestframework`\n' +
-            '\n' +
-            '`pip install markdown`\n' +
-            '\n' +
-            '`pip install django-filter`\n' +
-            '\n' +
-            '##### 配置`drf settings.py`文件\n' +
-            '\n' +
-            '###### 引入app\n' +
-            '\n' +
-            '```python\n' +
-            'INSTALLED_APPS = [\n' +
-            '    \'django.contrib.admin\',\n' +
-            '    \'django.contrib.auth\',\n' +
-            '    \'django.contrib.contenttypes\',\n' +
-            '    \'django.contrib.sessions\',\n' +
-            '    \'django.contrib.messages\',\n' +
-            '    \'django.contrib.staticfiles\',\n' +
-            '    \'rest_framework\',\t// 写在所有自定义模块之上\n' +
-            '    \'backend.apps.BackendConfig\',\n' +
-            ']\n' +
-            '```\n' +
-            '\n' +
-            '###### 引入drf\n' +
-            '\n' +
-            '放在DATA_BASE以下\n' +
-            '\n' +
-            '```\n' +
-            'REST_FRAMEWORK = {\n' +
-            '    \'DEFAULT_PERMISSION_CLASSES\': [\n' +
-            '        \'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly\'\n' +
-            '    ]\n' +
-            '}\n' +
-            '```\n' +
-            '\n' +
-            '#### 实现cors跨域\n' +
-            '\n' +
-            '命令行输入`pip install django-cors-headers`\n' +
-            '\n' +
-            '在`settings.py` 中的`INSTALED_APPS`中引入`corsheaders` , `MIDDLEWARE`中的第三位引入`corsheaders.middleware.CorsMiddleware`\n' +
-            '\n' +
-            '文件最下方加入\n' +
-            '\n' +
-            '```python\n' +
-            'CORS_ORIGIN_WHITELIST = (\n' +
-            '    \'http://127.0.0.1:8080\',\n' +
-            '    \'http://localhost:8080\',\n' +
-            ')\n' +
-            'CORS_ALLOW_CREDENTIALS = True  # 指明在跨域访问中，后端是否支持对cookie的操作。\n' +
-            '\n' +
-            'CORS_ALLOW_METHODS = (\n' +
-            ' \'DELETE\',\n' +
-            ' \'GET\',\n' +
-            ' \'OPTIONS\',\n' +
-            ' \'PATCH\',\n' +
-            ' \'POST\',\n' +
-            ' \'PUT\',\n' +
-            ' \'VIEW\',\n' +
-            ')\n' +
-            'CORS_ALLOW_HEADERS = (\n' +
-            ' \'XMLHttpRequest\',\n' +
-            ' \'X_FILENAME\',\n' +
-            ' \'accept-encoding\',\n' +
-            ' \'authorization\',\n' +
-            ' \'content-type\',\n' +
-            ' \'dnt\',\n' +
-            ' \'origin\',\n' +
-            ' \'user-agent\',\n' +
-            ' \'x-csrftoken\',\n' +
-            ' \'x-requested-with\',\n' +
-            ' \'Pragma\',\n' +
-            ')\n' +
-            '```\n' +
-            '\n' +
-            '![desc](https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1269952892,3525182336&fm=26&gp=0.jpg)'
-      }
+        text: ''
+      },
     }
   },
   created() {
@@ -272,19 +95,112 @@ export default {
   methods: {
     load() {
       this.blogId = this.$route.params.blogId
-      console.log(this.blogId)
+      // console.log(this.blogId)
       const formData = new FormData()
-      formData.append('blogId',this.blogId)
+      formData.append('articleId',this.blogId)
       formData.append('token', this.$store.state.user.token)
-      // axios({
-      //   method: 'post',
-      //   url: 'getBlog'
-      // }).then(res => {
-      //   this.blogForm.text = res.data.blog;
-      //   // console.log(res)
-      // }).catch(err => {
-      //   console.log(err)
-      // })
+      axios({
+        method: 'post',
+        url: 'backend/readArticle',
+        data: formData
+      }).then(res => {
+        if(res.data.errno === 0) {
+          this.blogForm.text = res.data.body
+          this.blogForm.headline = res.data.title
+          this.blogForm.label = res.data.label
+          this.blogForm.description = res.data.discription
+          this.blogForm.author.nickName = res.data.authorName
+          this.blogForm.author.imgSrc = res.data.avatarAddr
+          this.blogForm.author.authorId = res.data.authorId
+          this.blogForm.commentNum = res.data.commentnum
+          this.blogForm.likes = res.data.likes
+          this.blogForm.stars = res.data.stars
+          this.isLiked = res.data.isLiked === 1
+          this.isCollected = res.data.isStared === 1
+          this.isFollowed = res.data.isFollowed === 1
+        }
+        // console.log(res)
+      }).catch(err => {
+        console.log(err)
+      })
+      axios({
+        method: 'post',
+        url: 'stars/addHistory',
+        data: formData
+      })
+    },
+    like() {
+      const formData = new FormData()
+      formData.append('token', this.$store.state.user.token)
+      formData.append('articleId', this.$route.params.blogId)
+      axios({
+        method: 'post',
+        url: 'comment_like/addLike',
+        data: formData
+      }).then(res => {
+        // this.isLiked = true
+        this.load()
+      })
+    },
+    collect() {
+      const formData = new FormData()
+      formData.append('token', this.$store.state.user.token)
+      formData.append('articleId', this.$route.params.blogId)
+      axios({
+        method: 'post',
+        url: 'stars/addStars',
+        data: formData
+      }).then(res => {
+        this.load()
+      })
+    },
+    follow() {
+      const formData = new FormData()
+      formData.append('token', this.$store.state.user.token)
+      formData.append('articleId', this.$route.params.blogId)
+      axios({
+        method: 'post',
+        url: 'stars/addFollow',
+        data: formData
+      }).then(res => {
+        this.load()
+      })
+    },
+    delLike() {
+      const formData = new FormData()
+      formData.append('token', this.$store.state.user.token)
+      formData.append('articleId', this.$route.params.blogId)
+      axios({
+        method: 'post',
+        url: 'comment_like/delLike',
+        data: formData
+      }).then(res => {
+        this.load()
+      })
+    },
+    delCollect() {
+      const formData = new FormData()
+      formData.append('token', this.$store.state.user.token)
+      formData.append('articleId', this.$route.params.blogId)
+      axios({
+        method: 'post',
+        url: 'stars/delStars',
+        data: formData
+      }).then(res => {
+        this.load()
+      })
+    },
+    delFollow() {
+      const formData = new FormData()
+      formData.append('token', this.$store.state.user.token)
+      formData.append('articleId', this.$route.params.blogId)
+      axios({
+        method: 'post',
+        url: 'stars/delFollow',
+        data: formData
+      }).then(res => {
+        this.load()
+      })
     }
   }
 }
@@ -302,7 +218,6 @@ p {
 .author {
   width: 300px;
   height: 250px;
-
 }
 .author-card {
   margin-left: 20px;
@@ -326,6 +241,25 @@ p {
 }
 .blog-view {
   background-color: #ffffff;
+}
+.blogger-avatar {
+  cursor: pointer;
+}
+.cards {
+  height: 565px;
+  width: 1200px;
+}
+.card-container {
+  width: 100%;
+  padding: 0 30px;
+  display: flex;
+}
+.nickname {
+  line-height: 56px;
+  font-size: 20px;
+}
+.blogger-message {
+  margin-left: 10px;
 }
 </style>
 

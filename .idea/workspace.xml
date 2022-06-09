@@ -5,53 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3426c93c-5207-4247-9a23-64fcd2b24d6a" name="Changes" comment="Changes">
-      <change afterPath="$PROJECT_DIR$/BlogWebsite/backend/migrations/0008_auto_20220608_1603.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BlogWebsite/backend/migrations/0009_remove_article_condition.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BlogWebsite/backend/migrations/0010_imginarticle_url.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BlogWebsite/backend/migrations/0011_rename_description_article_discription.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BlogWebsite/backend/migrations/0012_auto_20220608_1727.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BlogWebsite/backend/migrations/0013_article_likes.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BlogWebsite/backend/migrations/0014_article_commentscount.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BlogWebsite/backend/migrations/0015_alter_article_firstcreate.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BlogWebsite/comment_like/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BlogWebsite/comment_like/admin.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BlogWebsite/comment_like/apps.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BlogWebsite/comment_like/migrations/0001_initial.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BlogWebsite/comment_like/migrations/0002_rename_comment_comments_comment.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BlogWebsite/comment_like/migrations/0003_alter_likes_unique_together.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BlogWebsite/comment_like/migrations/0004_alter_comments_articleid.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BlogWebsite/comment_like/migrations/0005_alter_comments_comment.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BlogWebsite/comment_like/migrations/0006_alter_comments_articleid_alter_comments_comment.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BlogWebsite/comment_like/migrations/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BlogWebsite/comment_like/models.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BlogWebsite/comment_like/tests.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BlogWebsite/comment_like/urls.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BlogWebsite/comment_like/views.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BlogWebsite/img/user_img/pic2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BlogWebsite/img/article_img/1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BlogWebsite/img/article_img/黑龙.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BlogWebsite/.idea/BlogWebsite.iml" beforeDir="false" afterPath="$PROJECT_DIR$/BlogWebsite/.idea/BlogWebsite.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BlogWebsite/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/BlogWebsite/.idea/dataSources.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BlogWebsite/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/BlogWebsite/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BlogWebsite/BlogWebsite/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/BlogWebsite/BlogWebsite/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BlogWebsite/BlogWebsite/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/BlogWebsite/BlogWebsite/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BlogWebsite/backend/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/BlogWebsite/backend/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BlogWebsite/backend/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/BlogWebsite/backend/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BlogWebsite/backend/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/BlogWebsite/backend/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlogWebsite/comment_like/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/BlogWebsite/comment_like/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlogWebsite/comment_like/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/BlogWebsite/comment_like/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BlogWebsite/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/BlogWebsite/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BlogWebsite/manage.py" beforeDir="false" afterPath="$PROJECT_DIR$/BlogWebsite/manage.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlogWebsite/img/user_img/1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlogWebsite/img/user_img/pic2.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/BlogWebsite/stars/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/BlogWebsite/stars/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BlogWebsite/user_img/img/1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BlogWebsite/user_img/img/default_img.png" beforeDir="false" afterPath="$PROJECT_DIR$/BlogWebsite/img/user_img/default_img.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BlogWebsite/user_img/img/黑龙.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BlogWebsite/user_img/img/黑龙_Oo9ZSkI.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BlogWebsite/user_img/img/黑龙_o6CFWkE.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/components/Header.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/Header.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front-end/src/components/users/userMenu.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/users/userMenu.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/router/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/store/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/store/user.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front-end/src/views/Blog/BlogCreate.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/views/Blog/BlogCreate.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front-end/src/views/Blog/BlogView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/views/Blog/BlogView.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/views/HomeView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/views/HomeView.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front-end/src/views/User/myBlogs.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/views/User/myBlogs.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/views/User/profile.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/views/User/profile.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -185,6 +156,8 @@
       <workItem from="1654690873376" duration="2403000" />
       <workItem from="1654695470087" duration="4974000" />
       <workItem from="1654700676945" duration="5614000" />
+      <workItem from="1654707323716" duration="504000" />
+      <workItem from="1654734386606" duration="7553000" />
     </task>
     <servers />
   </component>

@@ -2,7 +2,6 @@
   <Sidebar v-model:visible="visibleRight" position="right">
 
     <h3 style="font-size: 25px;">上传博客</h3>
-
       <el-form
           ref="blogForm"
           :model="blogForm"
@@ -116,7 +115,31 @@ export default {
       },
     }
   },
+  created() {
+    this.load()
+  },
   methods: {
+    load() {
+      if(this.$route.params.blogId !== '-1') {
+        const formData = new FormData()
+        formData.append('token', this.$store.state.user.token)
+        formData.append('articleId', this.$route.params.blogId)
+        axios({
+          method: 'post',
+          url: 'backend/getEdit',
+          data: formData
+        }).then(res => {
+          if(res.data.errno === 0) {
+            this.blogForm.content = res.data.body
+            this.blogForm.headline = res.data.title
+            this.blogForm.label = res.data.label
+            this.blogForm.description = res.data.discription
+          } else {
+            ElMessage(res.data.msg)
+          }
+        })
+      }
+    },
     addLabel(label) {
       this.blogForm.label.push(label)
     },
@@ -132,21 +155,23 @@ export default {
           formData.append('body', this.blogForm.content)
           formData.append('label', this.blogForm.label)
           formData.append('discription', this.blogForm.description)
+          formData.append('articleId', this.$route.params.blogId)
           axios({
             method: 'post',
             url: 'backend/publish',
             data: formData
           }).then(res => {
-            ElMessage.success(res.data.msg)
+            ElMessage(res.data.msg)
+            this.blogForm.headline = '';
+            this.blogForm.content = '';
+            this.visibleRight = false;
+
+            this.$router.push({name: 'view', params: {blogId: res.data.articleId}})
           })
-          this.blogForm.headline = '';
-          this.blogForm.content = '';
-          // this.isDisplay = false;
         } else {
           console.log("error submit!!");
         }
       })
-
     },
     addBlogCancel() {
       this.blogForm.headline = '';
@@ -157,16 +182,13 @@ export default {
       const formData = new FormData()
       formData.append('img', files[0])
       formData.append('token', this.$store.state.user.token)
-      let imgUrl = 'http://127.0.0.1:8000/img/article_img/黑龙_bRqviBC.png'
       axios({
         method: 'post',
         url: 'backend/addImg',
         data: formData,
       }).then(res => {
-        this.imgUrl = res.data.url
-        console.log(this.imgUrl)
         insertImage({
-          url: imgUrl,
+          url: res.data.url,
           desc: files[0].name,
         });
       }).catch(err => {

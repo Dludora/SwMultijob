@@ -77,7 +77,7 @@ def get_all_star_article(request):
             dic['author'] = author.username
             # print(dic)
             stars_list.append(dic)
-        return JsonResponse({'errno': 0, '数组大小': len(stars), '收藏文章列表': stars_list})
+        return JsonResponse({'errno': 0, 'size': len(stars), 'star_list': stars_list})
 
 
 ################################# history #################################
@@ -129,7 +129,7 @@ def get_history_list(request):
             dic['time'] = s['time']
             # print(dic)
             history_list.append(dic)
-        return JsonResponse({'errno': 0, '数组大小': len(history), '历史列表': history_list})
+        return JsonResponse({'errno': 0, 'size': len(history), 'history_list': history_list})
 
 
 ################################# follow #################################
@@ -187,4 +187,4 @@ def get_follow_list(request):
         follows_list = []
         for f in follows:
             follows_list.append(f['followId'])
-        return JsonResponse({'errno': 0, '数组大小': len(follows), '收藏文章列表': follows_list})
+        return JsonResponse({'errno': 0, 'size': len(follows), 'follow_user_list': follows_list})

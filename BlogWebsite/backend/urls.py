@@ -16,5 +16,7 @@ urlpatterns = [
     path('publish', publish), #发布文章，传入title(标题)、body(正文)、label(标签)、discription(简介，可选)，
                               #若非初次发布，则需传入articleId
     path('getEdit', getEdit), #编辑文章前获取文章信息，传入articleId，传回title(标题)、body(正文)、label(标签)、discription(简介)
-    path('deleteArticle', deleteArticle) #传入articleId，删除自己所写的文章
+    path('deleteArticle', deleteArticle), #传入articleId，删除自己所写的文章
+    path('readArticle', readArticle),
+    path('getOtherInformation', getOtherInformation)  # 根据id获取其它人的信息，token可选
 ]

@@ -5,6 +5,8 @@ import re
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from backend.models import Author, Article,ImgInArticle
+from stars.models import Stars,Follow
+from comment_like.models import Comments,Likes
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from jwt import PyJWT
@@ -504,7 +506,7 @@ def publish(request):
     elif discription is None:
         discription=""
     articleId=request.POST.get('articleId')
-    if articleId is not None and articleId!="":
+    if articleId is not None and articleId!="" and articleId!="-1":
         try:
             article=Article.objects.get(id=articleId)
         except:
@@ -528,7 +530,7 @@ def publish(request):
                 except:
                     None
                 img.delete()
-        return JsonResponse({'errno': 0, 'msg': "文章修改成功"})
+        return JsonResponse({'errno': 0, 'msg': "文章修改成功",'articleId':article.id})
     else:
         article=Article(title=title,body=body,label=label,discription=discription,publisher=user)
         article.save()
@@ -538,7 +540,7 @@ def publish(request):
                 img.userId=None
                 img.articleId=article.id
                 img.save()
-        return JsonResponse({'errno': 0, 'msg': "文章发布成功"})
+        return JsonResponse({'errno': 0, 'msg': "文章发布成功",'articleId':article.id})
 @csrf_exempt
 def getEdit(request):
     if request.method != 'POST':
@@ -557,7 +559,11 @@ def getEdit(request):
         return JsonResponse({'errno': 1003, 'msg': "文章不存在"})
     if article.publisher_id!=user.id:
         return JsonResponse({'errno': 1004, 'msg': "不能修改非本人所写文章"})
-    return JsonResponse({'errno': 0, 'msg': "信息获取成功",'title':article.title,'body':article.body,'label':article.label,'discription':article.discription})
+    labels=article.label.split(',')
+    label=[]
+    for lb in labels:
+        label.append(lb)
+    return JsonResponse({'errno': 0, 'msg': "信息获取成功",'title':article.title,'body':article.body,'label':label,'discription':article.discription})
 @csrf_exempt
 def deleteArticle(request):
     if request.method != 'POST':
@@ -576,7 +582,6 @@ def deleteArticle(request):
         return JsonResponse({'errno': 1003, 'msg': "文章不存在"})
     if article.publisher_id!=user.id:
         return JsonResponse({'errno': 1004, 'msg': "不能删除非本人所写文章"})
-    article.delete()
     imgs = ImgInArticle.objects.filter(articleId=articleId)
     for img in imgs:
         try:
@@ -585,4 +590,113 @@ def deleteArticle(request):
         except:
             None
         img.delete()
+    likes=Likes.objects.filter(articleId=articleId)
+    for like in likes:
+        like.delete()
+    stars=Stars.objects.filter(articleId=articleId)
+    for star in stars:
+        star.delete()
+    comments=Comments.objects.filter(articleId=articleId)
+    for comment in comments:
+        comment.delete()
+    article.delete()
     return JsonResponse({'errno': 0, 'msg': "删除成功"})
+@csrf_exempt
+def readArticle(request):
+    if request.method != 'POST':
+        return JsonResponse({'errno': 1001, 'msg': "请求方式错误"})
+    token = request.POST.get('token')
+    userId = TK.check_token_return(token, 0)
+    if not isinstance(userId, str):
+        return userId
+    articleId = request.POST.get('articleId')
+    if articleId is None or articleId=="":
+        return JsonResponse({'errno': 1002, 'msg': "articleId不能为空"})
+    try:
+        article = Article.objects.get(id=articleId)
+    except:
+        return JsonResponse({'errno': 1003, 'msg': "文章不存在"})
+    user=Author.objects.get(id=article.publisher_id)
+    discription=article.discription
+    if discription is None:
+        discription=""
+    likes=article.likes
+    commentnum=article.commentsCount
+    stars=len(Stars.objects.filter(articleId=articleId))
+    follows=len(Follow.objects.filter(followId=user.id))
+    avatarAddr = user.avatar.path
+    avatarAddr = avatarAddr.split('\\')
+    avatarAddr = avatarAddr[len(avatarAddr) - 1]
+    avatarAddr = "http://127.0.0.1:8000/img/user_img/" + avatarAddr
+    comments = Comments.objects.filter(articleId=articleId)
+    comments = comments.values()
+    comment_list = []
+    for c in comments:
+        dic = {}
+        comment=Comments.objects.get(id=c['id'])
+        dic['comment'] = c['comment']
+        author = Author.objects.get(id=comment.userId)
+        dic['username'] = author.username
+        # print(dic)
+        comment_list.append(dic)
+    try:
+        like=Likes.objects.get(userId=userId,articleId=articleId)
+        isLiked=1
+    except:
+        isLiked=0
+    try:
+        follow=Follow.objects.get(userId=userId,followId=user.id)
+        isFollowed=1
+    except:
+        isFollowed=0
+    try:
+        star=Stars.objects.get(userId=userId,articleId=articleId)
+        isStared=1
+    except:
+        isStared=0
+    labels = article.label.split(',')
+    label = []
+    for lb in labels:
+        label.append(lb)
+    return JsonResponse({'errno': 0, 'msg': "查询成功",'title':article.title,'body':article.body,'label':label,
+                         'discription':discription,'authorId':user.id,'likes':likes,'commentnum':commentnum,
+                         'stars':stars,'follows':follows,'avatarAddr':avatarAddr,'comment_list':comment_list,
+                         'authorName':user.username,"isLiked":isLiked,"isFollowed":isFollowed,"isStared":isStared})
+@csrf_exempt
+def getOtherInformation(request):
+    if request.method != 'POST':
+        return JsonResponse({'errno': 1001, 'msg': "请求方式错误"})
+    token = request.POST.get('token')
+    if token is not None and token!="":
+        userId = TK.check_token_return(token, 0)
+        if not isinstance(userId, str):
+            return userId
+    authorId = request.POST.get('authorId')
+    if authorId is None or authorId=="":
+        return JsonResponse({'errno': 1002, 'msg': "authorId不能为空"})
+    try:
+        author = Author.objects.get(id=authorId)
+    except:
+        return JsonResponse({'errno': 1003, 'msg': "该用户不存在"})
+    try:
+        follow=Follow.objects.get(userId=userId,followId=author.id)
+        isFollowed=1
+    except:
+        isFollowed=0
+    follows=len(Follow.objects.filter(followId=author.id))
+    avatarAddr = author.avatar.path
+    avatarAddr = avatarAddr.split('\\')
+    avatarAddr = avatarAddr[len(avatarAddr) - 1]
+    avatarAddr = "http://127.0.0.1:8000/img/user_img/" + avatarAddr
+    blogs = Article.objects.filter(publisher_id=author)
+    blogs = blogs.values()
+    blog_list = []
+    for blog in blogs:
+        dic = {}
+        dic['title'] = blog['title']
+        dic['discription'] = blog['discription']
+        # print(dic)
+        blog_list.append(dic)
+    return JsonResponse({'errno': 0, 'msg': "查询成功",'username':author.username,'avatarAddr':avatarAddr,
+                         'sex':author.sex,'birthday':author.birthday,'discription':author.discription,
+                         'email':author.email,'follows':follows,'isFollowed':isFollowed,'blogs':blog_list})

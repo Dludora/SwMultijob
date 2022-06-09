@@ -19,7 +19,7 @@ class Article(models.Model):
     body = models.TextField(default=" ")  # 正文
     firstCreate = models.DateTimeField(auto_now_add=True, null=True)
     publisher = models.ForeignKey('Author', on_delete=models.CASCADE)
-    label = models.CharField(max_length=10)
+    label = models.CharField(max_length=10000)
     likes = models.IntegerField(default=0)
     commentsCount = models.IntegerField(default=0)
 

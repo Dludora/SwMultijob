@@ -1,6 +1,6 @@
 <template>
-  <Sidebar v-model:visible="visibleFull" :baseZIndex="10000" position="full">
-    你是煞笔
+  <Sidebar v-model:visible="visibleFull" :baseZIndex="10000" position="right">
+    <el-button size="small" v-for="label in labels">{{label}}</el-button>
   </Sidebar>
   <div class="Header">
     <div class="Header_main">
@@ -48,20 +48,42 @@ export default {
   },
   data() {
     return {
+      labels: [
+          '后端',
+          '前端',
+          '移动开发',
+          '编程语言',
+          'Java',
+          'Python',
+          '人工智能',
+          '大数据',
+          '数据结构与算法',
+          '云原生',
+          '云平台',
+          '运维',
+          '服务器',
+          '操作系统',
+          '数据库管理',
+          'IOS',
+          'Android',
+          '小程序',
+          '硬件开发',
+          '区块链'
+      ],
       visibleFull: false,
       links: [
         {
           path: "/",
           name: '首页'
         },
-        {
-          path: "/user",
-          name: '个人'
-        },
-        {
-          path: "/editor",
-          name: '编辑'
-        },
+        // {
+        //   path: "/user",
+        //   name: '个人'
+        // },
+        // {
+        //   path: "/editor",
+        //   name: '编辑'
+        // },
       ]
     }
   },
@@ -77,6 +99,11 @@ export default {
 </script>
 
 <style scoped>
+.el-button {
+  margin-left: 0px;
+  margin-right: 12px;
+  margin-bottom: 12px;
+}
 .blue span {
   color: #4d90fe;
 }
